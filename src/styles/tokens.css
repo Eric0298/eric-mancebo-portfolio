@@ -2,7 +2,20 @@
   color-scheme: light;
 
   --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Arial Black", Impact, Haettenschweiler, "Montserrat", var(--font-sans);
+  --font-annotation: "Segoe Print", "Bradley Hand ITC", "Comic Sans MS", cursive;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --color-paper: hsl(43 36% 94%);
+  --color-paper-line: hsl(210 35% 42% / 0.12);
+  --color-paper-grid: hsl(210 35% 42% / 0.08);
+  --color-black: hsl(0 0% 4%);
+  --color-white: hsl(0 0% 99%);
+  --color-blue-pen: hsl(215 78% 36%);
+  --color-sticker-yellow: hsl(49 93% 72%);
+  --color-sticker-coral: hsl(10 91% 74%);
+  --color-sticker-green: hsl(156 54% 69%);
+  --color-sticker-lilac: hsl(257 58% 79%);
 
   --color-page: hsl(42 18% 96%);
   --color-surface: hsl(0 0% 100%);

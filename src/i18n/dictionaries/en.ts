@@ -142,17 +142,42 @@ export const en = {
   },
   hero: {
     actions: {
-      projects: "View project structure",
-      contact: "View contact",
+      projects: "View projects",
+      contact: "Talk to Eric",
     },
+    displayLines: ["Full stack", "with product", "judgment"],
+    supportingParagraph:
+      "I build interfaces, backend architecture, and automation workflows with a focus on product value, performance, and real business outcomes.",
     snapshotLabel: "Initial scaffold",
     architectureSignals: [
-      "Typed data",
-      "Responsive sections",
-      "Motion utilities",
-      "SEO foundation",
-      "Automation ready",
+      "Astro + React",
+      "TypeScript",
+      "Automation",
+      "Backend",
+      "Technical SEO",
+      "Applied AI",
     ],
+    stickers: ["Open to projects", "Portfolio in progress", "DevTools-friendly"],
+    annotations: [
+      {
+        label: "built for technical recruiters",
+        placement: "headline",
+      },
+      {
+        label: "portrait pending",
+        placement: "portrait",
+      },
+      {
+        label: "ready for contact intake",
+        placement: "actions",
+      },
+    ],
+    portrait: {
+      alt: "Portrait of Eric Mancebo",
+      placeholderLabel: "Portrait",
+      placeholderNote: "Reserved area for a future transparent cutout image",
+      futureImageLabel: "Future image of Eric",
+    },
   },
   aboutCards: [
     {

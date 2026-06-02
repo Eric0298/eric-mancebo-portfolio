@@ -87,8 +87,21 @@ export interface TranslationDictionary {
       projects: string;
       contact: string;
     };
+    displayLines: string[];
+    supportingParagraph: string;
     snapshotLabel: string;
     architectureSignals: string[];
+    stickers: string[];
+    annotations: Array<{
+      label: string;
+      placement: "headline" | "portrait" | "actions";
+    }>;
+    portrait: {
+      alt: string;
+      placeholderLabel: string;
+      placeholderNote: string;
+      futureImageLabel: string;
+    };
   };
   aboutCards: Array<{
     label: string;

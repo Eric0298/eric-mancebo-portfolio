@@ -12,6 +12,7 @@ interface Props {
 }
 
 const { language, translations, currentPath } = Astro.props;
+const headerNavigation = translations.navigation.items.filter((item) => item.mobilePriority);
 ---
 
 <header class="site-header">
@@ -22,7 +23,7 @@ const { language, translations, currentPath } = Astro.props;
     </a>
 
     <nav class="site-header__nav" aria-label={translations.navigation.primaryLabel}>
-      {translations.navigation.items.map((item) => (
+      {headerNavigation.map((item) => (
         <a href={item.href}>{item.label}</a>
       ))}
     </nav>
@@ -38,7 +39,10 @@ const { language, translations, currentPath } = Astro.props;
         navItems={translations.navigation.items}
         contactItems={translations.contact.channels}
         labels={translations.navigation}
+        languageLabels={translations.languageSwitcher}
         contactLabel={translations.contact.mobileChannelsLabel}
+        currentLanguage={language}
+        currentPath={currentPath}
         client:load
       />
     </div>
