@@ -49,6 +49,11 @@ export const projectSchema = z.object({
   slug: z.string().min(1),
   status: projectStatusSchema,
   summary: z.string().min(1),
+  technicalFocus: z.string().min(1),
+  stack: z.array(z.string().min(1)),
+  ctaLabel: z.string().min(1),
+  note: z.string().min(1),
+  isFlagship: z.boolean().optional(),
   plannedHighlights: z.array(z.string().min(1)),
   links: z
     .array(

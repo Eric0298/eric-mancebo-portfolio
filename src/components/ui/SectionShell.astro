@@ -19,7 +19,7 @@ const { id, eyebrow, title, summary, density = "standard", class: className = ""
     <h2 class="section-shell__title">{title}</h2>
     <p class="section-shell__summary">{summary}</p>
   </ScrollReveal>
-  <div class="section-shell__body">
+  <div class="section-shell__body" data-motion="reveal">
     <slot />
   </div>
 </section>

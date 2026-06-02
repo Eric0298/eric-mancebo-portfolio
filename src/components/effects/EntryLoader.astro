@@ -1,0 +1,42 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+---
+
+<aside class="entry-loader" data-entry-loader hidden aria-hidden="true">
+  <div class="entry-loader__paper">
+    <p class="entry-loader__sticker">{translations.loader.sticker}</p>
+    <p class="entry-loader__title">{translations.loader.title}</p>
+    <p class="entry-loader__annotation">{translations.loader.annotation}</p>
+  </div>
+</aside>
+
+<script>
+  const loader = document.querySelector<HTMLElement>("[data-entry-loader]");
+  const loaderStorageKey = "eric-mancebo-portfolio-entry-seen";
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (loader) {
+    if (reducedMotion || sessionStorage.getItem(loaderStorageKey) === "true") {
+      loader.remove();
+    } else {
+      sessionStorage.setItem(loaderStorageKey, "true");
+      loader.hidden = false;
+      document.documentElement.dataset.entryLoading = "true";
+
+      window.setTimeout(() => {
+        loader.dataset.state = "leaving";
+        document.documentElement.dataset.entryLoading = "false";
+
+        window.setTimeout(() => {
+          loader.remove();
+        }, 360);
+      }, 1080);
+    }
+  }
+</script>

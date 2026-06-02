@@ -1,9 +1,9 @@
 import type { APIRoute } from "astro";
 import { siteConfig } from "../data/site";
-import { languageRoutes } from "../i18n/config";
+import { pageRoutes } from "../i18n/config";
 import { normalizeSiteUrl } from "../lib/seo";
 
-const staticPaths = Object.values(languageRoutes);
+const staticPaths = Object.values(pageRoutes).flatMap((localizedRoutes) => Object.values(localizedRoutes));
 
 export const GET: APIRoute = ({ site, url }) => {
   const siteUrl = normalizeSiteUrl(site ?? siteConfig.siteUrl ?? url.origin) ?? url.origin;

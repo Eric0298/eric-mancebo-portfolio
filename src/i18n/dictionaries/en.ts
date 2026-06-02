@@ -34,19 +34,143 @@ export const en = {
     menuOpen: "Menu",
     menuClose: "Close",
     items: [
-      { label: "About", href: "#about", section: "about", mobilePriority: 1 },
-      { label: "Skills", href: "#skills", section: "skills", mobilePriority: 2 },
-      { label: "Projects", href: "#projects", section: "projects", mobilePriority: 3 },
-      { label: "Automation", href: "#automation", section: "automation" },
-      { label: "Architecture", href: "#architecture", section: "architecture" },
-      { label: "Contact", href: "#contact", section: "contact", mobilePriority: 4 },
+      { label: "Projects", href: "/en/projects/", section: "projects", mobilePriority: 1 },
+      { label: "Skills", href: "/en/skills/", section: "skills", mobilePriority: 2 },
+      { label: "Automation", href: "/en/automation/", section: "automation", mobilePriority: 3 },
+      { label: "About", href: "/en/about/", section: "about" },
+      { label: "Contact", href: "/en/contact/", section: "contact", mobilePriority: 4 },
     ],
   },
   layout: {
     homeLabel: "Go to Eric Mancebo portfolio home",
     footerSummary:
-      "Portfolio architecture prepared for future case studies, automation, chatbot support, and technical quality evidence.",
+      "Technical notebook prepared for case studies, automation, chatbot support, and quality evidence.",
     copyright: "All rights reserved.",
+  },
+  loader: {
+    title: "ERIC MANCEBO",
+    sticker: "Portfolio",
+    annotation: "opening notebook",
+  },
+  pages: {
+    home: {
+      metaTitle: "Eric Mancebo | Full Stack Developer",
+      metaDescription:
+        "Editorial portfolio for Eric Mancebo: full stack development, product thinking, automation, backend architecture, and technical projects.",
+      eyebrow: "Editorial cover",
+      title: "Technical notebook for product-minded full stack work",
+      summary:
+        "A short cover page for entering projects, stack, automation, and professional context without turning the homepage into a long scroll.",
+      annotation: "start with the cover",
+      sticker: "Home",
+    },
+    projects: {
+      metaTitle: "Projects | Eric Mancebo",
+      metaDescription:
+        "Selected projects by Eric Mancebo, prepared as case studies with product context, architecture, stack, and technical decisions.",
+      eyebrow: "Selected work",
+      title: "Projects with product intent",
+      summary:
+        "Case-study scaffolds for explaining what is being built, why it matters, and which technical decisions support each product.",
+      annotation: "no invented metrics",
+      sticker: "Case studies",
+    },
+    skills: {
+      metaTitle: "Skills and technical stack | Eric Mancebo",
+      metaDescription:
+        "Inspectable technical stack for Eric Mancebo: frontend, backend, automation, applied AI, SEO, performance, accessibility, and security.",
+      eyebrow: "Technical map",
+      title: "Inspectable technical stack",
+      summary:
+        "An organized view of the stack, architecture, and delivery-quality signals that should support each project.",
+      annotation: "built for technical review",
+      sticker: "Stack",
+    },
+    automation: {
+      metaTitle: "Automation | Eric Mancebo",
+      metaDescription:
+        "Automation for real processes: contact, leads, operations, and professional handoff prepared with structured data and security.",
+      eyebrow: "Real workflows",
+      title: "Automation for real processes",
+      summary:
+        "Workflows prepared to capture, qualify, route, and follow up on professional conversations without exposing sensitive logic.",
+      annotation: "less friction, more traceability",
+      sticker: "Workflows",
+    },
+    about: {
+      metaTitle: "About | Eric Mancebo",
+      metaDescription:
+        "Professional context for Eric Mancebo: evolution toward digital product, full stack development, automation, and technical judgment.",
+      eyebrow: "Professional context",
+      title: "From operations to digital product",
+      summary:
+        "A profile view shaped by practical execution, automation, and web systems built around business needs.",
+      annotation: "profile with context",
+      sticker: "About",
+    },
+    contact: {
+      metaTitle: "Contact | Eric Mancebo",
+      metaDescription:
+        "Contact channels for Eric Mancebo for projects, employment, collaboration, and future professional intake automation.",
+      eyebrow: "Contact",
+      title: "Let’s talk about a project, role, or collaboration",
+      summary:
+        "A professional contact point prepared for future intake automation, without shipping the final questionnaire yet.",
+      annotation: "intake pending",
+      sticker: "Contact",
+    },
+  },
+  homeCover: {
+    manifesto: {
+      eyebrow: "Cover note",
+      title: "The homepage works as an index, not the whole case file",
+      summary:
+        "This portfolio is structured as an editorial notebook: a strong cover, focused internal pages, and a technical narrative that can grow through case studies.",
+      annotation: "less scrolling, more focus",
+    },
+    navigationLabel: "Main portfolio pages",
+    cards: [
+      {
+        pageKey: "projects",
+        label: "01 / Projects",
+        title: "Cases with product intent",
+        summary:
+          "KORUS as the flagship and other projects prepared to explain value, architecture, and technical decisions.",
+        sticker: "View work",
+      },
+      {
+        pageKey: "skills",
+        label: "02 / Stack",
+        title: "Inspectable skills",
+        summary:
+          "Frontend, backend, automation, applied AI, and technical quality organized for fast review.",
+        sticker: "Read stack",
+      },
+      {
+        pageKey: "automation",
+        label: "03 / Automation",
+        title: "Processes with real handoff",
+        summary:
+          "Contact, lead, and operation flows prepared for validation, routing, and future follow-up.",
+        sticker: "View flows",
+      },
+      {
+        pageKey: "about",
+        label: "04 / About",
+        title: "Professional context",
+        summary:
+          "A short profile view, the move toward digital product, and the technical judgment behind the work.",
+        sticker: "Meet profile",
+      },
+    ],
+    finalCta: {
+      eyebrow: "Next page",
+      title: "Start with projects or open a conversation",
+      summary:
+        "The structure is ready to grow with real case studies, a downloadable CV, and contact intake when those pieces are ready.",
+      primaryLabel: "View projects",
+      secondaryLabel: "Go to contact",
+    },
   },
   sections: {
     hero: {
@@ -62,45 +186,45 @@ export const en = {
       key: "about",
       anchor: "about",
       eyebrow: "Positioning",
-      title: "Product-minded full stack development",
+      title: "Full stack development with product judgment",
       summary:
-        "Prepared space for Eric's professional narrative, focused on business value, technical judgment, and practical delivery.",
+        "A profile focused on building interfaces, systems, and automation that support business goals without losing technical rigor.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     skills: {
       key: "skills",
       anchor: "skills",
       eyebrow: "Capability map",
-      title: "Skills prepared as an inspectable matrix",
+      title: "Capabilities organized as field notes",
       summary:
-        "A typed structure for frontend, backend, automation, AI, SEO, performance, accessibility, and security evidence.",
+        "Fast recruiter reading and technical review across frontend, backend, automation, applied AI, and delivery quality.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     projects: {
       key: "projects",
       anchor: "projects",
       eyebrow: "Selected work",
-      title: "Featured projects prepared for case studies",
+      title: "Projects framed as case studies",
       summary:
-        "A placeholder showcase for KORUS, JustWriteIt, Link Shortener App, and a local business automation project.",
+        "An initial selection prepared to explain product decisions, architecture, stack, and next steps without inventing metrics.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     automation: {
       key: "automation",
       anchor: "automation",
       eyebrow: "Workflow thinking",
-      title: "Business automation workflows",
+      title: "Workflows for contact, leads, and operations",
       summary:
-        "A future-ready section for explaining inputs, validation, orchestration, notifications, and measurable outcomes.",
+        "A reserved workspace for safe automation: capture, qualification, routing, and follow-up with structured data.",
       devicePriority: ["desktop", "tablet"],
     },
     architecture: {
       key: "architecture",
       anchor: "architecture",
       eyebrow: "Backend and systems",
-      title: "Backend architecture foundations",
+      title: "Backend foundations prepared to scale",
       summary:
-        "Prepared space for API design, validation, data modeling, security boundaries, and deployment concerns.",
+        "Architecture notes for APIs, validation, data models, security, deployment, and operational handoff.",
       devicePriority: ["desktop", "tablet"],
     },
     quality: {
@@ -109,34 +233,34 @@ export const en = {
       eyebrow: "Delivery quality",
       title: "SEO, performance, accessibility, and security",
       summary:
-        "A foundation for demonstrating production-minded technical quality through metadata, semantics, speed, accessibility, and security.",
+        "A quality layer prepared so each project can show metadata, semantics, speed, keyboard support, and safe boundaries.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     cv: {
       key: "cv",
       anchor: "cv",
-      eyebrow: "Interactive CV",
-      title: "Recruiter-ready CV context",
+      eyebrow: "Recruiter context",
+      title: "CV and professional context",
       summary:
-        "A compact placeholder for future experience, education, certifications, and CV download support.",
+        "A recruiter-friendly summary for profile, experience, and applied learning without turning the page into a flat document.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     contact: {
       key: "contact",
       anchor: "contact",
       eyebrow: "Contact hub",
-      title: "Contact channels prepared for automation",
+      title: "Contact prepared for future automation",
       summary:
-        "Prepared contact structure for WhatsApp, Telegram, Instagram, Email, LinkedIn, and GitHub without exposing secrets.",
+        "Professional channels ready to connect LinkedIn, GitHub, email, and messaging once final details are configured.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     chatbot: {
       key: "chatbot",
       anchor: "chatbot",
       eyebrow: "Future assistant",
-      title: "Chatbot support prepared and disabled",
+      title: "Chatbot support reserved",
       summary:
-        "A reserved mount point and intent model for a future portfolio chatbot, without shipping a fake assistant.",
+        "A disabled mount point for a future assistant that can explain projects, CV context, stack, and contact paths.",
       devicePriority: ["desktop", "tablet"],
     },
   },
@@ -181,44 +305,62 @@ export const en = {
   },
   aboutCards: [
     {
-      label: "Narrative",
-      title: "Professional positioning",
+      label: "01 / Product",
+      title: "Judgment before noise",
       summary:
-        "Future copy should present Eric as a full stack profile who connects technical quality with business value.",
+        "I prioritize decisions that make the product clearer: navigation, performance, user flows, and real code maintainability.",
     },
     {
-      label: "Audience",
-      title: "Clear recruiter and company reading",
+      label: "02 / Stack",
+      title: "Full stack execution",
       summary:
-        "The section is prepared for quick mobile scanning and deeper desktop evidence.",
+        "I can move across UI, backend, data, automation, and deployment with a practical view of risks and dependencies.",
     },
     {
-      label: "Evidence",
-      title: "Proof-oriented structure",
+      label: "03 / Evidence",
+      title: "Built for technical review",
       summary:
-        "Future content should connect skills to projects, outcomes, architecture, and quality signals.",
+        "Each block is prepared to evolve into concrete proof: case studies, architecture decisions, and quality signals.",
     },
   ],
   projects: {
     statusLabels: {
-      planned: "Prepared",
+      planned: "Case prepared",
       "in-progress": "In progress",
       private: "Private",
       published: "Published",
     },
-    highlightLabel: "Planned highlights",
+    highlightLabel: "Case notes",
+    technicalFocusLabel: "Technical focus",
+    stackLabel: "Stack",
     items: [
       {
         name: "KORUS",
         slug: "korus",
-        status: "planned",
+        status: "in-progress",
         summary:
-          "Prepared case study slot for a product-quality project with context, architecture, and measurable value.",
+          "A connected fitness SaaS ecosystem framed as the flagship project, focused on product thinking, backend architecture, and prepared operations.",
+        technicalFocus:
+          "Modular backend, React frontend, JWT authentication, PostgreSQL, Docker, GitHub Actions CI, and Railway staging preparation.",
+        stack: [
+          "React",
+          "TypeScript",
+          "PostgreSQL",
+          "Docker",
+          "GitHub Actions",
+          "Railway staging",
+          "JWT",
+          "Clean Architecture",
+          "CQRS",
+        ],
+        ctaLabel: "Case study in progress",
+        note: "Flagship: product, architecture, and automation in one narrative.",
+        isFlagship: true,
         plannedHighlights: [
-          "Product context",
-          "Frontend architecture",
-          "Backend or integration notes",
-          "Performance and SEO evidence",
+          "Backend architecture prepared to grow by modules",
+          "React frontend shaped around product experience",
+          "Staging and deployment treated as part of the system",
+          "CQRS used where it adds clarity, not as dogma",
         ],
         links: [],
       },
@@ -227,12 +369,17 @@ export const en = {
         slug: "justwriteit",
         status: "planned",
         summary:
-          "Prepared case study slot for an applied writing or productivity product, ready for UX and technical evidence.",
+          "A writing and productivity product prepared to show user experience, content structure, and a technical base that can evolve.",
+        technicalFocus:
+          "Writing workflows, interface state, data validation, and a foundation for future assisted features.",
+        stack: ["React", "TypeScript", "Product UX", "Validation", "Structured content"],
+        ctaLabel: "Case file pending",
+        note: "Useful for showing product thinking, editorial clarity, and tooling.",
         plannedHighlights: [
-          "User workflow",
-          "Content or AI support",
-          "Component system",
-          "Validation and data handling",
+          "Documentable core writing flow",
+          "Component system prepared to grow",
+          "Empty states and future save behavior",
+          "Possible applied AI integration without artificial claims",
         ],
         links: [],
       },
@@ -241,12 +388,17 @@ export const en = {
         slug: "link-shortener-app",
         status: "planned",
         summary:
-          "Prepared case study slot for backend architecture, secure redirects, analytics, validation, and operations.",
+          "A backend-friendly app for explaining safe redirects, data modeling, validation, and operational boundaries.",
+        technicalFocus:
+          "API design, persistence, URL validation, abuse controls, and prepared observability.",
+        stack: ["API", "Database", "Validation", "Security", "Observability"],
+        ctaLabel: "Architecture to be published",
+        note: "A compact surface for demonstrating backend judgment.",
         plannedHighlights: [
-          "API design",
-          "Database model",
-          "Security boundaries",
-          "Observability hooks",
+          "Clear endpoint contracts",
+          "Readable data model",
+          "Planned security boundaries and rate limiting",
+          "Analytics prepared without invented metrics",
         ],
         links: [],
       },
@@ -255,12 +407,17 @@ export const en = {
         slug: "local-business-automation",
         status: "planned",
         summary:
-          "Prepared case study slot for a business-facing website with lead capture, contact routing, and automation workflows.",
+          "A local business website concept prepared to connect online presence with commercial follow-up.",
+        technicalFocus:
+          "Local SEO, safe forms, contact routing, notification automation, and prepared measurement.",
+        stack: ["Astro", "Local SEO", "Forms", "Webhooks", "Automation"],
+        ctaLabel: "Business case in preparation",
+        note: "Shows how a small website can act as a business operating surface.",
         plannedHighlights: [
-          "Business process mapping",
-          "Contact intake",
-          "Automation triggers",
-          "SEO and conversion quality",
+          "Commercial process map",
+          "Contact intake prepared for validation",
+          "Future automation triggers",
+          "Conversion quality and technical SEO",
         ],
         links: [],
       },
@@ -270,36 +427,36 @@ export const en = {
     stackLabel: "Stack and capabilities",
     items: [
       {
-        title: "Frontend engineering",
+        title: "Product frontend",
         focus:
-          "Modern UI architecture with Astro, React, TypeScript, Tailwind CSS, web components, and accessible semantics.",
+          "Interfaces with Astro, React, and TypeScript, designed for fast reading, real responsive behavior, and maintainable components.",
         items: ["Astro", "React", "TypeScript", "Tailwind CSS", "Web Components"],
         evidencePlaceholder:
-          "Future evidence: component architecture, responsive behavior, DevTools clarity, and Lighthouse results.",
+          "Future notes: component architecture, responsive states, interaction accessibility, and Lighthouse results.",
       },
       {
-        title: "Backend architecture",
+        title: "Backend and systems",
         focus:
-          "Server-side validation, API boundaries, data modeling, security, integrations, and automation-ready workflows.",
-        items: ["API design", "Zod validation", "Data modeling", "Security headers", "Environment variables"],
+          "APIs, server-side validation, data models, authentication, security, and deployment prepared for operations.",
+        items: ["API design", "Zod", "PostgreSQL", "JWT", "Docker", "Environment variables"],
         evidencePlaceholder:
-          "Future evidence: architecture diagrams, validation flow, deployment notes, and endpoint contracts.",
+          "Future notes: diagrams, endpoint contracts, validation, security boundaries, and deployment decisions.",
       },
       {
         title: "Automation and applied AI",
         focus:
-          "Business process automation, AI-assisted workflows, contact routing, and practical productivity systems.",
+          "Practical workflows for contact, leads, productivity, and operational handoff without magic or opaque data.",
         items: ["Workflow design", "Applied AI", "Lead routing", "Notifications", "Operational handoff"],
         evidencePlaceholder:
-          "Future evidence: workflow maps, before-and-after metrics, and automation reliability notes.",
+          "Future notes: flow maps, structured payloads, reliability, and measurable improvements when real data exists.",
       },
       {
-        title: "SEO, performance, accessibility, security",
+        title: "Technical quality",
         focus:
-          "Production-minded quality across metadata, semantics, speed, keyboard access, motion preferences, and safe links.",
+          "SEO, performance, accessibility, and security as part of delivery, not as a checklist added at the end.",
         items: ["SEO", "Performance", "Accessibility", "Security", "Semantic HTML"],
         evidencePlaceholder:
-          "Future evidence: page reports, test results, structured data, and security checklist status.",
+          "Future notes: structured data, tests, page reports, focus states, and security audits.",
       },
     ],
   },
@@ -308,26 +465,26 @@ export const en = {
       {
         title: "Capture",
         summary:
-          "Collect a recruiter, company, or project inquiry through a safe and accessible intake surface.",
+          "Collect a recruiter, company, or project inquiry through a safe, clear, and accessible intake surface.",
         futureCapability:
           "Zod validation, honeypot anti-spam, and rate-limit-ready request metadata.",
       },
       {
         title: "Qualify",
         summary:
-          "Classify the inquiry by contact channel, urgency, project type, and next best action.",
+          "Sort the inquiry by channel, urgency, opportunity type, and recommended next action.",
         futureCapability: "Intent tagging, lead scoring, and structured contact payloads.",
       },
       {
         title: "Route",
         summary:
-          "Send the right notification or handoff without exposing secrets in the frontend.",
+          "Send the right notification or handoff without exposing secrets or sensitive logic in the frontend.",
         futureCapability: "Server-side webhooks, environment variables, and channel-specific notifications.",
       },
       {
         title: "Follow up",
         summary:
-          "Prepare a reliable response path for professional outreach and project conversations.",
+          "Keep enough context to respond quickly and maintain organized professional conversations.",
         futureCapability: "CRM notes, email templates, reminders, and chatbot handoff context.",
       },
     ],
@@ -335,15 +492,15 @@ export const en = {
   architectureCards: [
     {
       label: "API",
-      title: "Endpoint contracts",
+      title: "Contracts before screens",
       summary:
-        "Reserved space for future API routes, validation schemas, request metadata, and response guarantees.",
+        "Future architecture should explain routes, validation schemas, request metadata, and response guarantees.",
     },
     {
       label: "Data",
-      title: "Typed models",
+      title: "Typed models and separated content",
       summary:
-        "Content and configuration are separated into typed files so future case studies can grow safely.",
+        "The portfolio keeps data, translations, and configuration outside components so it can grow without avoidable debt.",
     },
     {
       label: "Security",
@@ -353,37 +510,37 @@ export const en = {
     },
     {
       label: "Operations",
-      title: "Automation handoff",
+      title: "Automation as a product extension",
       summary:
-        "Prepared for notifications, CRM notes, chatbot context, and future backend workflow orchestration.",
+        "Contact, chatbot support, and future case studies connect to a handoff and follow-up strategy.",
     },
   ],
   quality: {
     preparedForLabel: "Prepared for",
     pillars: [
       {
-        title: "SEO foundation",
+        title: "Technical SEO",
         summary:
-          "Unique titles, descriptions, Open Graph, Twitter Cards, JSON-LD, sitemap, robots, and semantic headings.",
-        preparedFor: ["Meta component", "Structured data", "Sitemap endpoint", "Robots endpoint"],
+          "Unique titles and descriptions, Open Graph, Twitter Cards, JSON-LD, sitemap, robots, and semantic headings.",
+        preparedFor: ["Metadata", "Hreflang", "Structured data", "Sitemap"],
       },
       {
-        title: "Performance foundation",
+        title: "Performance",
         summary:
-          "Mobile-first loading priorities, reduced heavy motion, CSS tokens, and component-level boundaries.",
-        preparedFor: ["Responsive sections", "Motion preferences", "Image optimization plan", "Lean placeholders"],
+          "Mobile-first loading, controlled motion, CSS tokens, and clear boundaries for future images and components.",
+        preparedFor: ["Responsive", "Reduced motion", "Image plan", "Maintainable CSS"],
       },
       {
-        title: "Accessibility foundation",
+        title: "Accessibility",
         summary:
-          "Semantic landmarks, skip links, keyboard navigation, readable type scales, and reduced-motion support.",
-        preparedFor: ["Skip link", "ARIA labels", "Focus states", "Reduced motion CSS"],
+          "Semantic landmarks, skip link, keyboard navigation, readable scales, and visible focus states.",
+        preparedFor: ["Keyboard", "ARIA", "Visible focus", "Semantics"],
       },
       {
-        title: "Security foundation",
+        title: "Security",
         summary:
           "External link protection, no exposed secrets, validation planning, and future server-side contact handling.",
-        preparedFor: ["noopener noreferrer", "Env placeholders", "Honeypot field", "Server validation model"],
+        preparedFor: ["noopener", "Env variables", "Honeypot", "Server validation"],
       },
     ],
   },
@@ -393,19 +550,19 @@ export const en = {
         label: "Profile",
         title: "Full stack developer",
         summary:
-          "Placeholder for Eric's current professional profile, positioning, and preferred collaboration context.",
+          "Professional context across product-minded web systems, automation, and technical integration with business needs.",
       },
       {
         label: "Experience",
-        title: "Product and automation work",
+        title: "Projects with business context",
         summary:
-          "Placeholder for future experience entries, business outcomes, responsibilities, and project evidence.",
+          "Prepared space to connect responsibilities, technical decisions, and outcomes when publishable evidence exists.",
       },
       {
         label: "Learning",
         title: "Backend, AI, SEO, performance, and security",
         summary:
-          "Placeholder for certifications, learning milestones, technical depth, and proof of applied practice.",
+          "Reserved block for certifications, applied practice, technical depth, and stack evolution.",
       },
     ],
   },
@@ -490,7 +647,7 @@ export const en = {
       enabled: false,
       mountId: "portfolio-chatbot",
       summary:
-        "Future chatbot support is reserved for guided portfolio questions, project discovery, CV context, and contact handoff.",
+        "Future chatbot support is reserved for answering portfolio, project, CV, and contact questions without shipping a fake assistant.",
       plannedIntents: [
         "Answer recruiter questions",
         "Explain project architecture",

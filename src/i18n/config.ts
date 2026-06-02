@@ -21,6 +21,54 @@ export const languageRoutes: Record<Language, string> = {
   en: "/en/",
 };
 
+export const pageRoutes = {
+  home: {
+    es: "/",
+    en: "/en/",
+  },
+  projects: {
+    es: "/proyectos/",
+    en: "/en/projects/",
+  },
+  skills: {
+    es: "/skills/",
+    en: "/en/skills/",
+  },
+  automation: {
+    es: "/automatizacion/",
+    en: "/en/automation/",
+  },
+  about: {
+    es: "/sobre-mi/",
+    en: "/en/about/",
+  },
+  contact: {
+    es: "/contacto/",
+    en: "/en/contact/",
+  },
+} as const satisfies Record<string, Record<Language, string>>;
+
+export type PageKey = keyof typeof pageRoutes;
+
+function normalizeRoutePath(pathname: string) {
+  const pathnameOnly = pathname.split("#")[0]?.split("?")[0] || "/";
+  const withLeadingSlash = pathnameOnly.startsWith("/") ? pathnameOnly : `/${pathnameOnly}`;
+
+  return withLeadingSlash === "/" ? "/" : withLeadingSlash.replace(/\/$/, "");
+}
+
+export function getPageKeyFromPath(pathname: string): PageKey | undefined {
+  const normalizedPath = normalizeRoutePath(pathname);
+
+  return Object.entries(pageRoutes).find(([, localizedRoutes]) =>
+    Object.values(localizedRoutes).some((route) => normalizeRoutePath(route) === normalizedPath),
+  )?.[0] as PageKey | undefined;
+}
+
+export function getPagePath(language: Language, pageKey: PageKey) {
+  return pageRoutes[pageKey][language];
+}
+
 export function isSupportedLanguage(value: string | undefined | null): value is Language {
   return languages.includes(value as Language);
 }
@@ -32,6 +80,12 @@ export function getLanguageFromPath(pathname: string): Language {
 
 export function getLocalizedPath(language: Language, path = "/") {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const pageKey = getPageKeyFromPath(normalizedPath);
+
+  if (pageKey) {
+    return getPagePath(language, pageKey);
+  }
+
   const routePrefix = languageRoutes[language];
 
   if (language === defaultLanguage) {
@@ -46,6 +100,16 @@ export function getLocalizedPath(language: Language, path = "/") {
 export interface AlternateLanguageLink {
   language: Language | "x-default";
   href: string;
+}
+
+export interface PageCopy {
+  metaTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  annotation: string;
+  sticker: string;
 }
 
 export interface TranslationDictionary {
@@ -81,6 +145,35 @@ export interface TranslationDictionary {
     footerSummary: string;
     copyright: string;
   };
+  loader: {
+    title: string;
+    sticker: string;
+    annotation: string;
+  };
+  pages: Record<PageKey, PageCopy>;
+  homeCover: {
+    manifesto: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      annotation: string;
+    };
+    navigationLabel: string;
+    cards: Array<{
+      pageKey: PageKey;
+      label: string;
+      title: string;
+      summary: string;
+      sticker: string;
+    }>;
+    finalCta: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      primaryLabel: string;
+      secondaryLabel: string;
+    };
+  };
   sections: Record<Section["key"], Section>;
   hero: {
     actions: {
@@ -111,6 +204,8 @@ export interface TranslationDictionary {
   projects: {
     statusLabels: Record<Project["status"], string>;
     highlightLabel: string;
+    technicalFocusLabel: string;
+    stackLabel: string;
     items: Project[];
   };
   skills: {

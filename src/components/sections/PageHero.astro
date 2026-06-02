@@ -1,0 +1,24 @@
+---
+import type { PageCopy, PageKey } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  page: PageCopy;
+  pageKey: PageKey;
+}
+
+const { page, pageKey } = Astro.props;
+const titleId = `${pageKey}-page-title`;
+---
+
+<section class:list={["page-hero", `page-hero--${pageKey}`]} aria-labelledby={titleId}>
+  <Container size="wide" class="page-hero__inner">
+    <div class="page-hero__content" data-motion="reveal">
+      <p class="page-hero__eyebrow">{page.eyebrow}</p>
+      <h1 id={titleId} class="page-hero__title">{page.title}</h1>
+      <p class="page-hero__summary">{page.summary}</p>
+      <p class="page-hero__annotation">{page.annotation}</p>
+    </div>
+    <p class="page-hero__sticker" aria-hidden="true">{page.sticker}</p>
+  </Container>
+</section>

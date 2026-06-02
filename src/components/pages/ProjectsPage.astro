@@ -1,9 +1,9 @@
 ---
-import HeroSection from "../sections/HeroSection.astro";
-import HomeCoverSection from "../sections/HomeCoverSection.astro";
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../sections/PageHero.astro";
+import ProjectShowcaseSection from "../sections/ProjectShowcaseSection.astro";
 
 interface Props {
   language: Language;
@@ -11,8 +11,8 @@ interface Props {
 
 const { language } = Astro.props;
 const translations = useTranslations(language);
-const canonicalPath = getPagePath(language, "home");
-const page = translations.pages.home;
+const canonicalPath = getPagePath(language, "projects");
+const page = translations.pages.projects;
 ---
 
 <BaseLayout
@@ -22,6 +22,6 @@ const page = translations.pages.home;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <HeroSection language={language} translations={translations} />
-  <HomeCoverSection language={language} translations={translations} />
+  <PageHero page={page} pageKey="projects" />
+  <ProjectShowcaseSection translations={translations} />
 </BaseLayout>

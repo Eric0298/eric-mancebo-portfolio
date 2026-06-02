@@ -34,19 +34,143 @@ export const es = {
     menuOpen: "Menú",
     menuClose: "Cerrar",
     items: [
-      { label: "Sobre mí", href: "#about", section: "about", mobilePriority: 1 },
-      { label: "Skills", href: "#skills", section: "skills", mobilePriority: 2 },
-      { label: "Proyectos", href: "#projects", section: "projects", mobilePriority: 3 },
-      { label: "Automatización", href: "#automation", section: "automation" },
-      { label: "Arquitectura", href: "#architecture", section: "architecture" },
-      { label: "Contacto", href: "#contact", section: "contact", mobilePriority: 4 },
+      { label: "Proyectos", href: "/proyectos/", section: "projects", mobilePriority: 1 },
+      { label: "Skills", href: "/skills/", section: "skills", mobilePriority: 2 },
+      { label: "Automatización", href: "/automatizacion/", section: "automation", mobilePriority: 3 },
+      { label: "Sobre mí", href: "/sobre-mi/", section: "about" },
+      { label: "Contacto", href: "/contacto/", section: "contact", mobilePriority: 4 },
     ],
   },
   layout: {
     homeLabel: "Ir al inicio del portfolio de Eric Mancebo",
     footerSummary:
-      "Arquitectura preparada para futuros casos de estudio, automatizaciones, soporte de chatbot y evidencias técnicas de calidad.",
+      "Cuaderno técnico preparado para casos de estudio, automatizaciones, soporte de chatbot y evidencias de calidad.",
     copyright: "Todos los derechos reservados.",
+  },
+  loader: {
+    title: "ERIC MANCEBO",
+    sticker: "Portfolio",
+    annotation: "abriendo cuaderno",
+  },
+  pages: {
+    home: {
+      metaTitle: "Eric Mancebo | Full Stack Developer",
+      metaDescription:
+        "Portfolio editorial de Eric Mancebo: full stack, producto, automatización, backend y proyectos técnicos con enfoque profesional.",
+      eyebrow: "Portada editorial",
+      title: "Cuaderno técnico de producto y desarrollo full stack",
+      summary:
+        "Una portada breve para entrar en proyectos, stack, automatización y contexto profesional sin convertir la home en una página interminable.",
+      annotation: "empieza por la portada",
+      sticker: "Home",
+    },
+    projects: {
+      metaTitle: "Proyectos | Eric Mancebo",
+      metaDescription:
+        "Proyectos seleccionados de Eric Mancebo, preparados como casos de estudio con foco en producto, arquitectura, stack y decisiones técnicas.",
+      eyebrow: "Trabajo seleccionado",
+      title: "Proyectos con intención de producto",
+      summary:
+        "Casos preparados para explicar qué se construye, por qué importa y qué decisiones técnicas sostienen cada producto.",
+      annotation: "casos sin métricas inventadas",
+      sticker: "Case studies",
+    },
+    skills: {
+      metaTitle: "Skills y stack técnico | Eric Mancebo",
+      metaDescription:
+        "Stack técnico inspeccionable de Eric Mancebo: frontend, backend, automatización, IA aplicada, SEO, rendimiento, accesibilidad y seguridad.",
+      eyebrow: "Mapa técnico",
+      title: "Stack técnico inspeccionable",
+      summary:
+        "Una lectura organizada del stack, la arquitectura y las señales de calidad que deberían acompañar a cada proyecto.",
+      annotation: "pensado para revisión técnica",
+      sticker: "Stack",
+    },
+    automation: {
+      metaTitle: "Automatización | Eric Mancebo",
+      metaDescription:
+        "Automatización de procesos reales para contacto, leads, operaciones y handoff profesional, preparada con datos estructurados y seguridad.",
+      eyebrow: "Procesos reales",
+      title: "Automatización para procesos reales",
+      summary:
+        "Flujos preparados para capturar, cualificar, enrutar y seguir conversaciones profesionales sin exponer lógica sensible.",
+      annotation: "menos fricción, más trazabilidad",
+      sticker: "Workflows",
+    },
+    about: {
+      metaTitle: "Sobre mí | Eric Mancebo",
+      metaDescription:
+        "Contexto profesional de Eric Mancebo: evolución hacia producto digital, desarrollo full stack, automatización y criterio técnico.",
+      eyebrow: "Contexto profesional",
+      title: "De operaciones a producto digital",
+      summary:
+        "Una lectura del perfil de Eric desde la ejecución práctica, la automatización y la construcción de sistemas web orientados a negocio.",
+      annotation: "perfil con contexto",
+      sticker: "About",
+    },
+    contact: {
+      metaTitle: "Contacto | Eric Mancebo",
+      metaDescription:
+        "Canales de contacto de Eric Mancebo para proyectos, empleo, colaboración y futuras automatizaciones de intake profesional.",
+      eyebrow: "Contacto",
+      title: "Hablemos de proyecto, empleo o colaboración",
+      summary:
+        "Punto de contacto preparado para conversación profesional y futura automatización de intake, sin publicar todavía un formulario definitivo.",
+      annotation: "intake pendiente",
+      sticker: "Contacto",
+    },
+  },
+  homeCover: {
+    manifesto: {
+      eyebrow: "Nota de portada",
+      title: "La home funciona como índice, no como expediente completo",
+      summary:
+        "Este portfolio se organiza como un cuaderno editorial: una portada con impacto, páginas internas para profundizar y una narrativa técnica que puede crecer por casos de estudio.",
+      annotation: "menos scroll, más foco",
+    },
+    navigationLabel: "Páginas principales del portfolio",
+    cards: [
+      {
+        pageKey: "projects",
+        label: "01 / Proyectos",
+        title: "Casos con intención de producto",
+        summary:
+          "KORUS como flagship y otros proyectos preparados para explicar valor, arquitectura y decisiones técnicas.",
+        sticker: "Ver trabajo",
+      },
+      {
+        pageKey: "skills",
+        label: "02 / Stack",
+        title: "Skills inspeccionables",
+        summary:
+          "Frontend, backend, automatización, IA aplicada y calidad técnica organizados para revisión rápida.",
+        sticker: "Leer stack",
+      },
+      {
+        pageKey: "automation",
+        label: "03 / Automatización",
+        title: "Procesos con handoff real",
+        summary:
+          "Flujos de contacto, leads y operación preparados para validación, routing y seguimiento futuro.",
+        sticker: "Ver flujos",
+      },
+      {
+        pageKey: "about",
+        label: "04 / Sobre mí",
+        title: "Contexto profesional",
+        summary:
+          "Una lectura breve del perfil, la evolución hacia producto digital y el criterio técnico detrás del trabajo.",
+        sticker: "Conocer perfil",
+      },
+    ],
+    finalCta: {
+      eyebrow: "Siguiente página",
+      title: "Empieza por los proyectos o abre conversación",
+      summary:
+        "La estructura queda preparada para crecer con casos reales, CV descargable e intake de contacto cuando estén listos.",
+      primaryLabel: "Ver proyectos",
+      secondaryLabel: "Ir a contacto",
+    },
   },
   sections: {
     hero: {
@@ -62,45 +186,45 @@ export const es = {
       key: "about",
       anchor: "about",
       eyebrow: "Posicionamiento",
-      title: "Desarrollo full stack con mentalidad de producto",
+      title: "Full stack con criterio de producto",
       summary:
-        "Espacio preparado para explicar el perfil profesional de Eric con foco en valor de negocio, criterio técnico y ejecución práctica.",
+        "Un perfil orientado a construir interfaces, sistemas y automatizaciones que ayudan a negocio sin perder rigor técnico.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     skills: {
       key: "skills",
       anchor: "skills",
       eyebrow: "Mapa de capacidades",
-      title: "Skills organizadas para inspección técnica",
+      title: "Capacidades organizadas como notas de campo",
       summary:
-        "Estructura tipada para mostrar frontend, backend, automatización, IA, SEO, rendimiento, accesibilidad y seguridad con evidencias futuras.",
+        "Lectura rápida para recruiters y revisión técnica: frontend, backend, automatización, IA aplicada y calidad de entrega.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     projects: {
       key: "projects",
       anchor: "projects",
       eyebrow: "Trabajo seleccionado",
-      title: "Proyectos preparados para casos de estudio",
+      title: "Proyectos como casos de estudio",
       summary:
-        "Showcase inicial para KORUS, JustWriteIt, Link Shortener App y una web con automatización para negocio local.",
+        "Una selección inicial preparada para explicar decisiones de producto, arquitectura, stack y próximos pasos sin inventar métricas.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     automation: {
       key: "automation",
       anchor: "automation",
       eyebrow: "Procesos y negocio",
-      title: "Flujos de automatización empresarial",
+      title: "Workflows pensados para contacto, leads y operación",
       summary:
-        "Sección preparada para explicar entradas, validación, orquestación, notificaciones y resultados medibles.",
+        "Campo de trabajo reservado para automatizaciones seguras: captura, cualificación, routing y seguimiento con datos estructurados.",
       devicePriority: ["desktop", "tablet"],
     },
     architecture: {
       key: "architecture",
       anchor: "architecture",
       eyebrow: "Backend y sistemas",
-      title: "Fundamentos de arquitectura backend",
+      title: "Fundamentos backend preparados para crecer",
       summary:
-        "Espacio reservado para diseño de APIs, validación, modelos de datos, límites de seguridad y despliegue.",
+        "Notas de arquitectura para APIs, validación, modelos de datos, seguridad, despliegue y handoff operativo.",
       devicePriority: ["desktop", "tablet"],
     },
     quality: {
@@ -109,34 +233,34 @@ export const es = {
       eyebrow: "Calidad de entrega",
       title: "SEO, rendimiento, accesibilidad y seguridad",
       summary:
-        "Base para demostrar calidad técnica de producción mediante metadatos, semántica, rendimiento, accesibilidad y seguridad.",
+        "Capa de calidad preparada para que cada proyecto pueda demostrar metadatos, semántica, velocidad, teclado y límites seguros.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     cv: {
       key: "cv",
       anchor: "cv",
-      eyebrow: "CV interactivo",
-      title: "Contexto profesional para recruiters",
+      eyebrow: "Contexto recruiter",
+      title: "CV y lectura profesional",
       summary:
-        "Placeholder compacto para experiencia, formación, certificaciones y futura descarga del CV.",
+        "Resumen pensado para entender perfil, experiencia y aprendizaje aplicado sin convertir la página en un documento plano.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     contact: {
       key: "contact",
       anchor: "contact",
       eyebrow: "Hub de contacto",
-      title: "Canales de contacto preparados para automatización",
+      title: "Contacto preparado para automatización futura",
       summary:
-        "Estructura lista para WhatsApp, Telegram, Instagram, Email, LinkedIn y GitHub sin exponer secretos.",
+        "Canales profesionales listos para conectar con LinkedIn, GitHub, email y mensajería cuando los datos finales estén configurados.",
       devicePriority: ["desktop", "tablet", "mobile"],
     },
     chatbot: {
       key: "chatbot",
       anchor: "chatbot",
       eyebrow: "Asistente futuro",
-      title: "Soporte de chatbot preparado y desactivado",
+      title: "Soporte de chatbot reservado",
       summary:
-        "Punto de montaje e intenciones reservadas para un futuro chatbot del portfolio, sin publicar un asistente ficticio.",
+        "Punto de montaje desactivado para un futuro asistente que pueda explicar proyectos, CV, stack y rutas de contacto.",
       devicePriority: ["desktop", "tablet"],
     },
   },
@@ -181,44 +305,62 @@ export const es = {
   },
   aboutCards: [
     {
-      label: "Narrativa",
-      title: "Posicionamiento profesional",
+      label: "01 / Producto",
+      title: "Criterio antes que ruido",
       summary:
-        "La copia futura debe presentar a Eric como un perfil full stack capaz de conectar calidad técnica con impacto de negocio.",
+        "Priorizo decisiones que hacen más claro el producto: navegación, rendimiento, flujos de usuario y mantenimiento real del código.",
     },
     {
-      label: "Audiencia",
-      title: "Lectura clara para recruiters y empresas",
+      label: "02 / Stack",
+      title: "Ejecución full stack",
       summary:
-        "La sección está preparada para escaneo rápido en móvil y para pruebas más detalladas en escritorio.",
+        "Puedo moverme entre interfaz, backend, datos, automatización y despliegue con una lectura práctica de riesgos y dependencias.",
     },
     {
-      label: "Evidencia",
-      title: "Estructura orientada a pruebas",
+      label: "03 / Evidencia",
+      title: "Portfolio pensado para revisión técnica",
       summary:
-        "Los futuros contenidos deben conectar skills con proyectos, resultados, arquitectura y señales de calidad.",
+        "Cada bloque está preparado para evolucionar hacia pruebas concretas: casos de estudio, decisiones de arquitectura y señales de calidad.",
     },
   ],
   projects: {
     statusLabels: {
-      planned: "Preparado",
-      "in-progress": "En progreso",
+      planned: "Caso preparado",
+      "in-progress": "En construcción",
       private: "Privado",
       published: "Publicado",
     },
-    highlightLabel: "Puntos previstos",
+    highlightLabel: "Notas de caso",
+    technicalFocusLabel: "Foco técnico",
+    stackLabel: "Stack",
     items: [
       {
         name: "KORUS",
         slug: "korus",
-        status: "planned",
+        status: "in-progress",
         summary:
-          "Espacio preparado para un caso de estudio con contexto de producto, arquitectura y valor medible.",
+          "SaaS y ecosistema connected fitness planteado como proyecto flagship, con foco en producto, arquitectura backend y operación preparada.",
+        technicalFocus:
+          "Backend modular, frontend React, autenticación JWT, PostgreSQL, Docker, CI con GitHub Actions y staging preparado en Railway.",
+        stack: [
+          "React",
+          "TypeScript",
+          "PostgreSQL",
+          "Docker",
+          "GitHub Actions",
+          "Railway staging",
+          "JWT",
+          "Clean Architecture",
+          "CQRS",
+        ],
+        ctaLabel: "Caso de estudio en construcción",
+        note: "Flagship: producto, arquitectura y automatización en una misma narrativa.",
+        isFlagship: true,
         plannedHighlights: [
-          "Contexto de producto",
-          "Arquitectura frontend",
-          "Notas backend o integraciones",
-          "Evidencia de rendimiento y SEO",
+          "Arquitectura backend preparada para crecer por módulos",
+          "Frontend React orientado a experiencia de producto",
+          "Staging y despliegue tratados como parte del sistema",
+          "CQRS aplicado donde aporta claridad, no como dogma",
         ],
         links: [],
       },
@@ -227,12 +369,17 @@ export const es = {
         slug: "justwriteit",
         status: "planned",
         summary:
-          "Espacio preparado para un producto de escritura o productividad con foco en UX y evidencia técnica.",
+          "Producto de escritura y productividad preparado para mostrar experiencia de usuario, estructura de contenido y soporte técnico evolutivo.",
+        technicalFocus:
+          "Flujos de escritura, estado de interfaz, validación de datos y base preparada para futuras funciones asistidas.",
+        stack: ["React", "TypeScript", "UX de producto", "Validación", "Contenido estructurado"],
+        ctaLabel: "Ficha de caso pendiente",
+        note: "Interesa por la mezcla de producto, claridad editorial y tooling.",
         plannedHighlights: [
-          "Flujo de usuario",
-          "Soporte de contenido o IA",
-          "Sistema de componentes",
-          "Validación y manejo de datos",
+          "Flujo principal de escritura documentable",
+          "Sistema de componentes preparado para crecer",
+          "Tratamiento de estados vacíos y guardado futuro",
+          "Posible integración de IA aplicada sin promesas artificiales",
         ],
         links: [],
       },
@@ -241,12 +388,17 @@ export const es = {
         slug: "link-shortener-app",
         status: "planned",
         summary:
-          "Espacio preparado para explicar arquitectura backend, redirecciones seguras, analítica, validación y operación.",
+          "Aplicación backend-friendly para explicar redirecciones seguras, modelo de datos, validación y límites operativos.",
+        technicalFocus:
+          "Diseño de API, persistencia, validación de URLs, control de abusos y observabilidad preparada.",
+        stack: ["API", "Base de datos", "Validación", "Seguridad", "Observabilidad"],
+        ctaLabel: "Arquitectura por publicar",
+        note: "Buen caso para demostrar criterio backend en una superficie pequeña.",
         plannedHighlights: [
-          "Diseño de API",
-          "Modelo de datos",
-          "Límites de seguridad",
-          "Hooks de observabilidad",
+          "Contratos claros de endpoints",
+          "Modelo de datos legible",
+          "Límites de seguridad y rate limiting planificados",
+          "Analítica preparada sin inventar métricas",
         ],
         links: [],
       },
@@ -255,12 +407,17 @@ export const es = {
         slug: "local-business-automation",
         status: "planned",
         summary:
-          "Espacio preparado para una web orientada a negocio con captación de leads, rutas de contacto y automatización.",
+          "Web orientada a captación y operación para negocio local, preparada para conectar presencia online con seguimiento comercial.",
+        technicalFocus:
+          "SEO local, formularios seguros, routing de contacto, automatización de notificaciones y medición preparada.",
+        stack: ["Astro", "SEO local", "Formularios", "Webhooks", "Automatización"],
+        ctaLabel: "Caso comercial en preparación",
+        note: "Muestra cómo una web pequeña puede funcionar como sistema operativo de negocio.",
         plannedHighlights: [
-          "Mapa de proceso de negocio",
-          "Entrada de contacto",
-          "Disparadores de automatización",
-          "SEO y calidad de conversión",
+          "Mapa de proceso comercial",
+          "Entrada de contacto preparada para validación",
+          "Disparadores de automatización futuros",
+          "Calidad de conversión y SEO técnico",
         ],
         links: [],
       },
@@ -270,36 +427,36 @@ export const es = {
     stackLabel: "Stack y capacidades",
     items: [
       {
-        title: "Frontend engineering",
+        title: "Frontend de producto",
         focus:
-          "Arquitectura UI moderna con Astro, React, TypeScript, Tailwind CSS, Web Components y semántica accesible.",
+          "Interfaces con Astro, React y TypeScript, pensadas para lectura rápida, responsive real y componentes mantenibles.",
         items: ["Astro", "React", "TypeScript", "Tailwind CSS", "Web Components"],
         evidencePlaceholder:
-          "Evidencia futura: arquitectura de componentes, comportamiento responsive, claridad en DevTools y resultados Lighthouse.",
+          "Notas futuras: arquitectura de componentes, estados responsive, accesibilidad de interacción y resultados Lighthouse.",
       },
       {
-        title: "Arquitectura backend",
+        title: "Backend y sistemas",
         focus:
-          "Validación server-side, límites de API, modelado de datos, seguridad, integraciones y flujos preparados para automatización.",
-        items: ["Diseño de API", "Validación Zod", "Modelado de datos", "Security headers", "Variables de entorno"],
+          "APIs, validación server-side, modelos de datos, autenticación, seguridad y despliegues preparados para operación.",
+        items: ["Diseño de API", "Zod", "PostgreSQL", "JWT", "Docker", "Variables de entorno"],
         evidencePlaceholder:
-          "Evidencia futura: diagramas de arquitectura, flujo de validación, notas de despliegue y contratos de endpoints.",
+          "Notas futuras: diagramas, contratos de endpoint, validación, límites de seguridad y decisiones de despliegue.",
       },
       {
         title: "Automatización e IA aplicada",
         focus:
-          "Automatización de procesos de negocio, workflows asistidos por IA, routing de contacto y sistemas prácticos de productividad.",
+          "Workflows prácticos para contacto, leads, productividad y handoff operativo, sin depender de magia ni datos opacos.",
         items: ["Diseño de workflows", "IA aplicada", "Routing de leads", "Notificaciones", "Handoff operativo"],
         evidencePlaceholder:
-          "Evidencia futura: mapas de flujo, métricas antes/después y notas de fiabilidad de la automatización.",
+          "Notas futuras: mapas de flujo, payloads estructurados, fiabilidad y mejoras medibles cuando existan datos reales.",
       },
       {
-        title: "SEO, rendimiento, accesibilidad y seguridad",
+        title: "Calidad técnica",
         focus:
-          "Calidad de producción en metadatos, semántica, velocidad, teclado, preferencias de movimiento y enlaces seguros.",
+          "SEO, rendimiento, accesibilidad y seguridad como parte de la entrega, no como checklist añadido al final.",
         items: ["SEO", "Rendimiento", "Accesibilidad", "Seguridad", "HTML semántico"],
         evidencePlaceholder:
-          "Evidencia futura: informes de página, resultados de test, datos estructurados y checklist de seguridad.",
+          "Notas futuras: datos estructurados, pruebas, informes de página, estados focus y auditorías de seguridad.",
       },
     ],
   },
@@ -308,26 +465,26 @@ export const es = {
       {
         title: "Captura",
         summary:
-          "Recoger una consulta de recruiter, empresa o proyecto mediante una superficie segura y accesible.",
+          "Recoger una consulta de recruiter, empresa o proyecto mediante una superficie segura, clara y accesible.",
         futureCapability:
           "Validación con Zod, honeypot anti-spam y metadatos preparados para rate limiting.",
       },
       {
         title: "Cualificación",
         summary:
-          "Clasificar la consulta por canal, urgencia, tipo de proyecto y siguiente acción recomendable.",
+          "Ordenar la consulta por canal, urgencia, tipo de oportunidad y siguiente acción recomendable.",
         futureCapability: "Etiquetado de intención, scoring de lead y payloads estructurados.",
       },
       {
         title: "Routing",
         summary:
-          "Enviar la notificación o handoff correcto sin exponer secretos en el frontend.",
+          "Enviar el aviso o handoff correcto sin exponer secretos ni lógica sensible en el frontend.",
         futureCapability: "Webhooks server-side, variables de entorno y notificaciones por canal.",
       },
       {
         title: "Seguimiento",
         summary:
-          "Preparar una respuesta fiable para conversaciones profesionales y proyectos potenciales.",
+          "Dejar contexto suficiente para responder con rapidez y mantener conversaciones profesionales ordenadas.",
         futureCapability: "Notas CRM, plantillas de email, recordatorios y contexto para chatbot.",
       },
     ],
@@ -335,55 +492,55 @@ export const es = {
   architectureCards: [
     {
       label: "API",
-      title: "Contratos de endpoint",
+      title: "Contratos antes de pantallas",
       summary:
-        "Espacio reservado para futuras rutas API, schemas de validación, metadatos de request y garantías de respuesta.",
+        "La arquitectura futura debe explicar rutas, schemas de validación, metadatos de request y garantías de respuesta.",
     },
     {
       label: "Datos",
-      title: "Modelos tipados",
+      title: "Modelos tipados y contenido separado",
       summary:
-        "El contenido y la configuración están separados en archivos tipados para que los casos de estudio puedan crecer con seguridad.",
+        "El portfolio mantiene datos, traducciones y configuración fuera de los componentes para crecer sin deuda innecesaria.",
     },
     {
       label: "Seguridad",
-      title: "Límites server-side",
+      title: "Límites del lado servidor",
       summary:
         "Preparado para variables de entorno, aislamiento de webhooks, controles anti-spam y enlaces externos seguros.",
     },
     {
       label: "Operación",
-      title: "Handoff de automatización",
+      title: "Automatización como extensión del producto",
       summary:
-        "Preparado para notificaciones, notas CRM, contexto de chatbot y futura orquestación backend.",
+        "El contacto, el chatbot y los futuros casos de estudio quedan conectados a una estrategia de handoff y seguimiento.",
     },
   ],
   quality: {
     preparedForLabel: "Preparado para",
     pillars: [
       {
-        title: "Base SEO",
+        title: "SEO técnico",
         summary:
           "Títulos y descripciones únicas, Open Graph, Twitter Cards, JSON-LD, sitemap, robots y headings semánticos.",
-        preparedFor: ["Componente meta", "Datos estructurados", "Endpoint sitemap", "Endpoint robots"],
+        preparedFor: ["Metadatos", "Hreflang", "Datos estructurados", "Sitemap"],
       },
       {
-        title: "Base de rendimiento",
+        title: "Rendimiento",
         summary:
-          "Prioridades mobile-first, movimiento reducido, tokens CSS y límites claros por componente.",
-        preparedFor: ["Secciones responsive", "Preferencias de movimiento", "Plan de imágenes", "Placeholders ligeros"],
+          "Carga mobile-first, movimiento controlado, tokens CSS y límites claros para imágenes y componentes futuros.",
+        preparedFor: ["Responsive", "Reduced motion", "Plan de imágenes", "CSS mantenible"],
       },
       {
-        title: "Base de accesibilidad",
+        title: "Accesibilidad",
         summary:
-          "Landmarks semánticos, skip link, navegación por teclado, escalas legibles y soporte para reduced motion.",
-        preparedFor: ["Skip link", "Etiquetas ARIA", "Estados focus", "CSS reduced motion"],
+          "Landmarks semánticos, skip link, navegación por teclado, escalas legibles y estados focus visibles.",
+        preparedFor: ["Teclado", "ARIA", "Focus visible", "Semántica"],
       },
       {
-        title: "Base de seguridad",
+        title: "Seguridad",
         summary:
-          "Protección de enlaces externos, ausencia de secretos expuestos, plan de validación y contacto server-side futuro.",
-        preparedFor: ["noopener noreferrer", "Placeholders env", "Campo honeypot", "Modelo de validación server"],
+          "Protección de enlaces externos, ausencia de secretos expuestos, validación planificada y contacto server-side futuro.",
+        preparedFor: ["noopener", "Variables env", "Honeypot", "Validación server"],
       },
     ],
   },
@@ -393,19 +550,19 @@ export const es = {
         label: "Perfil",
         title: "Full stack developer",
         summary:
-          "Placeholder para el perfil actual de Eric, su posicionamiento y el contexto de colaboración preferido.",
+          "Contexto profesional orientado a producto, sistemas web, automatización e integración técnica con negocio.",
       },
       {
         label: "Experiencia",
-        title: "Producto y automatización",
+        title: "Proyectos con lectura de negocio",
         summary:
-          "Placeholder para futuras experiencias, resultados de negocio, responsabilidades y evidencia de proyectos.",
+          "Espacio preparado para conectar responsabilidades, decisiones técnicas y resultados cuando existan evidencias publicables.",
       },
       {
         label: "Aprendizaje",
         title: "Backend, IA, SEO, rendimiento y seguridad",
         summary:
-          "Placeholder para certificaciones, hitos de aprendizaje, profundidad técnica y prueba de práctica aplicada.",
+          "Bloque reservado para certificaciones, práctica aplicada, profundidad técnica y evolución del stack.",
       },
     ],
   },
@@ -490,7 +647,7 @@ export const es = {
       enabled: false,
       mountId: "portfolio-chatbot",
       summary:
-        "El soporte de chatbot queda reservado para responder preguntas sobre el portfolio, proyectos, CV y contacto.",
+        "El soporte de chatbot queda reservado para responder preguntas sobre portfolio, proyectos, CV y contacto sin publicar un asistente ficticio.",
       plannedIntents: [
         "Responder preguntas de recruiters",
         "Explicar arquitectura de proyectos",

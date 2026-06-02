@@ -7,18 +7,32 @@ interface Props {
   project: Project;
   statusLabel: string;
   highlightLabel: string;
+  technicalFocusLabel: string;
+  stackLabel: string;
 }
 
-const { project, statusLabel, highlightLabel } = Astro.props;
+const { project, statusLabel, highlightLabel, technicalFocusLabel, stackLabel } = Astro.props;
 ---
 
-<article class="project-card" data-project={project.slug}>
+<article class:list={["project-card", project.isFlagship && "project-card--flagship"]} data-project={project.slug}>
   <div class="project-card__header">
     <p class="project-card__status">{statusLabel}</p>
     <h3 class="project-card__title">{project.name}</h3>
   </div>
   <p class="project-card__summary">{project.summary}</p>
-  <BadgeList items={project.plannedHighlights} label={`${highlightLabel}: ${project.name}`} />
+  <div class="project-card__focus-block">
+    <p class="project-card__section-label">{technicalFocusLabel}</p>
+    <p class="project-card__focus">{project.technicalFocus}</p>
+  </div>
+  <div class="project-card__stack">
+    <p class="project-card__section-label">{stackLabel}</p>
+    <BadgeList items={project.stack} label={`${stackLabel}: ${project.name}`} />
+  </div>
+  <div class="project-card__highlights">
+    <p class="project-card__section-label">{highlightLabel}</p>
+    <BadgeList items={project.plannedHighlights} label={`${highlightLabel}: ${project.name}`} />
+  </div>
+  <p class="project-card__note">{project.note}</p>
   {project.links.length > 0 ? (
     <div class="project-card__links">
       {project.links.map((link) => (
@@ -27,5 +41,7 @@ const { project, statusLabel, highlightLabel } = Astro.props;
         </a>
       ))}
     </div>
-  ) : null}
+  ) : (
+    <span class="project-card__cta" data-state="placeholder">{project.ctaLabel}</span>
+  )}
 </article>

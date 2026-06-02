@@ -1,6 +1,6 @@
 ---
 import { siteConfig } from "../../data/site";
-import type { Language, TranslationDictionary } from "../../i18n/config";
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
 import MobileNavigation from "../mobile/MobileNavigation";
 import LanguageSwitcher from "../ui/LanguageSwitcher";
 import Container from "../ui/Container.astro";
@@ -13,11 +13,12 @@ interface Props {
 
 const { language, translations, currentPath } = Astro.props;
 const headerNavigation = translations.navigation.items.filter((item) => item.mobilePriority);
+const homePath = getPagePath(language, "home");
 ---
 
 <header class="site-header">
   <Container size="wide" class="site-header__inner">
-    <a class="site-header__brand" href="#hero" aria-label={translations.layout.homeLabel}>
+    <a class="site-header__brand" href={homePath} aria-label={translations.layout.homeLabel}>
       <span>{siteConfig.personName}</span>
       <small>{translations.metadata.role}</small>
     </a>

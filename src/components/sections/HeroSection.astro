@@ -1,19 +1,22 @@
 ---
 import { siteConfig } from "../../data/site";
-import type { TranslationDictionary } from "../../i18n/config";
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
 import MotionWrapper from "../effects/MotionWrapper.astro";
 import ButtonLink from "../ui/ButtonLink.astro";
 import Container from "../ui/Container.astro";
 
 interface Props {
+  language: Language;
   translations: TranslationDictionary;
 }
 
-const { translations } = Astro.props;
+const { language, translations } = Astro.props;
 const section = translations.sections.hero;
 const headlineAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "headline");
 const portraitAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "portrait");
 const actionsAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "actions");
+const projectsPath = getPagePath(language, "projects");
+const contactPath = getPagePath(language, "contact");
 ---
 
 <section id={section.anchor} class="hero-section" aria-labelledby="hero-title">
@@ -47,8 +50,8 @@ const actionsAnnotation = translations.hero.annotations.find((annotation) => ann
     <div class="hero-section__lower" data-motion="reveal">
       <p class="hero-section__summary">{translations.hero.supportingParagraph}</p>
       <div class="hero-section__actions" data-contact-ready="future-intake">
-        <ButtonLink href="#projects">{translations.hero.actions.projects}</ButtonLink>
-        <ButtonLink href="#contact" variant="secondary">{translations.hero.actions.contact}</ButtonLink>
+        <ButtonLink href={projectsPath}>{translations.hero.actions.projects}</ButtonLink>
+        <ButtonLink href={contactPath} variant="secondary">{translations.hero.actions.contact}</ButtonLink>
       </div>
       {actionsAnnotation ? (
         <p class="hero-annotation hero-annotation--actions">{actionsAnnotation.label}</p>

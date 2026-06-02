@@ -1,5 +1,6 @@
 ---
 import MobileActionBar from "../components/mobile/MobileActionBar.astro";
+import EntryLoader from "../components/effects/EntryLoader.astro";
 import SeoHead from "../components/seo/SeoHead.astro";
 import StructuredData from "../components/seo/StructuredData.astro";
 import SiteFooter from "../components/layout/SiteFooter.astro";
@@ -12,10 +13,19 @@ interface Props {
   language: Language;
   translations: TranslationDictionary;
   canonicalPath: string;
+  title?: string;
+  description?: string;
   noindex?: boolean;
 }
 
-const { language, translations, canonicalPath, noindex = false } = Astro.props;
+const {
+  language,
+  translations,
+  canonicalPath,
+  title = translations.metadata.defaultTitle,
+  description = translations.metadata.defaultDescription,
+  noindex = false,
+} = Astro.props;
 const siteUrl = Astro.site ?? Astro.url.origin;
 const alternates = buildAlternateLanguageLinks(canonicalPath, siteUrl);
 const structuredData = [
@@ -28,8 +38,8 @@ const structuredData = [
 <html lang={translations.metadata.htmlLang}>
   <head>
     <SeoHead
-      title={translations.metadata.defaultTitle}
-      description={translations.metadata.defaultDescription}
+      title={title}
+      description={description}
       siteName={translations.metadata.siteName}
       language={language}
       canonicalPath={canonicalPath}
@@ -45,10 +55,11 @@ const structuredData = [
       import "../web-components/scroll-reveal";
     </script>
     <a class="skip-link" href="#main-content">{translations.accessibility.skipToContent}</a>
+    <EntryLoader translations={translations} />
     <portfolio-contact-intent>
       <SiteHeader language={language} translations={translations} currentPath={canonicalPath} />
       <portfolio-motion-root>
-        <main id="main-content" class="site-main">
+        <main id="main-content" class="site-main" data-page-transition="notebook">
           <slot />
         </main>
       </portfolio-motion-root>

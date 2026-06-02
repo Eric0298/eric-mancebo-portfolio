@@ -1,8 +1,10 @@
 import { siteConfig } from "../data/site";
 import {
   defaultLanguage,
+  getPageKeyFromPath,
   languageRoutes,
   languages,
+  pageRoutes,
   type AlternateLanguageLink,
   type Language,
   type TranslationDictionary,
@@ -44,6 +46,23 @@ export function buildAlternateLanguageLinks(
   }
 
   const normalizedPath = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const pageKey = getPageKeyFromPath(normalizedPath);
+
+  if (pageKey) {
+    const links = languages.map((language) => ({
+      language,
+      href: new URL(pageRoutes[pageKey][language], normalizedSiteUrl).toString(),
+    }));
+
+    return [
+      ...links,
+      {
+        language: "x-default",
+        href: new URL(pageRoutes[pageKey][defaultLanguage], normalizedSiteUrl).toString(),
+      },
+    ];
+  }
+
   const pathWithoutLocale = normalizedPath.replace(/^\/(es|en)(?=\/|$)/, "") || "/";
   const links = languages.map((language) => {
     const localizedPath = language === defaultLanguage

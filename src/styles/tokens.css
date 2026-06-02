@@ -12,6 +12,14 @@
   --color-black: hsl(0 0% 4%);
   --color-white: hsl(0 0% 99%);
   --color-blue-pen: hsl(215 78% 36%);
+  --color-blue-pen-dark: hsl(212 92% 72%);
+  --color-graphite: hsl(220 10% 7%);
+  --color-graphite-panel: hsl(220 10% 10%);
+  --color-graphite-paper: hsl(220 9% 13%);
+  --color-graphite-line: hsl(210 18% 72% / 0.12);
+  --color-graphite-rule: hsl(210 18% 82% / 0.2);
+  --color-graphite-ink: hsl(43 32% 91%);
+  --color-graphite-muted: hsl(43 14% 70%);
   --color-sticker-yellow: hsl(49 93% 72%);
   --color-sticker-coral: hsl(10 91% 74%);
   --color-sticker-green: hsl(156 54% 69%);

@@ -1,9 +1,10 @@
 ---
-import HeroSection from "../sections/HeroSection.astro";
-import HomeCoverSection from "../sections/HomeCoverSection.astro";
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ChatbotPreviewSection from "../sections/ChatbotPreviewSection.astro";
+import ContactHubSection from "../sections/ContactHubSection.astro";
+import PageHero from "../sections/PageHero.astro";
 
 interface Props {
   language: Language;
@@ -11,8 +12,8 @@ interface Props {
 
 const { language } = Astro.props;
 const translations = useTranslations(language);
-const canonicalPath = getPagePath(language, "home");
-const page = translations.pages.home;
+const canonicalPath = getPagePath(language, "contact");
+const page = translations.pages.contact;
 ---
 
 <BaseLayout
@@ -22,6 +23,7 @@ const page = translations.pages.home;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <HeroSection language={language} translations={translations} />
-  <HomeCoverSection language={language} translations={translations} />
+  <PageHero page={page} pageKey="contact" />
+  <ContactHubSection translations={translations} />
+  <ChatbotPreviewSection translations={translations} />
 </BaseLayout>

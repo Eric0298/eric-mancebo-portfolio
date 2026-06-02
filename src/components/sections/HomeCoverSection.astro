@@ -1,0 +1,47 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const cover = translations.homeCover;
+const projectsPath = getPagePath(language, "projects");
+const contactPath = getPagePath(language, "contact");
+---
+
+<section class="home-cover" aria-labelledby="home-cover-title">
+  <Container size="wide" class="home-cover__inner">
+    <div class="home-cover__manifesto" data-motion="reveal">
+      <p class="home-cover__eyebrow">{cover.manifesto.eyebrow}</p>
+      <h2 id="home-cover-title" class="home-cover__title">{cover.manifesto.title}</h2>
+      <p class="home-cover__summary">{cover.manifesto.summary}</p>
+      <p class="home-cover__annotation">{cover.manifesto.annotation}</p>
+    </div>
+
+    <nav class="home-cover__cards" aria-label={cover.navigationLabel} data-motion="reveal">
+      {cover.cards.map((card) => (
+        <a class="home-cover-card" href={getPagePath(language, card.pageKey)}>
+          <span class="home-cover-card__label">{card.label}</span>
+          <strong>{card.title}</strong>
+          <span>{card.summary}</span>
+          <em>{card.sticker}</em>
+        </a>
+      ))}
+    </nav>
+
+    <div class="home-cover__final" data-motion="reveal">
+      <p class="home-cover__eyebrow">{cover.finalCta.eyebrow}</p>
+      <h2>{cover.finalCta.title}</h2>
+      <p>{cover.finalCta.summary}</p>
+      <div class="home-cover__actions">
+        <ButtonLink href={projectsPath}>{cover.finalCta.primaryLabel}</ButtonLink>
+        <ButtonLink href={contactPath} variant="secondary">{cover.finalCta.secondaryLabel}</ButtonLink>
+      </div>
+    </div>
+  </Container>
+</section>
