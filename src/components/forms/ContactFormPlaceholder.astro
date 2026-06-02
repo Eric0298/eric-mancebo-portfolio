@@ -1,0 +1,28 @@
+---
+import { contactAutomationConfig } from "../../lib/contact-automation";
+---
+
+<form class="contact-form" data-contact-form="placeholder" aria-describedby="contact-form-note">
+  <div class="contact-form__grid">
+    <label>
+      <span>Name</span>
+      <input type="text" name="name" autocomplete="name" placeholder="Future contact form field" disabled />
+    </label>
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" autocomplete="email" placeholder="Future contact form field" disabled />
+    </label>
+  </div>
+  <label class="contact-form__honeypot" aria-hidden="true">
+    <span>Company website</span>
+    <input type="text" name={contactAutomationConfig.honeypotFieldName} tabindex="-1" autocomplete="off" />
+  </label>
+  <label>
+    <span>Message</span>
+    <textarea name="message" rows="4" maxlength={contactAutomationConfig.maxMessageLength} placeholder="Future validated message field" disabled></textarea>
+  </label>
+  <p id="contact-form-note" class="contact-form__note">
+    Contact form endpoint is reserved for future server-side validation, anti-spam checks, and safe routing.
+  </p>
+  <button type="button" class="button-link button-link--secondary" disabled>Contact form pending</button>
+</form>

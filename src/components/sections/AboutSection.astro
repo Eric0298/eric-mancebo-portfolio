@@ -1,0 +1,27 @@
+---
+import { sectionByKey } from "../../data/sections";
+import PlaceholderCard from "../ui/PlaceholderCard.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.about;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <div class="responsive-grid responsive-grid--three">
+    <PlaceholderCard
+      label="Narrative"
+      title="Professional positioning"
+      summary="Future copy should explain Eric as a full stack developer who connects product quality with business value."
+    />
+    <PlaceholderCard
+      label="Audience"
+      title="Recruiter and client readability"
+      summary="The section is prepared for concise scanning on mobile and more detailed proof on desktop."
+    />
+    <PlaceholderCard
+      label="Evidence"
+      title="Proof-first structure"
+      summary="Future details should connect skills to concrete projects, outcomes, architecture, and quality signals."
+    />
+  </div>
+</SectionShell>

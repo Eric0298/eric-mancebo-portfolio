@@ -1,0 +1,37 @@
+---
+import { sectionByKey } from "../../data/sections";
+import { siteConfig } from "../../data/site";
+import MotionWrapper from "../effects/MotionWrapper.astro";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+const section = sectionByKey.hero;
+const architectureSignals = [
+  "Typed data",
+  "Responsive sections",
+  "Motion utilities",
+  "SEO foundation",
+  "Automation ready",
+];
+---
+
+<section id={section.anchor} class="hero-section" aria-labelledby="hero-title">
+  <Container size="wide" class="hero-section__inner">
+    <div class="hero-section__content" data-motion="reveal">
+      <p class="hero-section__eyebrow">{section.eyebrow}</p>
+      <h1 id="hero-title">{siteConfig.personName}</h1>
+      <p class="hero-section__summary">{section.summary}</p>
+      <div class="hero-section__actions">
+        <ButtonLink href="#projects">View project structure</ButtonLink>
+        <ButtonLink href="#contact" variant="secondary">Contact architecture</ButtonLink>
+      </div>
+    </div>
+
+    <MotionWrapper mode="subtle" class="hero-section__snapshot">
+      <p class="hero-section__snapshot-label">Initial scaffold</p>
+      <ul>
+        {architectureSignals.map((signal) => <li>{signal}</li>)}
+      </ul>
+    </MotionWrapper>
+  </Container>
+</section>

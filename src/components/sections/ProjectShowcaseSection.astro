@@ -1,0 +1,14 @@
+---
+import { featuredProjects } from "../../data/projects";
+import { sectionByKey } from "../../data/sections";
+import ProjectCard from "../cards/ProjectCard.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.projects;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <div class="project-grid">
+    {featuredProjects.map((project) => <ProjectCard project={project} />)}
+  </div>
+</SectionShell>

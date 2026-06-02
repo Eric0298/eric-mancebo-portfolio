@@ -1,0 +1,20 @@
+---
+import { qualityPillars } from "../../data/quality";
+import { sectionByKey } from "../../data/sections";
+import BadgeList from "../ui/BadgeList.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.quality;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <div class="responsive-grid responsive-grid--two">
+    {qualityPillars.map((pillar) => (
+      <article class="quality-card">
+        <h3>{pillar.title}</h3>
+        <p>{pillar.summary}</p>
+        <BadgeList items={pillar.preparedFor} label={`${pillar.title} prepared for`} />
+      </article>
+    ))}
+  </div>
+</SectionShell>

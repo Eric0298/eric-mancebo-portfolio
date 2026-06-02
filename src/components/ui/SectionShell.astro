@@ -1,0 +1,25 @@
+---
+import ScrollReveal from "../effects/ScrollReveal.astro";
+
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  density?: "compact" | "standard" | "spacious";
+  class?: string;
+}
+
+const { id, eyebrow, title, summary, density = "standard", class: className = "" } = Astro.props;
+---
+
+<section id={id} class:list={["section-shell", `section-shell--${density}`, className]} data-section={id}>
+  <ScrollReveal class="section-shell__intro">
+    <p class="section-shell__eyebrow">{eyebrow}</p>
+    <h2 class="section-shell__title">{title}</h2>
+    <p class="section-shell__summary">{summary}</p>
+  </ScrollReveal>
+  <div class="section-shell__body">
+    <slot />
+  </div>
+</section>

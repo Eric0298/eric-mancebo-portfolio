@@ -1,0 +1,16 @@
+---
+import { chatbotConfig } from "../../data/chatbot";
+import { sectionByKey } from "../../data/sections";
+import BadgeList from "../ui/BadgeList.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.chatbot;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary} density="compact">
+  <aside class="chatbot-placeholder" id={chatbotConfig.mountId} data-chatbot-enabled={chatbotConfig.enabled}>
+    <h3>Assistant mount point</h3>
+    <p>{chatbotConfig.summary}</p>
+    <BadgeList items={chatbotConfig.plannedIntents} label="Planned chatbot intents" />
+  </aside>
+</SectionShell>

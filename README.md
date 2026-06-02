@@ -1,43 +1,75 @@
-# Astro Starter Kit: Minimal
+# Eric Mancebo Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Initial Astro architecture for Eric Mancebo's professional portfolio.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+This is a scaffold, not a final art direction. The project is prepared for a premium portfolio, interactive CV, project evidence, automation workflows, SEO, performance, accessibility, security, future contact automation, and future chatbot support.
 
-## 🚀 Project Structure
+## Stack
 
-Inside of your Astro project, you'll see the following folders and files:
+- Astro
+- React
+- TypeScript
+- Tailwind CSS
+- Native Web Components
+- Motion One
+- Zod
+
+## Structure
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/
+  components/
+    cards/          Project, skill, and contact cards
+    effects/        Scroll reveal, parallax, and device motion wrappers
+    forms/          Future-safe contact form placeholder
+    layout/         Header and footer
+    mobile/         Mobile navigation, contact sheet, and action bar
+    sections/       Portfolio sections
+    seo/            Metadata and structured data components
+    ui/             Reusable shell, button, badge, and placeholder components
+  data/             Zod-validated portfolio data
+  hooks/            React hooks for device, motion, scroll, and parallax
+  layouts/          Base page layout
+  lib/              SEO, responsive, motion, contact, and link utilities
+  pages/            Astro routes and SEO endpoints
+  styles/           Tokens, responsive utilities, motion, and global CSS
+  types/            Shared TypeScript types
+  web-components/   Native browser behavior
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Current Scope
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- Neutral design tokens and CSS variables
+- Base layout with semantic landmarks
+- SEO metadata component
+- Person and WebSite JSON-LD
+- Robots and sitemap endpoints
+- Typed data for sections, projects, skills, contact channels, CV, quality pillars, automation, and chatbot settings
+- Desktop, tablet, and mobile layout foundations
+- Mobile-specific navigation and sticky action bar
+- Reduced-motion-aware reveal utility
+- Contact automation placeholders with honeypot planning
+- Chatbot mount point reserved but disabled
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Environment
 
-## 🧞 Commands
+Copy `.env.example` when real deployment and contact values are ready.
 
-All commands are run from the root of the project, from a terminal:
+```sh
+PUBLIC_SITE_URL=
+CONTACT_RECIPIENT_EMAIL=
+CONTACT_WEBHOOK_URL=
+CHATBOT_API_ROUTE=
+CHATBOT_PROVIDER=
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Do not expose secrets in frontend code. Future contact and chatbot features should validate server-side and read sensitive values from environment variables.
 
-## 👀 Want to learn more?
+## Commands
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```sh
+npm run dev
+npm run build
+npm run preview
+npm run astro -- --help
+```

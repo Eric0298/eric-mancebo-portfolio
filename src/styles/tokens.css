@@ -1,0 +1,58 @@
+:root {
+  color-scheme: light;
+
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+
+  --color-page: hsl(42 18% 96%);
+  --color-surface: hsl(0 0% 100%);
+  --color-surface-muted: hsl(42 16% 92%);
+  --color-border: hsl(220 12% 82%);
+  --color-ink: hsl(220 18% 14%);
+  --color-ink-muted: hsl(220 9% 38%);
+  --color-accent: hsl(205 14% 32%);
+  --color-accent-strong: hsl(199 30% 22%);
+  --color-accent-contrast: hsl(0 0% 100%);
+  --color-focus: hsl(198 72% 38%);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+
+  --shadow-subtle: 0 1px 2px hsl(220 20% 12% / 0.06);
+  --shadow-layer: 0 18px 50px hsl(220 18% 20% / 0.08);
+
+  --container-narrow: 48rem;
+  --container-standard: 70rem;
+  --container-wide: 82rem;
+
+  --header-height: 4.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --color-page: hsl(220 13% 10%);
+    --color-surface: hsl(220 12% 14%);
+    --color-surface-muted: hsl(220 10% 18%);
+    --color-border: hsl(220 10% 28%);
+    --color-ink: hsl(42 18% 94%);
+    --color-ink-muted: hsl(220 8% 70%);
+    --color-accent: hsl(190 20% 68%);
+    --color-accent-strong: hsl(190 26% 78%);
+    --color-accent-contrast: hsl(220 13% 10%);
+    --color-focus: hsl(190 76% 58%);
+  }
+}

@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  label?: string;
+}
+
+const { title, summary, label } = Astro.props;
+---
+
+<article class="placeholder-card">
+  {label ? <p class="placeholder-card__label">{label}</p> : null}
+  <h3 class="placeholder-card__title">{title}</h3>
+  <p class="placeholder-card__summary">{summary}</p>
+  <slot />
+</article>

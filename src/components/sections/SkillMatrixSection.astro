@@ -1,0 +1,14 @@
+---
+import { sectionByKey } from "../../data/sections";
+import { skillGroups } from "../../data/skills";
+import SkillCard from "../cards/SkillCard.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.skills;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <div class="responsive-grid responsive-grid--two">
+    {skillGroups.map((skillGroup) => <SkillCard skillGroup={skillGroup} />)}
+  </div>
+</SectionShell>

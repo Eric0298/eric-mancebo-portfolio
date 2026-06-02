@@ -1,0 +1,22 @@
+---
+import { getExternalLinkAttributes } from "../../lib/external-links";
+
+interface Props {
+  href: string;
+  variant?: "primary" | "secondary" | "quiet";
+  class?: string;
+  label?: string;
+}
+
+const { href, variant = "primary", class: className = "", label } = Astro.props;
+const externalAttributes = getExternalLinkAttributes(href);
+---
+
+<a
+  class:list={["button-link", `button-link--${variant}`, className]}
+  href={href}
+  aria-label={label}
+  {...externalAttributes}
+>
+  <slot />
+</a>

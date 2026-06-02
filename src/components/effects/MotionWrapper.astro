@@ -1,0 +1,12 @@
+---
+interface Props {
+  mode?: "subtle" | "standard" | "prominent";
+  class?: string;
+}
+
+const { mode = "standard", class: className = "" } = Astro.props;
+---
+
+<div class:list={["motion-wrapper", `motion-wrapper--${mode}`, className]} data-motion-wrapper={mode}>
+  <slot />
+</div>

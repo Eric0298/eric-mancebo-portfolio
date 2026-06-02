@@ -1,0 +1,29 @@
+---
+import type { Project } from "../../data/schemas";
+import { getExternalLinkAttributes } from "../../lib/external-links";
+import BadgeList from "../ui/BadgeList.astro";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+---
+
+<article class="project-card" data-project={project.slug}>
+  <div class="project-card__header">
+    <p class="project-card__status">{project.status}</p>
+    <h3 class="project-card__title">{project.name}</h3>
+  </div>
+  <p class="project-card__summary">{project.summary}</p>
+  <BadgeList items={project.plannedHighlights} label={`${project.name} planned highlights`} />
+  {project.links.length > 0 ? (
+    <div class="project-card__links">
+      {project.links.map((link) => (
+        <a href={link.href} {...getExternalLinkAttributes(link.href)}>
+          {link.label}
+        </a>
+      ))}
+    </div>
+  ) : null}
+</article>

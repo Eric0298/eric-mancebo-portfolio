@@ -1,0 +1,12 @@
+---
+interface Props {
+  depth?: "subtle" | "standard" | "deep";
+  class?: string;
+}
+
+const { depth = "subtle", class: className = "" } = Astro.props;
+---
+
+<div class:list={["parallax-layer", `parallax-layer--${depth}`, className]} data-parallax-layer={depth}>
+  <slot />
+</div>

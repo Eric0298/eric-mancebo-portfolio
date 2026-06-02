@@ -1,0 +1,18 @@
+---
+import { contactChannels } from "../../data/contact";
+import { sectionByKey } from "../../data/sections";
+import ContactChannelCard from "../cards/ContactChannelCard.astro";
+import ContactFormPlaceholder from "../forms/ContactFormPlaceholder.astro";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.contact;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <div class="contact-hub">
+    <div class="contact-hub__channels">
+      {contactChannels.map((channel) => <ContactChannelCard channel={channel} />)}
+    </div>
+    <ContactFormPlaceholder />
+  </div>
+</SectionShell>

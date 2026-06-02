@@ -1,0 +1,43 @@
+---
+import { siteConfig } from "../../data/site";
+import { buildCanonicalUrl } from "../../lib/seo";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  image?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = siteConfig.defaultTitle,
+  description = siteConfig.defaultDescription,
+  canonicalPath = Astro.url.pathname,
+  image,
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title === siteConfig.defaultTitle ? title : `${title} | ${siteConfig.personName}`;
+const canonicalUrl = buildCanonicalUrl(canonicalPath, Astro.site ?? siteConfig.siteUrl);
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
+{noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{canonicalUrl ? <meta property="og:url" content={canonicalUrl} /> : null}
+{image ? <meta property="og:image" content={image} /> : null}
+<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+{siteConfig.socialHandle ? <meta name="twitter:site" content={siteConfig.socialHandle} /> : null}

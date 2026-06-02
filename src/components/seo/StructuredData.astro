@@ -1,0 +1,11 @@
+---
+import type { JsonLdDocument } from "../../types/content";
+
+interface Props {
+  data: JsonLdDocument | JsonLdDocument[];
+}
+
+const { data } = Astro.props;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

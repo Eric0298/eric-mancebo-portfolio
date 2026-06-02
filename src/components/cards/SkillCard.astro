@@ -1,0 +1,17 @@
+---
+import type { SkillGroup } from "../../data/schemas";
+import BadgeList from "../ui/BadgeList.astro";
+
+interface Props {
+  skillGroup: SkillGroup;
+}
+
+const { skillGroup } = Astro.props;
+---
+
+<article class="skill-card">
+  <h3 class="skill-card__title">{skillGroup.title}</h3>
+  <p class="skill-card__focus">{skillGroup.focus}</p>
+  <BadgeList items={skillGroup.items} label={`${skillGroup.title} stack`} />
+  <p class="skill-card__evidence">{skillGroup.evidencePlaceholder}</p>
+</article>

@@ -1,0 +1,26 @@
+---
+import { mobileContactChannels } from "../../data/contact";
+import { getExternalLinkAttributes } from "../../lib/external-links";
+---
+
+<aside class="mobile-action-bar" aria-label="Mobile contact actions">
+  {mobileContactChannels.map((channel) => {
+    const isDisabled = channel.isPlaceholder || channel.href === "#contact";
+
+    return isDisabled ? (
+      <span class="mobile-action-bar__item mobile-action-bar__item--placeholder" aria-disabled="true">
+        {channel.label}
+      </span>
+    ) : (
+      <a
+        class="mobile-action-bar__item"
+        href={channel.href}
+        data-contact-channel={channel.channel}
+        data-contact-intent={channel.automationIntent}
+        {...getExternalLinkAttributes(channel.href)}
+      >
+        {channel.label}
+      </a>
+    );
+  })}
+</aside>

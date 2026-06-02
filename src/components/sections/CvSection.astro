@@ -1,0 +1,19 @@
+---
+import { cvMilestones } from "../../data/cv";
+import { sectionByKey } from "../../data/sections";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.cv;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary} density="compact">
+  <ol class="cv-timeline">
+    {cvMilestones.map((milestone) => (
+      <li class="cv-timeline__item">
+        <p>{milestone.label}</p>
+        <h3>{milestone.title}</h3>
+        <span>{milestone.summary}</span>
+      </li>
+    ))}
+  </ol>
+</SectionShell>

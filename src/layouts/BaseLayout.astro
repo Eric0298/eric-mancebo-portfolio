@@ -1,0 +1,44 @@
+---
+import MobileActionBar from "../components/mobile/MobileActionBar.astro";
+import SeoHead from "../components/seo/SeoHead.astro";
+import StructuredData from "../components/seo/StructuredData.astro";
+import SiteFooter from "../components/layout/SiteFooter.astro";
+import SiteHeader from "../components/layout/SiteHeader.astro";
+import { buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalPath?: string;
+  noindex?: boolean;
+}
+
+const { title, description, canonicalPath, noindex = false } = Astro.props;
+const structuredData = [buildPersonJsonLd(Astro.site), buildWebsiteJsonLd(Astro.site)];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <SeoHead title={title} description={description} canonicalPath={canonicalPath} noindex={noindex} />
+    <StructuredData data={structuredData} />
+  </head>
+  <body>
+    <script>
+      import "../web-components/contact-intent";
+      import "../web-components/scroll-reveal";
+    </script>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <portfolio-contact-intent>
+      <SiteHeader />
+      <portfolio-motion-root>
+        <main id="main-content" class="site-main">
+          <slot />
+        </main>
+      </portfolio-motion-root>
+      <SiteFooter />
+      <MobileActionBar />
+    </portfolio-contact-intent>
+  </body>
+</html>

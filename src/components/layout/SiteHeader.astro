@@ -1,0 +1,24 @@
+---
+import { contactChannels } from "../../data/contact";
+import { primaryNavigation } from "../../data/navigation";
+import { siteConfig } from "../../data/site";
+import MobileNavigation from "../mobile/MobileNavigation";
+import Container from "../ui/Container.astro";
+---
+
+<header class="site-header">
+  <Container size="wide" class="site-header__inner">
+    <a class="site-header__brand" href="#hero" aria-label={`${siteConfig.personName} home`}>
+      <span>{siteConfig.personName}</span>
+      <small>{siteConfig.role}</small>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary navigation">
+      {primaryNavigation.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+    </nav>
+
+    <MobileNavigation navItems={primaryNavigation} contactItems={contactChannels} client:load />
+  </Container>
+</header>

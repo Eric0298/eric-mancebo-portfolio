@@ -1,0 +1,22 @@
+---
+import { automationSteps } from "../../data/automation";
+import { sectionByKey } from "../../data/sections";
+import SectionShell from "../ui/SectionShell.astro";
+
+const section = sectionByKey.automation;
+---
+
+<SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
+  <ol class="flow-list">
+    {automationSteps.map((step, index) => (
+      <li class="flow-list__item">
+        <span class="flow-list__index">{String(index + 1).padStart(2, "0")}</span>
+        <div>
+          <h3>{step.title}</h3>
+          <p>{step.summary}</p>
+          <small>{step.futureCapability}</small>
+        </div>
+      </li>
+    ))}
+  </ol>
+</SectionShell>
