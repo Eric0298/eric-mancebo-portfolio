@@ -41,9 +41,14 @@ src/
 
 - Neutral design tokens and CSS variables
 - Base layout with semantic landmarks
+- Spanish-first multilingual architecture
+- English secondary route at `/en/`
+- Typed translation dictionaries in `src/i18n/dictionaries/`
+- ES / EN language switcher with localStorage-backed manual preference
+- Non-invasive browser language preference detection through `navigator.language`
 - SEO metadata component
 - Person and WebSite JSON-LD
-- Robots and sitemap endpoints
+- Canonical, hreflang, robots, and sitemap foundations
 - Typed data for sections, projects, skills, contact channels, CV, quality pillars, automation, and chatbot settings
 - Desktop, tablet, and mobile layout foundations
 - Mobile-specific navigation and sticky action bar
@@ -64,6 +69,20 @@ CHATBOT_PROVIDER=
 ```
 
 Do not expose secrets in frontend code. Future contact and chatbot features should validate server-side and read sensitive values from environment variables.
+
+Set `PUBLIC_SITE_URL` in production so canonical URLs, hreflang links, sitemap URLs, robots output, and JSON-LD use the deployed domain.
+
+## Internationalization
+
+Spanish is the primary/default language for Spanish recruiters, Spanish companies, and Spanish LinkedIn visitors.
+
+- `/` renders Spanish.
+- `/en/` renders English.
+- All visible UI copy should live in typed dictionaries under `src/i18n/dictionaries/`.
+- Components receive translated copy through `HomePage` and `BaseLayout`.
+- Manual language selection is stored in `localStorage`.
+- Browser language is read only as a non-invasive preference.
+- No geolocation, IP tracking, or invasive user analysis is used.
 
 ## Commands
 

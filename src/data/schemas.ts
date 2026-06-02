@@ -16,13 +16,8 @@ export const sectionKeySchema = z.enum([
 ]);
 
 export const siteConfigSchema = z.object({
-  name: z.string().min(1),
   personName: z.string().min(1),
-  role: z.string().min(1),
-  locale: z.string().min(2),
   siteUrl: z.string(),
-  defaultTitle: z.string().min(1),
-  defaultDescription: z.string().min(1),
   socialHandle: z.string(),
 });
 

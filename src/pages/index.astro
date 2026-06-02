@@ -1,27 +1,5 @@
 ---
-import AboutSection from "../components/sections/AboutSection.astro";
-import AutomationFlowSection from "../components/sections/AutomationFlowSection.astro";
-import BackendArchitectureSection from "../components/sections/BackendArchitectureSection.astro";
-import ChatbotPreviewSection from "../components/sections/ChatbotPreviewSection.astro";
-import ContactHubSection from "../components/sections/ContactHubSection.astro";
-import CvSection from "../components/sections/CvSection.astro";
-import HeroSection from "../components/sections/HeroSection.astro";
-import ProjectShowcaseSection from "../components/sections/ProjectShowcaseSection.astro";
-import SeoPerformanceSecuritySection from "../components/sections/SeoPerformanceSecuritySection.astro";
-import SkillMatrixSection from "../components/sections/SkillMatrixSection.astro";
-import { siteConfig } from "../data/site";
-import BaseLayout from "../layouts/BaseLayout.astro";
+import HomePage from "../components/pages/HomePage.astro";
 ---
 
-<BaseLayout title={siteConfig.defaultTitle} description={siteConfig.defaultDescription} canonicalPath="/">
-  <HeroSection />
-  <AboutSection />
-  <SkillMatrixSection />
-  <ProjectShowcaseSection />
-  <AutomationFlowSection />
-  <BackendArchitectureSection />
-  <SeoPerformanceSecuritySection />
-  <CvSection />
-  <ContactHubSection />
-  <ChatbotPreviewSection />
-</BaseLayout>
+<HomePage language="es" />

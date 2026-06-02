@@ -5,18 +5,20 @@ import BadgeList from "../ui/BadgeList.astro";
 
 interface Props {
   project: Project;
+  statusLabel: string;
+  highlightLabel: string;
 }
 
-const { project } = Astro.props;
+const { project, statusLabel, highlightLabel } = Astro.props;
 ---
 
 <article class="project-card" data-project={project.slug}>
   <div class="project-card__header">
-    <p class="project-card__status">{project.status}</p>
+    <p class="project-card__status">{statusLabel}</p>
     <h3 class="project-card__title">{project.name}</h3>
   </div>
   <p class="project-card__summary">{project.summary}</p>
-  <BadgeList items={project.plannedHighlights} label={`${project.name} planned highlights`} />
+  <BadgeList items={project.plannedHighlights} label={`${highlightLabel}: ${project.name}`} />
   {project.links.length > 0 ? (
     <div class="project-card__links">
       {project.links.map((link) => (

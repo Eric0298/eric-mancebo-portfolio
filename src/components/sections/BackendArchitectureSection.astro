@@ -1,32 +1,20 @@
 ---
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import PlaceholderCard from "../ui/PlaceholderCard.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.architecture;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.architecture;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <div class="architecture-map">
-    <PlaceholderCard
-      label="API"
-      title="Endpoint contracts"
-      summary="Reserved space for future API routes, validation schemas, request metadata, and response guarantees."
-    />
-    <PlaceholderCard
-      label="Data"
-      title="Typed models"
-      summary="Content and configuration are already separated into typed files so future case studies can grow safely."
-    />
-    <PlaceholderCard
-      label="Security"
-      title="Server-side boundaries"
-      summary="Prepared for environment variables, webhook isolation, anti-spam checks, and safe external links."
-    />
-    <PlaceholderCard
-      label="Operations"
-      title="Automation handoff"
-      summary="Prepared for notifications, CRM notes, chatbot context, and future backend workflow orchestration."
-    />
+    {translations.architectureCards.map((card) => (
+      <PlaceholderCard label={card.label} title={card.title} summary={card.summary} />
+    ))}
   </div>
 </SectionShell>

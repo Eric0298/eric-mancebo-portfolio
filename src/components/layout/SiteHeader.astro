@@ -1,24 +1,46 @@
 ---
-import { contactChannels } from "../../data/contact";
-import { primaryNavigation } from "../../data/navigation";
 import { siteConfig } from "../../data/site";
+import type { Language, TranslationDictionary } from "../../i18n/config";
 import MobileNavigation from "../mobile/MobileNavigation";
+import LanguageSwitcher from "../ui/LanguageSwitcher";
 import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+  currentPath: string;
+}
+
+const { language, translations, currentPath } = Astro.props;
 ---
 
 <header class="site-header">
   <Container size="wide" class="site-header__inner">
-    <a class="site-header__brand" href="#hero" aria-label={`${siteConfig.personName} home`}>
+    <a class="site-header__brand" href="#hero" aria-label={translations.layout.homeLabel}>
       <span>{siteConfig.personName}</span>
-      <small>{siteConfig.role}</small>
+      <small>{translations.metadata.role}</small>
     </a>
 
-    <nav class="site-header__nav" aria-label="Primary navigation">
-      {primaryNavigation.map((item) => (
+    <nav class="site-header__nav" aria-label={translations.navigation.primaryLabel}>
+      {translations.navigation.items.map((item) => (
         <a href={item.href}>{item.label}</a>
       ))}
     </nav>
 
-    <MobileNavigation navItems={primaryNavigation} contactItems={contactChannels} client:load />
+    <div class="site-header__controls">
+      <LanguageSwitcher
+        currentLanguage={language}
+        currentPath={currentPath}
+        labels={translations.languageSwitcher}
+        client:load
+      />
+      <MobileNavigation
+        navItems={translations.navigation.items}
+        contactItems={translations.contact.channels}
+        labels={translations.navigation}
+        contactLabel={translations.contact.mobileChannelsLabel}
+        client:load
+      />
+    </div>
   </Container>
 </header>

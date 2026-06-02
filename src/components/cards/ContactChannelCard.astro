@@ -4,9 +4,10 @@ import { getExternalLinkAttributes } from "../../lib/external-links";
 
 interface Props {
   channel: ContactChannel;
+  intentLabel: string;
 }
 
-const { channel } = Astro.props;
+const { channel, intentLabel } = Astro.props;
 const isDisabled = channel.isPlaceholder || channel.href === "#contact";
 const externalAttributes = getExternalLinkAttributes(channel.href);
 ---
@@ -17,7 +18,7 @@ const externalAttributes = getExternalLinkAttributes(channel.href);
       <p class="contact-card__label">{channel.label}</p>
       <h3 class="contact-card__handle">{channel.handle}</h3>
       <p class="contact-card__summary">{channel.summary}</p>
-      <p class="contact-card__intent">Intent: {channel.automationIntent}</p>
+      <p class="contact-card__intent">{intentLabel}: {channel.automationIntent}</p>
     </article>
   ) : (
     <a
@@ -30,7 +31,7 @@ const externalAttributes = getExternalLinkAttributes(channel.href);
       <p class="contact-card__label">{channel.label}</p>
       <h3 class="contact-card__handle">{channel.handle}</h3>
       <p class="contact-card__summary">{channel.summary}</p>
-      <p class="contact-card__intent">Intent: {channel.automationIntent}</p>
+      <p class="contact-card__intent">{intentLabel}: {channel.automationIntent}</p>
     </a>
   )
 }

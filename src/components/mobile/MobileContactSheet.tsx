@@ -2,11 +2,12 @@ import type { ContactChannel } from "../../data/schemas";
 
 interface MobileContactSheetProps {
   contactItems: ContactChannel[];
+  label: string;
 }
 
-export default function MobileContactSheet({ contactItems }: MobileContactSheetProps) {
+export default function MobileContactSheet({ contactItems, label }: MobileContactSheetProps) {
   return (
-    <div className="mobile-contact-sheet" aria-label="Mobile contact channels">
+    <div className="mobile-contact-sheet" aria-label={label}>
       {contactItems.map((channel) => {
         const isDisabled = channel.isPlaceholder || channel.href === "#contact";
 

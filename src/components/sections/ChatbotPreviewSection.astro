@@ -1,16 +1,21 @@
 ---
-import { chatbotConfig } from "../../data/chatbot";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import BadgeList from "../ui/BadgeList.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.chatbot;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.chatbot;
+const chatbotConfig = translations.chatbot.config;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary} density="compact">
   <aside class="chatbot-placeholder" id={chatbotConfig.mountId} data-chatbot-enabled={chatbotConfig.enabled}>
-    <h3>Assistant mount point</h3>
+    <h3>{translations.chatbot.mountTitle}</h3>
     <p>{chatbotConfig.summary}</p>
-    <BadgeList items={chatbotConfig.plannedIntents} label="Planned chatbot intents" />
+    <BadgeList items={chatbotConfig.plannedIntents} label={translations.chatbot.plannedIntentsLabel} />
   </aside>
 </SectionShell>

@@ -1,14 +1,18 @@
 ---
-import { cvMilestones } from "../../data/cv";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.cv;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.cv;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary} density="compact">
   <ol class="cv-timeline">
-    {cvMilestones.map((milestone) => (
+    {translations.cv.milestones.map((milestone) => (
       <li class="cv-timeline__item">
         <p>{milestone.label}</p>
         <h3>{milestone.title}</h3>

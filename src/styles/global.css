@@ -90,6 +90,12 @@ portfolio-motion-root {
   gap: var(--space-3);
 }
 
+.site-header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
 .site-header__nav a,
 .site-footer__nav a {
   border-radius: var(--radius-xs);
@@ -109,6 +115,34 @@ portfolio-motion-root {
 
 .mobile-navigation {
   display: block;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  padding: var(--space-1);
+}
+
+.language-switcher a {
+  display: inline-flex;
+  min-block-size: 2rem;
+  min-inline-size: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-xs);
+  color: var(--color-ink-muted);
+  font-size: 0.8125rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.language-switcher a[data-current="true"] {
+  background: var(--color-surface-muted);
+  color: var(--color-ink);
 }
 
 .mobile-navigation__trigger {

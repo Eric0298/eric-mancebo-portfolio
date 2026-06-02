@@ -4,14 +4,15 @@ import BadgeList from "../ui/BadgeList.astro";
 
 interface Props {
   skillGroup: SkillGroup;
+  stackLabel: string;
 }
 
-const { skillGroup } = Astro.props;
+const { skillGroup, stackLabel } = Astro.props;
 ---
 
 <article class="skill-card">
   <h3 class="skill-card__title">{skillGroup.title}</h3>
   <p class="skill-card__focus">{skillGroup.focus}</p>
-  <BadgeList items={skillGroup.items} label={`${skillGroup.title} stack`} />
+  <BadgeList items={skillGroup.items} label={`${stackLabel}: ${skillGroup.title}`} />
   <p class="skill-card__evidence">{skillGroup.evidencePlaceholder}</p>
 </article>

@@ -4,24 +4,39 @@ import SeoHead from "../components/seo/SeoHead.astro";
 import StructuredData from "../components/seo/StructuredData.astro";
 import SiteFooter from "../components/layout/SiteFooter.astro";
 import SiteHeader from "../components/layout/SiteHeader.astro";
-import { buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
+import type { Language, TranslationDictionary } from "../i18n/config";
+import { buildAlternateLanguageLinks, buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
 import "../styles/global.css";
 
 interface Props {
-  title?: string;
-  description?: string;
-  canonicalPath?: string;
+  language: Language;
+  translations: TranslationDictionary;
+  canonicalPath: string;
   noindex?: boolean;
 }
 
-const { title, description, canonicalPath, noindex = false } = Astro.props;
-const structuredData = [buildPersonJsonLd(Astro.site), buildWebsiteJsonLd(Astro.site)];
+const { language, translations, canonicalPath, noindex = false } = Astro.props;
+const siteUrl = Astro.site ?? Astro.url.origin;
+const alternates = buildAlternateLanguageLinks(canonicalPath, siteUrl);
+const structuredData = [
+  buildPersonJsonLd(translations, language, canonicalPath, siteUrl),
+  buildWebsiteJsonLd(translations, language, canonicalPath, siteUrl),
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={translations.metadata.htmlLang}>
   <head>
-    <SeoHead title={title} description={description} canonicalPath={canonicalPath} noindex={noindex} />
+    <SeoHead
+      title={translations.metadata.defaultTitle}
+      description={translations.metadata.defaultDescription}
+      siteName={translations.metadata.siteName}
+      language={language}
+      canonicalPath={canonicalPath}
+      alternates={alternates}
+      noindex={noindex}
+      ogLocale={translations.metadata.ogLocale}
+    />
     <StructuredData data={structuredData} />
   </head>
   <body>
@@ -29,16 +44,16 @@ const structuredData = [buildPersonJsonLd(Astro.site), buildWebsiteJsonLd(Astro.
       import "../web-components/contact-intent";
       import "../web-components/scroll-reveal";
     </script>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{translations.accessibility.skipToContent}</a>
     <portfolio-contact-intent>
-      <SiteHeader />
+      <SiteHeader language={language} translations={translations} currentPath={canonicalPath} />
       <portfolio-motion-root>
         <main id="main-content" class="site-main">
           <slot />
         </main>
       </portfolio-motion-root>
-      <SiteFooter />
-      <MobileActionBar />
+      <SiteFooter translations={translations} />
+      <MobileActionBar translations={translations} />
     </portfolio-contact-intent>
   </body>
 </html>

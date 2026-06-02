@@ -1,8 +1,13 @@
 ---
-import { primaryNavigation } from "../../data/navigation";
 import { siteConfig } from "../../data/site";
+import type { TranslationDictionary } from "../../i18n/config";
 import Container from "../ui/Container.astro";
 
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -10,15 +15,13 @@ const currentYear = new Date().getFullYear();
   <Container size="wide" class="site-footer__inner">
     <div>
       <p class="site-footer__name">{siteConfig.personName}</p>
-      <p class="site-footer__summary">
-        Portfolio architecture prepared for future case studies, automation, chatbot support, and quality evidence.
-      </p>
+      <p class="site-footer__summary">{translations.layout.footerSummary}</p>
     </div>
-    <nav class="site-footer__nav" aria-label="Footer navigation">
-      {primaryNavigation.map((item) => (
+    <nav class="site-footer__nav" aria-label={translations.navigation.footerLabel}>
+      {translations.navigation.items.map((item) => (
         <a href={item.href}>{item.label}</a>
       ))}
     </nav>
-    <p class="site-footer__meta">&copy; {currentYear} {siteConfig.personName}</p>
+    <p class="site-footer__meta">&copy; {currentYear} {siteConfig.personName}. {translations.layout.copyright}</p>
   </Container>
 </footer>

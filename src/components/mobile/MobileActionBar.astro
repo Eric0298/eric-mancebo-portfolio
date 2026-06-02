@@ -1,9 +1,18 @@
 ---
-import { mobileContactChannels } from "../../data/contact";
+import type { TranslationDictionary } from "../../i18n/config";
 import { getExternalLinkAttributes } from "../../lib/external-links";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const mobileContactChannels = translations.contact.channels.filter((channel) =>
+  ["email", "whatsapp", "linkedin"].includes(channel.channel),
+);
 ---
 
-<aside class="mobile-action-bar" aria-label="Mobile contact actions">
+<aside class="mobile-action-bar" aria-label={translations.contact.mobileActionsLabel}>
   {mobileContactChannels.map((channel) => {
     const isDisabled = channel.isPlaceholder || channel.href === "#contact";
 

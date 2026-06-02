@@ -1,14 +1,20 @@
 ---
-import { sectionByKey } from "../../data/sections";
-import { skillGroups } from "../../data/skills";
+import type { TranslationDictionary } from "../../i18n/config";
 import SkillCard from "../cards/SkillCard.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.skills;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.skills;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <div class="responsive-grid responsive-grid--two">
-    {skillGroups.map((skillGroup) => <SkillCard skillGroup={skillGroup} />)}
+    {translations.skills.items.map((skillGroup) => (
+      <SkillCard skillGroup={skillGroup} stackLabel={translations.skills.stackLabel} />
+    ))}
   </div>
 </SectionShell>

@@ -1,14 +1,24 @@
 ---
-import { featuredProjects } from "../../data/projects";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import ProjectCard from "../cards/ProjectCard.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.projects;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.projects;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <div class="project-grid">
-    {featuredProjects.map((project) => <ProjectCard project={project} />)}
+    {translations.projects.items.map((project) => (
+      <ProjectCard
+        project={project}
+        statusLabel={translations.projects.statusLabels[project.status]}
+        highlightLabel={translations.projects.highlightLabel}
+      />
+    ))}
   </div>
 </SectionShell>

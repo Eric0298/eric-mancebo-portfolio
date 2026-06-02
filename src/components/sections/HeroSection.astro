@@ -1,18 +1,16 @@
 ---
-import { sectionByKey } from "../../data/sections";
 import { siteConfig } from "../../data/site";
+import type { TranslationDictionary } from "../../i18n/config";
 import MotionWrapper from "../effects/MotionWrapper.astro";
 import ButtonLink from "../ui/ButtonLink.astro";
 import Container from "../ui/Container.astro";
 
-const section = sectionByKey.hero;
-const architectureSignals = [
-  "Typed data",
-  "Responsive sections",
-  "Motion utilities",
-  "SEO foundation",
-  "Automation ready",
-];
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.hero;
 ---
 
 <section id={section.anchor} class="hero-section" aria-labelledby="hero-title">
@@ -22,15 +20,15 @@ const architectureSignals = [
       <h1 id="hero-title">{siteConfig.personName}</h1>
       <p class="hero-section__summary">{section.summary}</p>
       <div class="hero-section__actions">
-        <ButtonLink href="#projects">View project structure</ButtonLink>
-        <ButtonLink href="#contact" variant="secondary">Contact architecture</ButtonLink>
+        <ButtonLink href="#projects">{translations.hero.actions.projects}</ButtonLink>
+        <ButtonLink href="#contact" variant="secondary">{translations.hero.actions.contact}</ButtonLink>
       </div>
     </div>
 
     <MotionWrapper mode="subtle" class="hero-section__snapshot">
-      <p class="hero-section__snapshot-label">Initial scaffold</p>
+      <p class="hero-section__snapshot-label">{translations.hero.snapshotLabel}</p>
       <ul>
-        {architectureSignals.map((signal) => <li>{signal}</li>)}
+        {translations.hero.architectureSignals.map((signal) => <li>{signal}</li>)}
       </ul>
     </MotionWrapper>
   </Container>

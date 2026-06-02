@@ -1,18 +1,24 @@
 ---
-import { contactChannels } from "../../data/contact";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import ContactChannelCard from "../cards/ContactChannelCard.astro";
 import ContactFormPlaceholder from "../forms/ContactFormPlaceholder.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.contact;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.contact;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <div class="contact-hub">
     <div class="contact-hub__channels">
-      {contactChannels.map((channel) => <ContactChannelCard channel={channel} />)}
+      {translations.contact.channels.map((channel) => (
+        <ContactChannelCard channel={channel} intentLabel={translations.contact.intentLabel} />
+      ))}
     </div>
-    <ContactFormPlaceholder />
+    <ContactFormPlaceholder translations={translations} />
   </div>
 </SectionShell>

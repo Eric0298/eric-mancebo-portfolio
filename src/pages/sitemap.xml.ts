@@ -1,20 +1,13 @@
 import type { APIRoute } from "astro";
-import { primaryNavigation } from "../data/navigation";
 import { siteConfig } from "../data/site";
+import { languageRoutes } from "../i18n/config";
 import { normalizeSiteUrl } from "../lib/seo";
 
-const staticPaths = ["/"];
+const staticPaths = Object.values(languageRoutes);
 
 export const GET: APIRoute = ({ site, url }) => {
   const siteUrl = normalizeSiteUrl(site ?? siteConfig.siteUrl ?? url.origin) ?? url.origin;
-  const paths = Array.from(
-    new Set([
-      ...staticPaths,
-      ...primaryNavigation
-        .map((item) => item.href)
-        .filter((href) => href.startsWith("/")),
-    ]),
-  );
+  const paths = Array.from(new Set(staticPaths));
 
   const entries = paths
     .map((path) => {

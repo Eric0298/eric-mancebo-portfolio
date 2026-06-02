@@ -1,0 +1,36 @@
+---
+import AboutSection from "../sections/AboutSection.astro";
+import AutomationFlowSection from "../sections/AutomationFlowSection.astro";
+import BackendArchitectureSection from "../sections/BackendArchitectureSection.astro";
+import ChatbotPreviewSection from "../sections/ChatbotPreviewSection.astro";
+import ContactHubSection from "../sections/ContactHubSection.astro";
+import CvSection from "../sections/CvSection.astro";
+import HeroSection from "../sections/HeroSection.astro";
+import ProjectShowcaseSection from "../sections/ProjectShowcaseSection.astro";
+import SeoPerformanceSecuritySection from "../sections/SeoPerformanceSecuritySection.astro";
+import SkillMatrixSection from "../sections/SkillMatrixSection.astro";
+import { getLocalizedPath, type Language } from "../../i18n/config";
+import { useTranslations } from "../../i18n/useTranslations";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+interface Props {
+  language: Language;
+}
+
+const { language } = Astro.props;
+const translations = useTranslations(language);
+const canonicalPath = getLocalizedPath(language);
+---
+
+<BaseLayout language={language} translations={translations} canonicalPath={canonicalPath}>
+  <HeroSection translations={translations} />
+  <AboutSection translations={translations} />
+  <SkillMatrixSection translations={translations} />
+  <ProjectShowcaseSection translations={translations} />
+  <AutomationFlowSection translations={translations} />
+  <BackendArchitectureSection translations={translations} />
+  <SeoPerformanceSecuritySection translations={translations} />
+  <CvSection translations={translations} />
+  <ContactHubSection translations={translations} />
+  <ChatbotPreviewSection translations={translations} />
+</BaseLayout>

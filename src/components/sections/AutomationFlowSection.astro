@@ -1,14 +1,18 @@
 ---
-import { automationSteps } from "../../data/automation";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.automation;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.automation;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <ol class="flow-list">
-    {automationSteps.map((step, index) => (
+    {translations.automation.steps.map((step, index) => (
       <li class="flow-list__item">
         <span class="flow-list__index">{String(index + 1).padStart(2, "0")}</span>
         <div>

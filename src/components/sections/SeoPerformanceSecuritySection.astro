@@ -1,19 +1,23 @@
 ---
-import { qualityPillars } from "../../data/quality";
-import { sectionByKey } from "../../data/sections";
+import type { TranslationDictionary } from "../../i18n/config";
 import BadgeList from "../ui/BadgeList.astro";
 import SectionShell from "../ui/SectionShell.astro";
 
-const section = sectionByKey.quality;
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const section = translations.sections.quality;
 ---
 
 <SectionShell id={section.anchor} eyebrow={section.eyebrow} title={section.title} summary={section.summary}>
   <div class="responsive-grid responsive-grid--two">
-    {qualityPillars.map((pillar) => (
+    {translations.quality.pillars.map((pillar) => (
       <article class="quality-card">
         <h3>{pillar.title}</h3>
         <p>{pillar.summary}</p>
-        <BadgeList items={pillar.preparedFor} label={`${pillar.title} prepared for`} />
+        <BadgeList items={pillar.preparedFor} label={`${translations.quality.preparedForLabel}: ${pillar.title}`} />
       </article>
     ))}
   </div>

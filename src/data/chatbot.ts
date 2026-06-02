@@ -1,14 +1,8 @@
-import { chatbotConfigSchema } from "./schemas";
+import { defaultLanguage, type Language } from "../i18n/config";
+import { useTranslations } from "../i18n/useTranslations";
 
-export const chatbotConfig = chatbotConfigSchema.parse({
-  enabled: false,
-  mountId: "portfolio-chatbot",
-  summary:
-    "Future chatbot support is reserved for guided portfolio questions, project discovery, CV context, and contact handoff.",
-  plannedIntents: [
-    "Answer recruiter questions",
-    "Explain project architecture",
-    "Summarize skills by role",
-    "Route contact requests",
-  ],
-});
+export function getChatbotConfig(language: Language = defaultLanguage) {
+  return useTranslations(language).chatbot.config;
+}
+
+export const chatbotConfig = getChatbotConfig();
