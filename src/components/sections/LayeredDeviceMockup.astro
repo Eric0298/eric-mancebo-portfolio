@@ -1,0 +1,75 @@
+---
+interface Props {
+  ariaLabel: string;
+  items: string[];
+  variant: "laptop" | "phone";
+}
+
+const { ariaLabel, items, variant } = Astro.props;
+const isLaptop = variant === "laptop";
+const laptopTickerSequence = items.join(" · ");
+const repeatedItems = isLaptop ? [laptopTickerSequence, laptopTickerSequence] : [...items, ...items];
+---
+
+<div
+  class:list={["layered-device", `layered-device--${variant}`]}
+  role="img"
+  aria-label={ariaLabel}
+>
+  {isLaptop && (
+    <div class="layered-device__tear layered-device__tear--asset" aria-hidden="true">
+      <img
+        src="/images/skills/torn-paper-hole.png.png"
+        alt=""
+        width="1254"
+        height="1254"
+        loading="eager"
+        decoding="async"
+        aria-hidden="true"
+      />
+    </div>
+  )}
+
+  <div class:list={["layered-device__device", `layered-device__device--${variant}`]} aria-hidden="true">
+    {isLaptop ? (
+      <div class="layered-device__laptop-shell">
+        <img
+          class="layered-device__asset layered-device__asset--laptop"
+          src="/images/skills/laptop-device.png.png"
+          alt=""
+          width="1536"
+          height="1024"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          aria-hidden="true"
+        />
+        <div class="skills-laptop-screen layered-device__screen">
+          <div class="skills-laptop-screen__glow"></div>
+          <div class="skills-laptop-screen__plane">
+            <div class="skills-laptop-screen__ticker">
+              {repeatedItems.map((item, index) => (
+                <span aria-hidden={isLaptop ? (index > 0 ? "true" : undefined) : index >= items.length ? "true" : undefined}>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div class="layered-device__phone-frame">
+        <span class="layered-device__phone-button layered-device__phone-button--top"></span>
+        <span class="layered-device__phone-button layered-device__phone-button--bottom"></span>
+        <span class="layered-device__phone-camera"></span>
+        <div class="skills-phone-screen layered-device__screen">
+          <div class="skills-phone-screen__track">
+            {repeatedItems.map((item, index) => (
+              <span aria-hidden={index >= items.length ? "true" : undefined}>{item}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>

@@ -1,0 +1,24 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import ProjectSkillMatrix from "./ProjectSkillMatrix.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const evidence = translations.skillsPage.evidence;
+---
+
+<section class="skills-evidence-section" aria-labelledby="skills-evidence-title">
+  <Container size="wide" class="skills-evidence">
+    <div class="skills-section-intro skills-section-intro--center" data-motion="reveal">
+      <p class="skills-page-eyebrow">{evidence.eyebrow}</p>
+      <h2 id="skills-evidence-title">{evidence.title}</h2>
+      <p>{evidence.summary}</p>
+    </div>
+
+    <ProjectSkillMatrix evidence={evidence} />
+  </Container>
+</section>

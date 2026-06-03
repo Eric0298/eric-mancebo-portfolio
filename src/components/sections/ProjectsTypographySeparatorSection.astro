@@ -1,0 +1,29 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const separator = translations.projectsWorkNarrative.separator;
+const line = separator.line;
+---
+
+<section class="projects-type-separator" aria-label={separator.ariaLabel}>
+  <div class="projects-type-separator__stage" aria-hidden="true">
+    <div class="projects-type-separator__rail projects-type-separator__rail--outline">
+      <div class="projects-type-separator__track">
+        <span>{line}</span>
+        <span>{line}</span>
+      </div>
+    </div>
+
+    <div class="projects-type-separator__rail projects-type-separator__rail--solid">
+      <div class="projects-type-separator__track">
+        <span>{line}</span>
+        <span>{line}</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,75 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import SkillPaperTag from "./SkillPaperTag.astro";
+import SkillSignalPostIt from "./SkillSignalPostIt.astro";
+import TechnicalDistributionChart from "./TechnicalDistributionChart.astro";
+import TechAsset from "./TechAsset.astro";
+import { hasTechAsset } from "./techAssets";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const categories = translations.skillsPage.categories;
+const signalNoteTones = ["green", "purple", "yellow", "blue", "red", "green"] as const;
+---
+
+<section class="skills-category-section" aria-labelledby="skills-category-title">
+  <Container size="wide" class="skills-category">
+    <div class="skills-section-intro skills-section-intro--right" data-motion="reveal">
+      <p class="skills-page-eyebrow">{categories.eyebrow}</p>
+      <h2 id="skills-category-title">{categories.title}</h2>
+      <p>{categories.summary}</p>
+    </div>
+
+    <TechnicalDistributionChart chart={translations.skillsPage.technicalDistributionChart} />
+
+    <div class="skills-category__grid">
+      {categories.items.map((item, index) => (
+        <article
+          class:list={[
+            "skills-category-card",
+            `skills-category-card--${item.variant}`,
+            index % 2 === 1 && "skills-category-card--offset",
+          ]}
+          data-motion="reveal"
+        >
+          <div class="skills-category-card__copy">
+            <p class="skills-category-card__label">{item.label}</p>
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+            <span>{item.note}</span>
+          </div>
+          <div class="skills-category-card__technical">
+            <ul class="skills-category-card__stack" aria-label={item.label}>
+              {item.stack.map((stackItem) => {
+                const usesAsset = hasTechAsset(stackItem);
+
+                return (
+                  <li
+                    class:list={[
+                      "skills-category-card__stack-item",
+                      usesAsset ? "skills-category-card__stack-item--asset" : "skills-category-card__stack-item--paper",
+                    ]}
+                  >
+                    {usesAsset ? (
+                      <>
+                        <TechAsset tech={stackItem} variant="tag" />
+                        <span class="sr-only">{stackItem}</span>
+                      </>
+                    ) : (
+                      <SkillPaperTag label={stackItem} />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            <SkillSignalPostIt signals={item.signals} tone={signalNoteTones[index % signalNoteTones.length]} />
+          </div>
+        </article>
+      ))}
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,25 @@
+---
+import SkillPaperTag from "./SkillPaperTag.astro";
+import TechAsset from "./TechAsset.astro";
+import { hasTechAsset } from "./techAssets";
+
+interface Props {
+  items: string[];
+  label: string;
+}
+
+const { items, label } = Astro.props;
+---
+
+<div class="stack-sticker-cloud" aria-label={label} data-motion="reveal">
+  {items.map((item) =>
+    hasTechAsset(item) ? (
+      <span class="stack-sticker-cloud__asset">
+        <TechAsset tech={item} variant="tag" />
+        <span class="sr-only">{item}</span>
+      </span>
+    ) : (
+      <SkillPaperTag label={item} />
+    )
+  )}
+</div>

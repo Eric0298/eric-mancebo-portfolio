@@ -1,0 +1,142 @@
+---
+import type { Language, TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const carousel = translations.projectsFeaturedCarousel;
+const titleId = `featured-projects-title-${language}`;
+---
+
+<section id="selected-work" class="featured-projects-section" aria-labelledby={titleId}>
+  <Container size="wide">
+    <featured-projects-carousel class="featured-projects" data-featured-carousel>
+      <div class="featured-projects__header">
+        <h2 id={titleId}>{carousel.title}</h2>
+        <div class="featured-projects__controls" aria-label={carousel.ariaLabel}>
+          <button class="featured-projects__arrow" type="button" data-carousel-prev aria-label={carousel.previousLabel}>
+            <span aria-hidden="true">&larr;</span>
+          </button>
+          <button class="featured-projects__arrow" type="button" data-carousel-next aria-label={carousel.nextLabel}>
+            <span aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="featured-projects__viewport" data-carousel-viewport tabindex="0" aria-label={carousel.ariaLabel}>
+        <div class="featured-projects__track">
+          {
+            carousel.items.map((project) => (
+              <article
+                class:list={["featured-project-card", project.isActive && "featured-project-card--active"]}
+                aria-current={project.isActive ? "true" : undefined}
+              >
+                <div class="featured-project-card__visual" aria-hidden="true">
+                  <div class="featured-project-card__chrome">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <div class="featured-project-card__placeholder">
+                    <span>{carousel.placeholderLabel}</span>
+                  </div>
+                </div>
+                <div class="featured-project-card__content">
+                  <p class="featured-project-card__status">{project.status}</p>
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <ul class="featured-project-card__tags">
+                    {project.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </featured-projects-carousel>
+  </Container>
+</section>
+
+<script>
+  class FeaturedProjectsCarousel extends HTMLElement {
+    connectedCallback() {
+      const viewport = this.querySelector("[data-carousel-viewport]");
+      const previous = this.querySelector("[data-carousel-prev]");
+      const next = this.querySelector("[data-carousel-next]");
+
+      if (!(viewport instanceof HTMLElement)) {
+        return;
+      }
+
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const getCards = () => Array.from(this.querySelectorAll(".featured-project-card"));
+      const scrollStep = () => Math.max(viewport.clientWidth * 0.78, 320);
+      const scrollByDirection = (direction) => {
+        viewport.scrollBy({
+          left: direction * scrollStep(),
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+        });
+      };
+
+      const updateActiveCard = () => {
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportCenter = viewportRect.left + viewportRect.width / 2;
+        let closestCard = null;
+        let closestDistance = Number.POSITIVE_INFINITY;
+
+        for (const card of getCards()) {
+          const rect = card.getBoundingClientRect();
+          const cardCenter = rect.left + rect.width / 2;
+          const distance = Math.abs(viewportCenter - cardCenter);
+
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestCard = card;
+          }
+        }
+
+        for (const card of getCards()) {
+          const isActive = card === closestCard;
+          card.classList.toggle("featured-project-card--active", isActive);
+          if (isActive) {
+            card.setAttribute("aria-current", "true");
+          } else {
+            card.removeAttribute("aria-current");
+          }
+        }
+      };
+
+      let frame = 0;
+      const requestActiveUpdate = () => {
+        window.cancelAnimationFrame(frame);
+        frame = window.requestAnimationFrame(updateActiveCard);
+      };
+
+      previous?.addEventListener("click", () => scrollByDirection(-1));
+      next?.addEventListener("click", () => scrollByDirection(1));
+      viewport.addEventListener("scroll", requestActiveUpdate, { passive: true });
+      viewport.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") {
+          event.preventDefault();
+          scrollByDirection(-1);
+        }
+
+        if (event.key === "ArrowRight") {
+          event.preventDefault();
+          scrollByDirection(1);
+        }
+      });
+
+      updateActiveCard();
+    }
+  }
+
+  if (!customElements.get("featured-projects-carousel")) {
+    customElements.define("featured-projects-carousel", FeaturedProjectsCarousel);
+  }
+</script>

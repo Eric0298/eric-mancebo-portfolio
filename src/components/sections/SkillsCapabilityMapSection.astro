@@ -1,0 +1,24 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import StackStateBoard from "./StackStateBoard.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const capability = translations.skillsPage.capability;
+---
+
+<section class="skills-capability-section" aria-labelledby="skills-capability-title">
+  <Container size="wide" class="skills-capability">
+    <div class="skills-section-intro" data-motion="reveal">
+      <p class="skills-page-eyebrow">{capability.eyebrow}</p>
+      <h2 id="skills-capability-title">{capability.title}</h2>
+      <p>{capability.summary}</p>
+    </div>
+
+    <StackStateBoard board={translations.skillsPage.stackStateBoard} />
+  </Container>
+</section>

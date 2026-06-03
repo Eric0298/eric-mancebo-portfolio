@@ -2,8 +2,15 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PageHero from "../sections/PageHero.astro";
-import ProjectShowcaseSection from "../sections/ProjectShowcaseSection.astro";
+import FeaturedProjectsCarousel from "../sections/FeaturedProjectsCarousel.astro";
+import ProjectsEditorialHero from "../sections/ProjectsEditorialHero.astro";
+import ProjectsFaqSection from "../sections/ProjectsFaqSection.astro";
+import ProjectsFinalCtaSection from "../sections/ProjectsFinalCtaSection.astro";
+import ProjectsMosaicCtaSection from "../sections/ProjectsMosaicCtaSection.astro";
+import ProjectsServicesSection from "../sections/ProjectsServicesSection.astro";
+import ProjectsTechnicalCredibilitySection from "../sections/ProjectsTechnicalCredibilitySection.astro";
+import ProjectsTypographySeparatorSection from "../sections/ProjectsTypographySeparatorSection.astro";
+import ProjectsValueSection from "../sections/ProjectsValueSection.astro";
 
 interface Props {
   language: Language;
@@ -22,6 +29,13 @@ const page = translations.pages.projects;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <PageHero page={page} pageKey="projects" />
-  <ProjectShowcaseSection translations={translations} />
+  <ProjectsEditorialHero language={language} translations={translations} />
+  <FeaturedProjectsCarousel language={language} translations={translations} />
+  <ProjectsValueSection translations={translations} />
+  <ProjectsTypographySeparatorSection translations={translations} />
+  <ProjectsServicesSection translations={translations} />
+  <ProjectsTechnicalCredibilitySection translations={translations} />
+  <ProjectsMosaicCtaSection language={language} translations={translations} />
+  <ProjectsFaqSection translations={translations} />
+  <ProjectsFinalCtaSection language={language} translations={translations} />
 </BaseLayout>

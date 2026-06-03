@@ -1,0 +1,58 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const services = translations.projectsWorkNarrative.services;
+---
+
+<section class="projects-services-section" aria-labelledby="projects-services-title">
+  <Container size="wide" class="projects-services">
+    <div class="projects-services__intro">
+      <p class="projects-page-label">{services.eyebrow}</p>
+      <h2 id="projects-services-title">{services.title}</h2>
+    </div>
+
+    <div class="projects-services__stories">
+      {
+        services.items.map((service) => (
+          <article class:list={["projects-service-story", `projects-service-story--${service.layout}`]} data-motion="reveal">
+            <div class="projects-service-story__copy">
+              <span class="projects-service-story__index">{service.index}</span>
+              <h3>{service.title}</h3>
+              <p>{service.summary}</p>
+              <ul class="projects-service-story__tags" aria-label={service.title}>
+                {service.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              <p class="projects-pen-note">{service.annotation}</p>
+            </div>
+
+            <div class="projects-service-story__visual" aria-hidden="true">
+              <div class="projects-service-visual__sheet projects-service-visual__sheet--large">
+                <div class="projects-service-visual__chrome">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span>{service.visualItems[0]}</span>
+              </div>
+              <div class="projects-service-visual__sheet projects-service-visual__sheet--small">
+                <span>{service.visualItems[1]}</span>
+              </div>
+              <div class="projects-service-visual__note">
+                <span>{service.visualItems[2]}</span>
+              </div>
+              <div class="projects-service-visual__tab">
+                <span>{service.visualItems[3]}</span>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,43 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import ContactChannelCard from "../cards/ContactChannelCard.astro";
+import ContactFormPlaceholder from "../forms/ContactFormPlaceholder.astro";
+import BadgeList from "../ui/BadgeList.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const priorityChannels = translations.contact.channels.filter((channel) =>
+  ["email", "whatsapp", "linkedin", "github"].includes(channel.channel),
+);
+---
+
+<section class="chapter-section chapter-section--contact" aria-labelledby="contact-notebook-title">
+  <Container size="wide" class="contact-notebook">
+    <div class="contact-notebook__intro" data-motion="reveal">
+      <p class="chapter-label">{translations.contactPage.intro.eyebrow}</p>
+      <h2 id="contact-notebook-title">{translations.contactPage.intro.title}</h2>
+      <p>{translations.contactPage.intro.summary}</p>
+      <p class="chapter-annotation">{translations.pages.contact.annotation}</p>
+    </div>
+
+    <div class="contact-notebook__channels" data-motion="reveal">
+      {priorityChannels.map((channel) => (
+        <ContactChannelCard channel={channel} intentLabel={translations.contact.intentLabel} />
+      ))}
+    </div>
+
+    <div class="contact-notebook__intake" data-motion="reveal">
+      <ContactFormPlaceholder translations={translations} />
+      <aside>
+        <p class="chapter-label">{translations.contactPage.securityPanel.eyebrow}</p>
+        <h2>{translations.contactPage.securityPanel.title}</h2>
+        <p>{translations.contactPage.securityPanel.summary}</p>
+        <BadgeList items={translations.chatbot.config.plannedIntents} label={translations.chatbot.plannedIntentsLabel} />
+      </aside>
+    </div>
+  </Container>
+</section>

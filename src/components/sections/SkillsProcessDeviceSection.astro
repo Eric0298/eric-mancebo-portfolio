@@ -1,0 +1,53 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import PhoneProcessPipeline from "./PhoneProcessPipeline.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const process = translations.skillsPage.process;
+---
+
+<section class="skills-process-section" aria-labelledby="skills-process-title">
+  <Container size="wide" class="skills-process">
+    <div class="skills-section-intro" data-motion="reveal">
+      <p class="skills-page-eyebrow">{process.eyebrow}</p>
+      <h2 id="skills-process-title">{process.title}</h2>
+      <p>{process.summary}</p>
+    </div>
+
+    <div class="skills-phone-stage skills-phone-stage--asset" data-motion="reveal">
+      <img
+        class="skills-phone-stage__image skills-phone-stage__image--base"
+        src="/images/skills/phone-horizontal-device.png.png"
+        alt=""
+        width="1448"
+        height="1086"
+        loading="lazy"
+        decoding="async"
+        aria-hidden="true"
+      />
+      <PhoneProcessPipeline process={process} />
+      <div class="skills-phone-stage__frame" aria-hidden="true">
+        {["top", "bottom", "left", "right"].map((side) => (
+          <img
+            class:list={["skills-phone-stage__image", "skills-phone-stage__image--frame", `skills-phone-stage__image--${side}`]}
+            src="/images/skills/phone-horizontal-device.png.png"
+            alt=""
+            width="1448"
+            height="1086"
+            loading="lazy"
+            decoding="async"
+            aria-hidden="true"
+          />
+        ))}
+      </div>
+      <div class="skills-phone-annotations" aria-hidden="true">
+        {process.annotations.map((annotation) => <span>{annotation}</span>)}
+      </div>
+    </div>
+  </Container>
+</section>

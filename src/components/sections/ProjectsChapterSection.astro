@@ -1,0 +1,56 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import BadgeList from "../ui/BadgeList.astro";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const flagshipProject = (translations.projects.items.find((project) => project.isFlagship) ?? translations.projects.items[0])!;
+const skillsPath = getPagePath(language, "skills");
+const contactPath = getPagePath(language, "contact");
+---
+
+<section id="korus-case-study" class="chapter-section chapter-section--projects" aria-labelledby="projects-chapter-title">
+  <Container size="wide" class="projects-chapter">
+    <article class="projects-flagship" data-motion="reveal" data-project={flagshipProject.slug}>
+      <div class="projects-flagship__copy">
+        <p class="chapter-label">{translations.projectsPage.flagshipLabel}</p>
+        <p class="project-card__status">{translations.projects.statusLabels[flagshipProject.status]}</p>
+        <h2 id="projects-chapter-title">{flagshipProject.name}</h2>
+        <p>{flagshipProject.summary}</p>
+        <p class="chapter-annotation">{flagshipProject.note}</p>
+        <BadgeList items={flagshipProject.stack} label={`${translations.projects.stackLabel}: ${flagshipProject.name}`} />
+      </div>
+      <div class="projects-flagship__sheet">
+        <p class="project-card__section-label">{translations.projects.highlightLabel}</p>
+        <ul>
+          {flagshipProject.plannedHighlights.map((highlight) => <li>{highlight}</li>)}
+        </ul>
+        <span>{flagshipProject.ctaLabel}</span>
+      </div>
+    </article>
+
+    <aside class="projects-tech-depth" data-motion="reveal">
+      <p class="chapter-label">{translations.projectsPage.technicalPanel.eyebrow}</p>
+      <h2>{translations.projectsPage.technicalPanel.title}</h2>
+      <p>{translations.projectsPage.technicalPanel.summary}</p>
+      <p class="chapter-annotation">{translations.projectsPage.technicalPanel.note}</p>
+      <p>{flagshipProject.technicalFocus}</p>
+    </aside>
+
+    <div class="chapter-final-cta" data-motion="reveal">
+      <p class="chapter-label">{translations.projectsPage.finalCta.eyebrow}</p>
+      <h2>{translations.projectsPage.finalCta.title}</h2>
+      <p>{translations.projectsPage.finalCta.summary}</p>
+      <div class="chapter-final-cta__actions">
+        <ButtonLink href={skillsPath}>{translations.projectsPage.finalCta.primaryLabel}</ButtonLink>
+        <ButtonLink href={contactPath} variant="secondary">{translations.projectsPage.finalCta.secondaryLabel}</ButtonLink>
+      </div>
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,20 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const value = translations.projectsWorkNarrative.value;
+---
+
+<section class="projects-value-section" aria-labelledby="projects-value-title">
+  <Container size="wide" class="projects-value">
+    <p class="projects-page-label">{value.eyebrow}</p>
+    <h2 id="projects-value-title">{value.title}</h2>
+    <p class="projects-value__summary">{value.summary}</p>
+    <p class="projects-pen-note">{value.annotation}</p>
+  </Container>
+</section>

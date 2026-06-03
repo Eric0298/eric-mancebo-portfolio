@@ -1,0 +1,15 @@
+---
+interface Props {
+  signals: string[];
+  tone?: "green" | "purple" | "yellow" | "blue" | "red";
+}
+
+const { signals, tone = "yellow" } = Astro.props;
+---
+
+<div class:list={["skills-signal-postit", `skills-signal-postit--${tone}`]}>
+  <span class="skills-signal-postit__tape" aria-hidden="true"></span>
+  <ul class="skills-signal-postit__list">
+    {signals.map((signal) => <li>{signal}</li>)}
+  </ul>
+</div>

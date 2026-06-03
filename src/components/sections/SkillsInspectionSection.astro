@@ -1,0 +1,68 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import BadgeList from "../ui/BadgeList.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const architecturePreview = translations.architectureCards.slice(0, 2);
+const qualityPreview = translations.quality.pillars.slice(0, 2);
+---
+
+<section class="chapter-section chapter-section--skills" aria-labelledby="skills-inspection-title">
+  <Container size="wide" class="skills-inspection">
+    <div class="skills-inspection__intro" data-motion="reveal">
+      <p class="chapter-label">{translations.skillsPage.inspectionLabel}</p>
+      <h2 id="skills-inspection-title">{translations.sections.skills.title}</h2>
+      <p>{translations.sections.skills.summary}</p>
+    </div>
+
+    <div class="skills-inspection__grid" data-motion="reveal">
+      {translations.skills.items.map((skillGroup, index) => (
+        <article class:list={["skills-cluster", index === 1 && "skills-cluster--depth"]}>
+          <p class="skills-cluster__index">{String(index + 1).padStart(2, "0")}</p>
+          <h3>{skillGroup.title}</h3>
+          <p>{skillGroup.focus}</p>
+          <BadgeList items={skillGroup.items} label={`${translations.skills.stackLabel}: ${skillGroup.title}`} />
+          <p class="chapter-annotation">{skillGroup.evidencePlaceholder}</p>
+        </article>
+      ))}
+    </div>
+
+    <aside class="skills-depth" data-motion="reveal">
+      <div>
+        <p class="chapter-label">{translations.skillsPage.depthPanel.eyebrow}</p>
+        <h2>{translations.skillsPage.depthPanel.title}</h2>
+        <p>{translations.skillsPage.depthPanel.summary}</p>
+      </div>
+      <div class="skills-depth__notes">
+        {architecturePreview.map((card) => (
+          <article>
+            <p>{card.label}</p>
+            <h3>{card.title}</h3>
+            <span>{card.summary}</span>
+          </article>
+        ))}
+        {qualityPreview.map((pillar) => (
+          <article>
+            <p>{translations.quality.preparedForLabel}</p>
+            <h3>{pillar.title}</h3>
+            <span>{pillar.summary}</span>
+          </article>
+        ))}
+      </div>
+    </aside>
+
+    <div class="chapter-questions" data-motion="reveal">
+      {translations.skillsPage.questionBlocks.map((block) => (
+        <article>
+          <h3>{block.question}</h3>
+          <p>{block.answer}</p>
+        </article>
+      ))}
+    </div>
+  </Container>
+</section>

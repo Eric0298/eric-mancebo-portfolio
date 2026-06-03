@@ -1,0 +1,48 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import SkillPaperTag from "./SkillPaperTag.astro";
+import TechAsset from "./TechAsset.astro";
+import { hasTechAsset } from "./techAssets";
+
+interface Props {
+  evidence: TranslationDictionary["skillsPage"]["evidence"];
+}
+
+const { evidence } = Astro.props;
+---
+
+<div class="project-skill-matrix" data-motion="reveal">
+  {evidence.items.map((project, index) => (
+    <article class="project-skill-node" style={`--project-node-index: ${index}`}>
+      <p>{evidence.projectLabel}</p>
+      <div>
+        <h3>{project.name}</h3>
+        <span>{project.status}</span>
+      </div>
+      <p>{project.summary}</p>
+      <ul aria-label={`${evidence.projectLabel}: ${project.name}`}>
+        {project.stack.map((item) => {
+          const usesAsset = hasTechAsset(item);
+
+          return (
+            <li
+              class:list={[
+                "project-skill-node__stack-item",
+                usesAsset ? "project-skill-node__stack-item--asset" : "project-skill-node__stack-item--paper",
+              ]}
+            >
+              {usesAsset ? (
+                <>
+                  <TechAsset tech={item} variant="tag" />
+                  <span class="sr-only">{item}</span>
+                </>
+              ) : (
+                <SkillPaperTag label={item} />
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </article>
+  ))}
+</div>

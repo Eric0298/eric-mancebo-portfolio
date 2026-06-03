@@ -1,0 +1,32 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const positioning = translations.skillsPage.positioning;
+---
+
+<section class="skills-positioning-section" aria-labelledby="skills-positioning-title">
+  <Container size="wide" class="skills-positioning">
+    <div class="skills-positioning__statement" data-motion="reveal">
+      <p class="skills-page-eyebrow">{positioning.eyebrow}</p>
+      <h2 id="skills-positioning-title">{positioning.title}</h2>
+      <p>{positioning.summary}</p>
+      <span>{positioning.annotation}</span>
+    </div>
+
+    <div class="skills-positioning__principles" data-motion="reveal">
+      {positioning.principles.map((principle) => (
+        <article>
+          <p>{principle.label}</p>
+          <h3>{principle.title}</h3>
+          <span>{principle.summary}</span>
+        </article>
+      ))}
+    </div>
+  </Container>
+</section>

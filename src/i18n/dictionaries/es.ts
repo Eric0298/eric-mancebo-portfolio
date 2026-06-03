@@ -116,7 +116,7 @@ export const es = {
       title: "Hablemos de proyecto, empleo o colaboración",
       summary:
         "Punto de contacto preparado para conversación profesional y futura automatización de intake, sin publicar todavía un formulario definitivo.",
-      annotation: "intake pendiente",
+      annotation: "intake por activar",
       sticker: "Contacto",
     },
   },
@@ -171,6 +171,715 @@ export const es = {
       primaryLabel: "Ver proyectos",
       secondaryLabel: "Ir a contacto",
     },
+  },
+  projectsPage: {
+    flagshipLabel: "Proyecto flagship",
+    galleryLabel: "Otros casos en construcción",
+    technicalPanel: {
+      eyebrow: "Profundidad técnica",
+      title: "KORUS como sistema, no como simple interfaz",
+      summary:
+        "El caso se documenta alrededor de backend modular, React, PostgreSQL, Docker, CI, staging preparado y decisiones de arquitectura aplicadas con criterio.",
+      note: "Arquitectura documentada por capas y preparada para explicar trade-offs.",
+    },
+    finalCta: {
+      eyebrow: "Siguiente lectura",
+      title: "Revisar stack o abrir conversación",
+      summary:
+        "Los casos de estudio irán creciendo con capturas, decisiones técnicas y evidencias reales cuando estén listas para publicar.",
+      primaryLabel: "Ver stack técnico",
+      secondaryLabel: "Ir a contacto",
+    },
+  },
+  projectsIntroHero: {
+    eyebrow: "Casos, herramientas y productos digitales",
+    title: "Proyectos con intención de producto",
+    summary:
+      "Casos, herramientas y futuros productos presentados como etiquetas honestas, sin logos de clientes ni capturas inventadas.",
+    annotation: "capturas reales pendientes",
+    ctaLabel: "Ver casos seleccionados",
+    marqueeLabel: "Etiquetas de proyectos y tecnología",
+    mockupStripLabel: "Galería de proyectos en construcción",
+    technicalLabels: [
+      "KORUS",
+      "JustWriteIt",
+      "Link Shortener",
+      "Wedding Planner App",
+      "Photographer Portfolio",
+      "Future Business Tool",
+      "React",
+      "TypeScript",
+      ".NET",
+      "PostgreSQL",
+      "Docker",
+      "SEO técnico",
+      "IA aplicada",
+    ],
+    mockups: [
+      {
+        name: "KORUS",
+        status: "en proceso",
+        category: "SaaS / connected fitness ecosystem",
+        summary:
+          "Arquitectura backend, frontend React, PostgreSQL, Docker, GitHub Actions y flujo orientado a staging.",
+        stack: ["React", "PostgreSQL", "Docker", "GitHub Actions", "Staging"],
+        placeholder: "captura pendiente",
+        annotation: "arquitectura documentada",
+      },
+      {
+        name: "JustWriteIt",
+        status: "en construcción",
+        category: "Audio-to-text / escritura y estudio",
+        summary:
+          "Herramienta de productividad para transcripción, escritura y estudio con Next.js, TypeScript, Tailwind, Python e integración Whisper.",
+        stack: ["Next.js", "TypeScript", "Tailwind", "Python", "Whisper"],
+        placeholder: "captura pendiente",
+        annotation: "captura pendiente",
+      },
+      {
+        name: "Wedding Planner App",
+        status: "futuro proyecto",
+        category: "Gestión profesional de bodas y eventos",
+        summary:
+          "Aplicación para planificación, clientes, proveedores, tareas, calendario, presupuesto y documentación.",
+        stack: ["Producto digital", "Planning", "Calendario", "Presupuesto", "Documentación"],
+        placeholder: "captura pendiente",
+        annotation: "imagen pendiente",
+      },
+      {
+        name: "Photographer Portfolio",
+        status: "futuro proyecto",
+        category: "Portfolio profesional visual",
+        summary:
+          "Web para fotógrafo, videógrafo o editor con dirección visual fuerte, SEO, conversión de contacto y presentación premium.",
+        stack: ["Astro", "SEO técnico", "Contacto", "Dirección visual", "Portfolio"],
+        placeholder: "captura pendiente",
+        annotation: "presentación premium",
+      },
+      {
+        name: "Link Shortener App",
+        status: "posible proyecto",
+        category: "Herramienta backend",
+        summary:
+          "Acortador de URLs con alias personalizados, expiración, protección por contraseña, analítica y redirecciones seguras.",
+        stack: ["Backend", "Analítica", "Seguridad", "Redirecciones", "API"],
+        placeholder: "captura pendiente",
+        annotation: "sin métricas inventadas",
+      },
+      {
+        name: "Future Business Tool",
+        status: "idea abierta",
+        category: "Herramienta útil para empresas",
+        summary:
+          "Espacio reservado para una herramienta de negocio práctica que pueda ahorrar tiempo, ordenar procesos o mejorar seguimiento.",
+        stack: ["Automatización", "IA aplicada", "Operación", "Producto digital"],
+        placeholder: "captura pendiente",
+        annotation: "definición por validar",
+      },
+    ],
+  },
+  projectsFeaturedCarousel: {
+    title: "Proyectos destacados",
+    ariaLabel: "Carrusel de proyectos destacados",
+    previousLabel: "Ver proyecto anterior",
+    nextLabel: "Ver proyecto siguiente",
+    placeholderLabel: "captura pendiente",
+    items: [
+      {
+        name: "KORUS",
+        status: "En proceso",
+        description:
+          "SaaS y ecosistema connected fitness con producto, arquitectura backend y flujo orientado a staging.",
+        tags: [
+          "React",
+          "TypeScript",
+          "PostgreSQL",
+          "Docker",
+          "GitHub Actions",
+          "Railway",
+          "JWT",
+          "Clean Architecture",
+          "CQRS",
+        ],
+        isActive: true,
+      },
+      {
+        name: "JustWriteIt",
+        status: "Lanzado",
+        description: "Herramienta de productividad audio-to-text, escritura y estudio.",
+        tags: ["Next.js", "TypeScript", "Tailwind", "Python", "Whisper"],
+      },
+      {
+        name: "Wedding Planner App",
+        status: "Futuro proyecto",
+        description:
+          "Aplicación profesional de gestión de bodas y eventos para planificación, clientes, proveedores, tareas, calendario, presupuesto y documentación.",
+        tags: ["Product design", "Planning", "Calendar", "Documentation"],
+      },
+      {
+        name: "Photographer Portfolio",
+        status: "Futuro proyecto",
+        description:
+          "Portfolio profesional para fotógrafo, videógrafo y editor, centrado en narrativa visual, SEO y conversión de contacto.",
+        tags: ["Astro", "SEO", "Visual direction", "Contact conversion"],
+      },
+      {
+        name: "Link Shortener App",
+        status: "Posible proyecto",
+        description:
+          "Acortador de URLs con alias personalizados, expiración, protección por contraseña, analítica y redirecciones seguras.",
+        tags: ["API", "Security", "Analytics", "Redirects"],
+      },
+      {
+        name: "Future Business Tool",
+        status: "Idea futura",
+        description:
+          "Placeholder para una herramienta interna útil y orientada a negocio que empresas reales podrían usar.",
+        tags: ["Business tool", "Automation", "Dashboard", "Operations"],
+      },
+    ],
+  },
+  projectsWorkNarrative: {
+    value: {
+      eyebrow: "Valor de proyecto",
+      title: "No construyo pantallas sueltas.",
+      summary:
+        "Construyo webs, herramientas y productos digitales con estructura, rendimiento, lógica backend y una lectura clara del valor de negocio.",
+      annotation: "producto antes que ruido visual",
+    },
+    separator: {
+      ariaLabel: "Capacidades que conectan los proyectos",
+      line: "Frontend · Backend · Producto · SEO · Automatización · IA aplicada",
+      items: ["Frontend", "Backend", "Producto", "SEO", "Automatización", "IA aplicada"],
+    },
+    services: {
+      eyebrow: "Dónde aporto",
+      title: "Dos formas de convertir una idea en algo útil",
+      items: [
+        {
+          index: "01",
+          title: "Webs profesionales con intención comercial",
+          summary:
+            "Sitios preparados para explicar una oferta, captar contacto y sostener SEO técnico, performance y estructura sin convertirse en una plantilla genérica.",
+          tags: ["Astro", "SEO técnico", "Conversión", "Performance"],
+          annotation: "una web que también ordena negocio",
+          visualItems: ["Oferta clara", "Contacto preparado", "Metadatos", "Mobile-first"],
+          layout: "text-left",
+        },
+        {
+          index: "02",
+          title: "Aplicaciones internas y automatización de procesos",
+          summary:
+            "Interfaces, flujos y automatizaciones para ordenar datos, tareas, routing y seguimiento cuando un equipo necesita menos trabajo manual y más trazabilidad.",
+          tags: ["React", "TypeScript", "Workflows", "Validación"],
+          annotation: "menos fricción, más contexto",
+          visualItems: ["Datos ordenados", "Routing", "Notificaciones", "Handoff"],
+          layout: "text-right",
+        },
+      ],
+    },
+    technical: {
+      eyebrow: "Credibilidad técnica",
+      title: "Calidad visible para recruiters, equipos y clientes",
+      summary:
+        "La página de proyectos no solo enseña capturas: también deja claro cómo pienso una entrega, desde la interfaz hasta los límites del sistema.",
+      items: [
+        {
+          label: "Frontend",
+          title: "Interfaces mantenibles",
+          summary:
+            "Componentes, responsive real, estados claros y HTML semántico para que la experiencia sea revisable.",
+        },
+        {
+          label: "Backend",
+          title: "Arquitectura preparada",
+          summary:
+            "APIs, modelos de datos, autenticación y separación de responsabilidades cuando el producto lo necesita.",
+        },
+        {
+          label: "Seguridad",
+          title: "Validación y límites",
+          summary:
+            "Mentalidad de validación server-side, variables de entorno, enlaces seguros y controles anti-spam futuros.",
+        },
+        {
+          label: "Entrega",
+          title: "CI, despliegue y SEO",
+          summary:
+            "Pensamiento de staging, GitHub Actions, rendimiento mobile-first, metadatos y estructura indexable.",
+        },
+      ],
+    },
+    mosaicCta: {
+      ariaLabel: "Navegación hacia skills y contexto profesional",
+      eyebrow: "Leer el proceso",
+      title: "¿Quieres revisar cómo trabajo?",
+      summary:
+        "El valor no está solo en la idea del proyecto, sino en cómo se estructura: frontend, backend, SEO, automatización y criterio de producto.",
+      primaryLabel: "Ver skills",
+      secondaryLabel: "Conocer mi historia",
+      annotation: "siguiente capítulo",
+      fragments: [
+        "Componentes",
+        "APIs",
+        "SEO técnico",
+        "Staging",
+        "Validación",
+        "Automatización",
+        "Producto",
+        "Mobile-first",
+      ],
+    },
+    faq: {
+      title: "Preguntas que suelen importar",
+      ariaLabel: "Preguntas frecuentes sobre proyectos y colaboración",
+      items: [
+        {
+          question: "¿Qué tipo de proyectos puedo construir?",
+          answer:
+            "Webs profesionales, portfolios, herramientas internas, automatizaciones y aplicaciones pequeñas o medianas con foco en producto.",
+        },
+        {
+          question: "¿Trabajo solo diseño o también backend?",
+          answer:
+            "Puedo trabajar interfaz, lógica de datos, APIs, validación, despliegue y automatización cuando el proyecto lo requiere.",
+        },
+        {
+          question: "¿Puedo preparar una web profesional para un negocio real?",
+          answer:
+            "Sí. La idea es conectar presentación, SEO, rendimiento y contacto para que la web sirva a una operación real.",
+        },
+        {
+          question: "¿Cómo demuestro calidad técnica si un proyecto aún está en proceso?",
+          answer:
+            "Con arquitectura preparada, decisiones documentadas, estados honestos, capturas pendientes y casos de estudio en construcción sin métricas inventadas.",
+        },
+        {
+          question: "¿Estoy disponible para empleo, prácticas o colaboración?",
+          answer:
+            "Sí. La página de contacto queda preparada para oportunidades laborales, colaboración y conversaciones de proyecto.",
+        },
+      ],
+    },
+    finalCta: {
+      eyebrow: "Siguiente paso",
+      title: "Revisa el stack o abre conversación",
+      summary:
+        "Si el trabajo encaja, el siguiente paso natural es revisar capacidades técnicas o hablar de una oportunidad concreta.",
+      primaryLabel: "Ver skills",
+      secondaryLabel: "Contactar",
+    },
+  },
+  skillsPage: {
+    inspectionLabel: "Inspección técnica",
+    hero: {
+      eyebrow: "MAPA TÉCNICO",
+      title: "Mis\nSKILLS",
+      summary:
+        "Tecnologías, criterios y sistemas que utilizo para construir productos digitales mantenibles, rápidos y preparados para crecer.",
+      annotation: "notas reales, prioridades visibles",
+      primaryLabel: "Ver proyectos",
+      secondaryLabel: "Contactar",
+      tickerItems: [
+        "Frontend",
+        "Backend",
+        "SEO",
+        "DevOps",
+        "Datos",
+        "Automatización",
+        "IA aplicada",
+      ],
+      stickers: [
+        {
+          label: "React + Astro",
+          detail: "interfaz, contenido y rendimiento",
+          tone: "yellow",
+        },
+        {
+          label: "ASP.NET Core",
+          detail: "APIs y lógica backend",
+          tone: "green",
+        },
+        {
+          label: "PostgreSQL",
+          detail: "datos pensados para producto",
+          tone: "white",
+        },
+        {
+          label: "Docker + CI",
+          detail: "entrega reproducible",
+          tone: "coral",
+        },
+        {
+          label: "SEO técnico",
+          detail: "estructura para personas y máquinas",
+          tone: "lilac",
+        },
+      ],
+    },
+    positioning: {
+      eyebrow: "Posicionamiento honesto",
+      title: "El stack no es una colección de medallas",
+      summary:
+        "No presento este stack como una colección de medallas. Lo presento como un sistema de trabajo: tecnologías que sé conectar para construir productos reales.",
+      annotation: "tecnologías conectadas, no cromos",
+      principles: [
+        {
+          label: "Criterio",
+          title: "Tecnología con intención",
+          summary:
+            "Cada herramienta debe explicar una decisión: velocidad, mantenibilidad, arquitectura, contenido, seguridad o automatización.",
+        },
+        {
+          label: "Entrega",
+          title: "Calidad desde el inicio",
+          summary:
+            "SEO, rendimiento, accesibilidad y despliegue no son capas finales; forman parte de cómo se plantea la solución.",
+        },
+        {
+          label: "Evolución",
+          title: "Aprendizaje visible",
+          summary:
+            "El portfolio separa lo aplicado, lo que estoy consolidando y lo que sigo ampliando para evitar señales infladas.",
+        },
+      ],
+    },
+    capability: {
+      eyebrow: "Clasificación real",
+      title: "Capacidades sin porcentajes inventados",
+      summary:
+        "Prefiero mostrar contexto de uso antes que barras numéricas. La madurez de una tecnología depende de dónde se ha aplicado y de qué problema resuelve.",
+      groups: [
+        {
+          label: "01",
+          title: "Aplicado en proyectos",
+          summary:
+            "Tecnologías que ya conecto en interfaces, arquitectura, contenido, calidad técnica y entrega de producto.",
+          tone: "applied",
+          items: [
+            "React",
+            "Astro",
+            "TypeScript",
+            "JavaScript",
+            "ASP.NET Core",
+            "C#",
+            "PostgreSQL",
+            "Docker",
+            "GitHub Actions",
+            "Tailwind",
+            "SEO técnico",
+            "Accessibility",
+            "Responsive design",
+          ],
+        },
+        {
+          label: "02",
+          title: "En consolidación",
+          summary:
+            "Piezas que ya tienen práctica aplicada y que sigo ordenando con más criterio de arquitectura, fiabilidad y producto.",
+          tone: "consolidation",
+          items: ["Automation", "Applied AI", "Python", "Whisper", "Node.js", "MySQL"],
+        },
+        {
+          label: "03",
+          title: "En aprendizaje activo",
+          summary:
+            "Tecnologías y áreas complementarias que mantengo en progreso sin presentarlas como expertise cerrado.",
+          tone: "learning",
+          items: ["PHP", "Laravel", "Java", "Testing strategy", "Observabilidad"],
+        },
+      ],
+      supporting: {
+        label: "Stack complementario / previo",
+        items: ["PHP", "Laravel", "Java", "MySQL", "Node.js"],
+      },
+    },
+    stackStateBoard: {
+      ariaLabel: "Tablero de estado del stack técnico",
+      groups: [
+        {
+          state: "Aplicado en proyectos",
+          summary: "Tecnologías ya conectadas en producto, contenido, arquitectura, calidad técnica o entrega.",
+          tone: "applied",
+          items: [
+            { name: "JavaScript", note: "interacción y lógica cliente" },
+            { name: "TypeScript", note: "interfaces y contratos" },
+            { name: "React", note: "componentes aplicados" },
+            { name: "Astro", note: "portfolio e i18n" },
+            { name: "C#", note: "backend y reglas" },
+            { name: ".NET", note: "APIs y arquitectura" },
+            { name: "PostgreSQL", note: "datos de producto" },
+            { name: "Docker", note: "entorno reproducible" },
+            { name: "GitHub Actions", note: "CI y entrega" },
+            { name: "Railway", note: "staging y despliegue" },
+            { name: "Tailwind", note: "sistemas visuales" },
+            { name: "SEO", note: "estructura indexable" },
+            { name: "Accessibility", note: "interacción revisable" },
+          ],
+        },
+        {
+          state: "En consolidación",
+          summary: "Piezas con práctica real que sigo ordenando con más criterio operativo y de producto.",
+          tone: "consolidation",
+          items: [
+            { name: "Python", note: "automatización útil" },
+            { name: "Whisper", note: "transcripción aplicada" },
+            { name: "MySQL", note: "datos complementarios" },
+          ],
+        },
+        {
+          state: "En aprendizaje activo",
+          summary: "Tecnologías complementarias que mantengo visibles sin presentarlas como dominio cerrado.",
+          tone: "learning",
+          items: [
+            { name: "PHP", note: "contexto previo" },
+            { name: "Java", note: "base complementaria" },
+          ],
+        },
+        {
+          state: "EN EXPERIENCIA LABORAL",
+          summary: "Tecnologías y herramientas utilizadas en contexto profesional real.",
+          tone: "work",
+          items: [
+            { name: "Vue", note: "frontend profesional" },
+            { name: "Astro", note: "sites y contenido" },
+            { name: "SEO", note: "optimización real" },
+            { name: "Claude Code", note: "asistencia de desarrollo" },
+            { name: "BMAD agents", note: "orquestación de agentes" },
+            { name: "Codex", note: "apoyo técnico en editor" },
+          ],
+        },
+      ],
+    },
+    macroCapabilityChart: {
+      ariaLabel: "Mapa visual de capacidades conectadas",
+      centerLabel: "stack como sistema",
+      centerNote: "decisiones conectadas, no barras de nivel",
+      nodes: [
+        { label: "Frontend", note: "interfaz" },
+        { label: "Backend", note: "lógica" },
+        { label: "DevOps", note: "entrega" },
+        { label: "SEO / Performance", note: "visibilidad" },
+        { label: "Automation", note: "automatización" },
+        { label: "Applied AI", note: "asistencia útil" },
+      ],
+    },
+    technicalDistributionChart: {
+      ariaLabel: "Distribución actual del perfil técnico",
+      eyebrow: "Distribución actual",
+      title: "Peso relativo de mis áreas técnicas",
+      summary:
+        "Una lectura editorial del foco actual del perfil: no mide precisión científica, muestra dónde pesa más mi trabajo técnico ahora mismo.",
+      centerValue: "100%",
+      centerLabel: "perfil técnico",
+      items: [
+        { label: "Frontend", percent: 28, note: "interfaces, componentes, experiencia visual" },
+        { label: "Backend", percent: 24, note: "APIs, lógica, arquitectura" },
+        { label: "SEO / Performance", percent: 16, note: "visibilidad, semántica, optimización" },
+        { label: "DevOps / Deployment", percent: 12, note: "despliegue, CI/CD, entornos" },
+        { label: "Automatización", percent: 10, note: "flujos, integraciones, eficiencia" },
+        { label: "IA aplicada", percent: 10, note: "asistentes, productividad, procesos" },
+      ],
+    },
+    categories: {
+      eyebrow: "Mapa por capas",
+      title: "Capacidades que se conectan",
+      summary:
+        "La página separa áreas de trabajo, pero la intención real es conectarlas: interfaz, datos, backend, despliegue, SEO y automatización.",
+      items: [
+        {
+          label: "Frontend",
+          title: "Interfaces que no viven en un solo archivo.",
+          summary:
+            "Trabajo la interfaz como sistema: componentes, estados, responsive real, contenido legible y detalles que se sostienen al crecer.",
+          note: "componentes, estado, responsive y semántica",
+          variant: "paper",
+          stack: ["React", "Astro", "TypeScript", "JavaScript", "Tailwind"],
+          signals: ["Componentes mantenibles", "HTML semántico", "Estados responsive", "Interacción accesible"],
+        },
+        {
+          label: "Backend",
+          title: "La lógica también necesita arquitectura.",
+          summary:
+            "El backend se piensa como límite del producto: APIs, validación, autenticación, modelos, responsabilidades y reglas que deben sobrevivir al frontend.",
+          note: "contratos antes que pantallas",
+          variant: "graphite",
+          stack: ["ASP.NET Core", "C#", "API design", "JWT", "Validación"],
+          signals: ["Contratos claros", "Separación de capas", "Reglas server-side", "Seguridad por defecto"],
+        },
+        {
+          label: "Data",
+          title: "Los datos condicionan el producto.",
+          summary:
+            "Una interfaz limpia necesita datos modelados con intención: entidades comprensibles, relaciones claras y consultas que no bloqueen el crecimiento.",
+          note: "la base de datos también cuenta historia",
+          variant: "marker",
+          stack: ["PostgreSQL", "MySQL", "Modelado", "Consultas", "Persistencia"],
+          signals: ["Modelos legibles", "Relaciones claras", "Datos preparados", "Trazabilidad"],
+        },
+        {
+          label: "DevOps / Deployment",
+          title: "Que funcione en local no es suficiente.",
+          summary:
+            "La entrega necesita reproducibilidad, variables de entorno, CI, staging preparado y una lectura mínima de operación.",
+          note: "entrega como parte del producto",
+          variant: "blueprint",
+          stack: ["Docker", "GitHub Actions", "Railway", "Variables env", "CI"],
+          signals: ["Build reproducible", "Staging preparado", "Secretos fuera del frontend", "Automatización de entrega"],
+        },
+        {
+          label: "SEO / Performance / Accessibility",
+          title: "Una web también debe ser entendida por máquinas.",
+          summary:
+            "La calidad técnica une metadatos, estructura semántica, velocidad mobile-first, foco visible y contenido que pueda indexarse y revisarse.",
+          note: "calidad antes del checklist",
+          variant: "paper",
+          stack: ["SEO técnico", "Performance", "Accessibility", "Structured data", "Responsive"],
+          signals: ["Hreflang", "Sitemap", "Focus states", "Carga mobile-first"],
+        },
+        {
+          label: "Automation / Applied AI",
+          title: "Menos tareas manuales, más flujo de trabajo.",
+          summary:
+            "La automatización y la IA aplicada tienen sentido cuando reducen fricción real: intake, transcripción, routing, notificaciones y handoff operativo.",
+          note: "automatizar sin vender magia",
+          variant: "graphite",
+          stack: ["Automation", "Applied AI", "Python", "Whisper", "Workflows"],
+          signals: ["Flujos claros", "Payloads estructurados", "Handoff", "Asistencia medible"],
+        },
+      ],
+    },
+    process: {
+      eyebrow: "Proceso aplicado",
+      title: "Del diseño al sistema en producción",
+      summary:
+        "El stack importa por cómo se mueve entre fases: una idea visual termina conectada a datos, backend, despliegue y automatización útil.",
+      steps: ["Diseño", "Frontend", "Backend", "Datos", "Deploy", "Automatización"],
+      annotations: ["flujo completo", "sin saltos invisibles", "cada fase deja evidencia"],
+    },
+    evidence: {
+      eyebrow: "Evidencia conectada",
+      title: "Dónde se aplica este stack",
+      summary:
+        "Los proyectos funcionan como ejemplos de aplicación, no como una lista cerrada ni como métricas inventadas.",
+      projectLabel: "Proyecto",
+      items: [
+        {
+          name: "KORUS",
+          status: "en construcción",
+          summary:
+            "Caso flagship para conectar React, backend modular, PostgreSQL, Docker, CI y criterio de producto.",
+          stack: ["React", ".NET", "PostgreSQL", "Docker", "GitHub Actions", "arquitectura"],
+        },
+        {
+          name: "JustWriteIt",
+          status: "en proceso",
+          summary:
+            "Herramienta de productividad donde encajan escritura, transcripción, TypeScript, Python y Whisper.",
+          stack: ["TypeScript", "Python", "Whisper", "IA aplicada", "productividad"],
+        },
+        {
+          name: "Portfolio",
+          status: "actual",
+          summary:
+            "Sistema editorial con Astro, i18n, SEO, rendimiento, accesibilidad, motion y arquitectura de contenido.",
+          stack: ["Astro", "SEO", "Motion", "i18n", "Accessibility", "responsive design"],
+        },
+        {
+          name: "Link Shortener App",
+          status: "posible proyecto",
+          summary:
+            "Superficie compacta para demostrar API, datos, validación, seguridad, analítica y redirecciones.",
+          stack: ["API", "Seguridad", "Analítica", "Redirecciones", "validación"],
+        },
+      ],
+    },
+    finalCta: {
+      eyebrow: "Siguiente página",
+      title: "Revisar proyectos o abrir conversación",
+      summary:
+        "Si quieres comprobar el stack en contexto, el siguiente paso natural es saltar a proyectos, leer el perfil o abrir contacto.",
+      projectsLabel: "Ver proyectos",
+      aboutLabel: "Sobre mí",
+      contactLabel: "Contactar",
+    },
+    depthPanel: {
+      eyebrow: "Zona graphite",
+      title: "Backend, seguridad y calidad con más profundidad",
+      summary:
+        "Las piezas críticas se separan del discurso visual: contratos de API, validación, modelos de datos, variables de entorno, rendimiento, accesibilidad y seguridad.",
+    },
+    questionBlocks: [
+      {
+        question: "¿Qué debería revisar primero un recruiter técnico?",
+        answer:
+          "Proyectos, arquitectura y señales de calidad. El stack se presenta como soporte de decisiones, no como una lista decorativa.",
+      },
+      {
+        question: "¿Dónde encajan automatización e IA?",
+        answer:
+          "En flujos concretos: contacto, leads, productividad, handoff operativo y asistencia donde aporte claridad medible.",
+      },
+    ],
+  },
+  automationPage: {
+    mapLabel: "Mapa de flujo",
+    connectorLabel: "siguiente paso",
+    handoffPanel: {
+      eyebrow: "Handoff técnico",
+      title: "La automatización debe terminar en una acción útil",
+      summary:
+        "El objetivo no es añadir herramientas por añadir, sino dejar trazabilidad, contexto y rutas claras para responder mejor.",
+    },
+    finalCta: {
+      title: "Un flujo preparado para evolucionar hacia intake",
+      summary:
+        "El cuestionario completo no está implementado todavía, pero la arquitectura queda lista para validación, seguridad y routing server-side.",
+      label: "Hablar de automatización",
+    },
+  },
+  aboutPage: {
+    chapterLabel: "Capítulo",
+    notes: [
+      {
+        label: "Origen",
+        title: "Operación antes que artificio",
+        summary:
+          "La mirada viene de resolver procesos reales: entender necesidades, ordenar prioridades y convertir fricción en sistemas más claros.",
+      },
+      {
+        label: "Evolución",
+        title: "Producto digital con base técnica",
+        summary:
+          "El foco actual está en construir interfaces, backend y automatizaciones que ayuden a negocio sin perder mantenibilidad.",
+      },
+      {
+        label: "Criterio",
+        title: "Decisiones explicables",
+        summary:
+          "Cada proyecto debe poder justificar su stack, sus límites y sus próximos pasos con lenguaje técnico y de producto.",
+      },
+    ],
+    finalNote: {
+      title: "Un perfil para equipos que necesitan construir y ordenar",
+      summary:
+        "El portfolio está pensado para mostrar evolución, práctica aplicada y capacidad de conectar ejecución técnica con contexto de negocio.",
+    },
+  },
+  contactPage: {
+    intro: {
+      eyebrow: "Entrada de contacto",
+      title: "Canales claros antes que formulario largo",
+      summary:
+        "La página mantiene el contacto simple por ahora y deja preparada una ruta futura para intake automatizado y validado.",
+    },
+    securityPanel: {
+      eyebrow: "Privacidad y routing",
+      title: "Contacto preparado para automatización segura",
+      summary:
+        "Los canales finales se conectarán sin exponer secretos en frontend, con validación server-side y control anti-spam cuando el formulario esté listo.",
+    },
+    channelNote: "Canal por activar",
   },
   sections: {
     hero: {
@@ -373,7 +1082,7 @@ export const es = {
         technicalFocus:
           "Flujos de escritura, estado de interfaz, validación de datos y base preparada para futuras funciones asistidas.",
         stack: ["React", "TypeScript", "UX de producto", "Validación", "Contenido estructurado"],
-        ctaLabel: "Ficha de caso pendiente",
+        ctaLabel: "Ficha de caso en construcción",
         note: "Interesa por la mezcla de producto, claridad editorial y tooling.",
         plannedHighlights: [
           "Flujo principal de escritura documentable",
@@ -482,6 +1191,12 @@ export const es = {
         futureCapability: "Webhooks server-side, variables de entorno y notificaciones por canal.",
       },
       {
+        title: "Notificación",
+        summary:
+          "Avisar por el canal adecuado con suficiente contexto para tomar una decisión rápida.",
+        futureCapability: "Mensajes estructurados, prioridad por intención y registro de origen.",
+      },
+      {
         title: "Seguimiento",
         summary:
           "Dejar contexto suficiente para responder con rapidez y mantener conversaciones profesionales ordenadas.",
@@ -575,7 +1290,7 @@ export const es = {
         channel: "email",
         label: "Email",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary:
           "Canal asíncrono principal, preparado para validación futura y routing seguro de formularios.",
         automationIntent: "email-intake",
@@ -585,7 +1300,7 @@ export const es = {
         channel: "whatsapp",
         label: "WhatsApp",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary:
           "Canal rápido para contacto móvil con recruiters, empresas y seguimiento de conversaciones.",
         automationIntent: "instant-contact",
@@ -595,7 +1310,7 @@ export const es = {
         channel: "telegram",
         label: "Telegram",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary: "Canal de mensajería opcional preparado para routing futuro.",
         automationIntent: "instant-contact",
         isPlaceholder: true,
@@ -604,7 +1319,7 @@ export const es = {
         channel: "instagram",
         label: "Instagram",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary: "Canal social reservado para enlazar el perfil cuando esté listo.",
         automationIntent: "social-contact",
         isPlaceholder: true,
@@ -613,7 +1328,7 @@ export const es = {
         channel: "linkedin",
         label: "LinkedIn",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary: "Enlace profesional orientado a recruiters y oportunidades laborales.",
         automationIntent: "professional-contact",
         isPlaceholder: true,
@@ -622,7 +1337,7 @@ export const es = {
         channel: "github",
         label: "GitHub",
         href: "#contact",
-        handle: "Pendiente de configurar",
+        handle: "Canal por activar",
         summary: "Perfil técnico preparado para revisión de código y proyectos.",
         automationIntent: "technical-review",
         isPlaceholder: true,
@@ -633,11 +1348,11 @@ export const es = {
       email: "Email",
       honeypot: "Web de empresa",
       message: "Mensaje",
-      fieldPlaceholder: "Campo reservado para el futuro formulario",
-      messagePlaceholder: "Campo reservado para futuro mensaje validado",
+      fieldPlaceholder: "Campo inactivo hasta activar el intake",
+      messagePlaceholder: "Mensaje validado cuando el intake esté activo",
       note:
         "El endpoint de contacto queda reservado para validación server-side, controles anti-spam y routing seguro.",
-      pendingButton: "Formulario pendiente",
+      pendingButton: "Intake por activar",
     },
   },
   chatbot: {

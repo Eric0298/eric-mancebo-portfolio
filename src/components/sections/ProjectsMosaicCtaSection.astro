@@ -1,0 +1,38 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const cta = translations.projectsWorkNarrative.mosaicCta;
+const skillsPath = getPagePath(language, "skills");
+const aboutPath = getPagePath(language, "about");
+---
+
+<section class="projects-mosaic-section" aria-label={cta.ariaLabel}>
+  <Container size="wide" class="projects-mosaic">
+    <div class="projects-mosaic__field" aria-hidden="true">
+      {
+        cta.fragments.map((fragment) => (
+          <span>{fragment}</span>
+        ))
+      }
+    </div>
+
+    <div class="projects-mosaic__overlay" data-motion="reveal">
+      <p class="projects-page-label">{cta.eyebrow}</p>
+      <h2 id="projects-mosaic-title">{cta.title}</h2>
+      <p>{cta.summary}</p>
+      <div class="projects-mosaic__actions">
+        <ButtonLink href={skillsPath}>{cta.primaryLabel}</ButtonLink>
+        <ButtonLink href={aboutPath} variant="secondary">{cta.secondaryLabel}</ButtonLink>
+      </div>
+      <p class="projects-pen-note">{cta.annotation}</p>
+    </div>
+  </Container>
+</section>

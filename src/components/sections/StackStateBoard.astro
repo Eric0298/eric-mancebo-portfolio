@@ -1,0 +1,53 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import SkillPaperTag from "./SkillPaperTag.astro";
+import TechAsset from "./TechAsset.astro";
+import { hasTechAsset } from "./techAssets";
+
+interface Props {
+  board: TranslationDictionary["skillsPage"]["stackStateBoard"];
+}
+
+const { board } = Astro.props;
+---
+
+<div class="stack-state-board" aria-label={board.ariaLabel} data-motion="reveal">
+  <div class="stack-state-board__surface">
+    {board.groups.map((group, groupIndex) => (
+      <article
+        class:list={["stack-state-column", `stack-state-column--${group.tone}`]}
+        style={`--stack-column-index: ${groupIndex}`}
+      >
+        <div class="stack-state-column__header">
+          <p>{group.state}</p>
+          <span>{group.summary}</span>
+        </div>
+        <ul aria-label={group.state}>
+          {group.items.map((item, itemIndex) => {
+            const usesAsset = hasTechAsset(item.name);
+
+            return (
+              <li
+                class:list={[
+                  "stack-state-item",
+                  usesAsset ? "stack-state-item--asset" : "stack-state-item--paper",
+                ]}
+                style={`--stack-item-index: ${itemIndex}`}
+              >
+                {usesAsset ? (
+                  <div class="skill-image-badge skill-image-badge--board">
+                    <TechAsset tech={item.name} variant="board" />
+                    <strong class="sr-only">{item.name}</strong>
+                    <small class="skill-handwritten-description">{item.note}</small>
+                  </div>
+                ) : (
+                  <SkillPaperTag label={item.name} note={item.note} variant="board" />
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </article>
+    ))}
+  </div>
+</div>

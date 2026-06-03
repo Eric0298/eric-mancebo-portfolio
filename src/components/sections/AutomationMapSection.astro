@@ -1,0 +1,52 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const contactPath = getPagePath(language, "contact");
+---
+
+<section class="chapter-section chapter-section--automation" aria-labelledby="automation-map-title">
+  <Container size="wide" class="automation-map">
+    <div class="automation-map__intro" data-motion="reveal">
+      <p class="chapter-label">{translations.automationPage.mapLabel}</p>
+      <h2 id="automation-map-title">{translations.sections.automation.title}</h2>
+      <p>{translations.sections.automation.summary}</p>
+      <p class="chapter-annotation">{translations.pages.automation.annotation}</p>
+    </div>
+
+    <ol class="automation-flow" data-motion="reveal">
+      {translations.automation.steps.map((step, index) => (
+        <li>
+          <article>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <h3>{step.title}</h3>
+            <p>{step.summary}</p>
+            <small>{step.futureCapability}</small>
+          </article>
+          {index < translations.automation.steps.length - 1 ? (
+            <i aria-hidden="true">{translations.automationPage.connectorLabel}</i>
+          ) : null}
+        </li>
+      ))}
+    </ol>
+
+    <aside class="automation-handoff" data-motion="reveal">
+      <p class="chapter-label">{translations.automationPage.handoffPanel.eyebrow}</p>
+      <h2>{translations.automationPage.handoffPanel.title}</h2>
+      <p>{translations.automationPage.handoffPanel.summary}</p>
+    </aside>
+
+    <div class="automation-final-note" data-motion="reveal">
+      <h2>{translations.automationPage.finalCta.title}</h2>
+      <p>{translations.automationPage.finalCta.summary}</p>
+      <ButtonLink href={contactPath}>{translations.automationPage.finalCta.label}</ButtonLink>
+    </div>
+  </Container>
+</section>

@@ -2,7 +2,7 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AutomationFlowSection from "../sections/AutomationFlowSection.astro";
+import AutomationMapSection from "../sections/AutomationMapSection.astro";
 import PageHero from "../sections/PageHero.astro";
 
 interface Props {
@@ -23,5 +23,5 @@ const page = translations.pages.automation;
   description={page.metaDescription}
 >
   <PageHero page={page} pageKey="automation" />
-  <AutomationFlowSection translations={translations} />
+  <AutomationMapSection language={language} translations={translations} />
 </BaseLayout>

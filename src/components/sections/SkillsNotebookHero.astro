@@ -1,0 +1,56 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import LayeredDeviceMockup from "./LayeredDeviceMockup.astro";
+import TechAsset from "./TechAsset.astro";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+import { hasTechAsset } from "./techAssets";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const hero = translations.skillsPage.hero;
+---
+
+<section class="skills-notebook-hero" aria-labelledby="skills-notebook-title">
+  <Container size="wide" class="skills-notebook-hero__inner">
+    <div class="skills-notebook-hero__copy" data-motion="reveal">
+      <p class="skills-page-eyebrow">{hero.eyebrow}</p>
+      <h1 id="skills-notebook-title">{hero.title}</h1>
+      <p class="skills-notebook-hero__summary">{hero.summary}</p>
+      <div class="skills-notebook-hero__actions">
+        <ButtonLink href={getPagePath(language, "projects")}>{hero.primaryLabel}</ButtonLink>
+        <ButtonLink href={getPagePath(language, "contact")} variant="secondary">
+          {hero.secondaryLabel}
+        </ButtonLink>
+      </div>
+      <p class="skills-pen-note">{hero.annotation}</p>
+    </div>
+
+    <div class="skills-laptop-stage" data-motion="reveal">
+      <LayeredDeviceMockup variant="laptop" items={hero.tickerItems} ariaLabel={hero.title} />
+      <div class="skills-laptop-stickers" aria-hidden="true">
+        {hero.stickers.map((sticker) => {
+          const usesAsset = hasTechAsset(sticker.label);
+
+          return (
+            <span
+              class:list={[
+                "skills-laptop-sticker",
+                `skills-laptop-sticker--${sticker.tone}`,
+                usesAsset && "skills-laptop-sticker--asset",
+              ]}
+            >
+              <TechAsset tech={sticker.label} variant="hero" />
+              <strong class:list={[usesAsset && "sr-only"]}>{sticker.label}</strong>
+              <small class:list={[usesAsset && "skill-handwritten-description"]}>{sticker.detail}</small>
+            </span>
+          );
+        })}
+      </div>
+    </div>
+  </Container>
+</section>

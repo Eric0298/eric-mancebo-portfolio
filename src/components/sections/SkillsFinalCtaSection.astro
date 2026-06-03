@@ -1,0 +1,30 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const finalCta = translations.skillsPage.finalCta;
+---
+
+<section class="skills-final-section" aria-labelledby="skills-final-title">
+  <Container size="wide" class="skills-final" data-motion="reveal">
+    <p class="skills-page-eyebrow">{finalCta.eyebrow}</p>
+    <h2 id="skills-final-title">{finalCta.title}</h2>
+    <p>{finalCta.summary}</p>
+    <div class="skills-final__actions">
+      <ButtonLink href={getPagePath(language, "projects")}>{finalCta.projectsLabel}</ButtonLink>
+      <ButtonLink href={getPagePath(language, "about")} variant="secondary">
+        {finalCta.aboutLabel}
+      </ButtonLink>
+      <ButtonLink href={getPagePath(language, "contact")} variant="quiet">
+        {finalCta.contactLabel}
+      </ButtonLink>
+    </div>
+  </Container>
+</section>

@@ -1,0 +1,33 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const technical = translations.projectsWorkNarrative.technical;
+---
+
+<section class="projects-technical-section" aria-labelledby="projects-technical-title">
+  <Container size="wide" class="projects-technical">
+    <div class="projects-technical__intro">
+      <p class="projects-page-label projects-page-label--dark">{technical.eyebrow}</p>
+      <h2 id="projects-technical-title">{technical.title}</h2>
+      <p>{technical.summary}</p>
+    </div>
+
+    <div class="projects-technical__grid">
+      {
+        technical.items.map((item) => (
+          <article class="projects-technical-note" data-motion="reveal">
+            <p>{item.label}</p>
+            <h3>{item.title}</h3>
+            <span>{item.summary}</span>
+          </article>
+        ))
+      }
+    </div>
+  </Container>
+</section>

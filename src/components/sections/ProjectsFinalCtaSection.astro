@@ -1,0 +1,30 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const cta = translations.projectsWorkNarrative.finalCta;
+const skillsPath = getPagePath(language, "skills");
+const contactPath = getPagePath(language, "contact");
+---
+
+<section class="projects-final-section" aria-labelledby="projects-final-title">
+  <Container size="wide" class="projects-final">
+    <div class="projects-final__copy">
+      <p class="projects-page-label">{cta.eyebrow}</p>
+      <h2 id="projects-final-title">{cta.title}</h2>
+      <p>{cta.summary}</p>
+    </div>
+
+    <div class="projects-final__actions">
+      <ButtonLink href={skillsPath}>{cta.primaryLabel}</ButtonLink>
+      <ButtonLink href={contactPath} variant="secondary">{cta.secondaryLabel}</ButtonLink>
+    </div>
+  </Container>
+</section>

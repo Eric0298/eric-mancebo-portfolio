@@ -2,8 +2,7 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AboutSection from "../sections/AboutSection.astro";
-import CvSection from "../sections/CvSection.astro";
+import AboutStorySection from "../sections/AboutStorySection.astro";
 import PageHero from "../sections/PageHero.astro";
 
 interface Props {
@@ -24,6 +23,5 @@ const page = translations.pages.about;
   description={page.metaDescription}
 >
   <PageHero page={page} pageKey="about" />
-  <AboutSection translations={translations} />
-  <CvSection translations={translations} />
+  <AboutStorySection translations={translations} />
 </BaseLayout>

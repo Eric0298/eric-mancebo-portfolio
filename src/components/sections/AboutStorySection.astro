@@ -1,0 +1,49 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+---
+
+<section class="chapter-section chapter-section--about" aria-labelledby="about-story-title">
+  <Container size="wide" class="about-story">
+    <div class="about-story__lead" data-motion="reveal">
+      <p class="chapter-label">{translations.aboutPage.chapterLabel}</p>
+      <h2 id="about-story-title">{translations.sections.about.title}</h2>
+      <p>{translations.sections.about.summary}</p>
+      <p class="chapter-annotation">{translations.pages.about.annotation}</p>
+    </div>
+
+    <ol class="about-story__notes" data-motion="reveal">
+      {translations.aboutPage.notes.map((note, index) => (
+        <li>
+          <article>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <p>{note.label}</p>
+            <h3>{note.title}</h3>
+            <small>{note.summary}</small>
+          </article>
+        </li>
+      ))}
+    </ol>
+
+    <div class="about-story__cv" data-motion="reveal">
+      {translations.cv.milestones.map((milestone) => (
+        <article>
+          <p>{milestone.label}</p>
+          <h3>{milestone.title}</h3>
+          <span>{milestone.summary}</span>
+        </article>
+      ))}
+    </div>
+
+    <aside class="about-story__final" data-motion="reveal">
+      <h2>{translations.aboutPage.finalNote.title}</h2>
+      <p>{translations.aboutPage.finalNote.summary}</p>
+    </aside>
+  </Container>
+</section>

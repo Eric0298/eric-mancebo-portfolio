@@ -1,0 +1,25 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+
+interface Props {
+  process: TranslationDictionary["skillsPage"]["process"];
+}
+
+const { process } = Astro.props;
+const animatedSteps = [...process.steps, ...process.steps];
+---
+
+<div class="phone-process-pipeline" aria-hidden="true">
+  <div class="phone-process-pipeline__scan"></div>
+  <div class="phone-process-pipeline__track">
+    {animatedSteps.map((step, index) => (
+      <span aria-hidden={index >= process.steps.length ? "true" : undefined}>
+        <b>{step}</b>
+        <i></i>
+      </span>
+    ))}
+  </div>
+  <div class="phone-process-pipeline__dots">
+    {process.steps.map((step) => <span aria-label={step}></span>)}
+  </div>
+</div>

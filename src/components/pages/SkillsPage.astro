@@ -2,10 +2,14 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import BackendArchitectureSection from "../sections/BackendArchitectureSection.astro";
-import PageHero from "../sections/PageHero.astro";
-import SeoPerformanceSecuritySection from "../sections/SeoPerformanceSecuritySection.astro";
-import SkillMatrixSection from "../sections/SkillMatrixSection.astro";
+import SkillsCapabilityMapSection from "../sections/SkillsCapabilityMapSection.astro";
+import SkillsCategoryMapSection from "../sections/SkillsCategoryMapSection.astro";
+import SkillsEvidenceSection from "../sections/SkillsEvidenceSection.astro";
+import SkillsFinalCtaSection from "../sections/SkillsFinalCtaSection.astro";
+import SkillsNotebookHero from "../sections/SkillsNotebookHero.astro";
+import SkillsPositioningSection from "../sections/SkillsPositioningSection.astro";
+import SkillsProcessDeviceSection from "../sections/SkillsProcessDeviceSection.astro";
+import "../../styles/skills.css";
 
 interface Props {
   language: Language;
@@ -24,8 +28,13 @@ const page = translations.pages.skills;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <PageHero page={page} pageKey="skills" />
-  <SkillMatrixSection translations={translations} />
-  <BackendArchitectureSection translations={translations} />
-  <SeoPerformanceSecuritySection translations={translations} />
+  <div class="skills-notebook-page">
+    <SkillsNotebookHero language={language} translations={translations} />
+    <SkillsPositioningSection translations={translations} />
+    <SkillsCapabilityMapSection translations={translations} />
+    <SkillsCategoryMapSection translations={translations} />
+    <SkillsProcessDeviceSection translations={translations} />
+    <SkillsEvidenceSection translations={translations} />
+    <SkillsFinalCtaSection language={language} translations={translations} />
+  </div>
 </BaseLayout>

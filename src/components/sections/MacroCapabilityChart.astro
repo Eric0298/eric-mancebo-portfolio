@@ -1,0 +1,26 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+
+interface Props {
+  chart: TranslationDictionary["skillsPage"]["macroCapabilityChart"];
+}
+
+const { chart } = Astro.props;
+---
+
+<div class="macro-capability-chart" aria-label={chart.ariaLabel} data-motion="reveal">
+  <div class="macro-capability-chart__sheet">
+    <div class="macro-capability-chart__center">
+      <strong>{chart.centerLabel}</strong>
+      <span>{chart.centerNote}</span>
+    </div>
+    <ul>
+      {chart.nodes.map((node, index) => (
+        <li style={`--capability-node-index: ${index}`}>
+          <strong>{node.label}</strong>
+          <span>{node.note}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>

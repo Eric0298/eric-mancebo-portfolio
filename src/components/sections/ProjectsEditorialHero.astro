@@ -1,0 +1,66 @@
+---
+import type { Language, TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const intro = translations.projectsIntroHero;
+const marqueeItems = [...intro.technicalLabels, ...intro.technicalLabels];
+const mockupItems = [...intro.mockups, ...intro.mockups];
+const selectedWorkAnchor = "#selected-work";
+---
+
+<section class="projects-editorial-hero" aria-labelledby="projects-editorial-title">
+  <Container size="wide" class="projects-editorial-hero__inner">
+    <div class="projects-editorial-hero__center" data-motion="reveal">
+      <p class="projects-editorial-hero__eyebrow">{intro.eyebrow}</p>
+      <h1 id="projects-editorial-title">{intro.title}</h1>
+      <div class="projects-editorial-hero__actions">
+        <ButtonLink href={selectedWorkAnchor}>{intro.ctaLabel}</ButtonLink>
+      </div>
+    </div>
+
+    <div class="projects-label-marquee" aria-label={intro.marqueeLabel} data-motion="reveal">
+      <div class="projects-label-marquee__track">
+        {
+          marqueeItems.map((label, index) => (
+            <span aria-hidden={index >= intro.technicalLabels.length ? "true" : undefined}>{label}</span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="projects-mockup-strip" aria-label={intro.mockupStripLabel} data-motion="reveal">
+      <div class="projects-mockup-strip__track">
+        {
+          mockupItems.map((project, index) => (
+            <article
+              class="project-mockup-card"
+              aria-hidden={index >= intro.mockups.length ? "true" : undefined}
+            >
+              <div class="project-mockup-card__chrome" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="project-mockup-card__body">
+                <div class="project-mockup-card__frame">
+                  <span>{project.placeholder}</span>
+                </div>
+                <h2>{project.name}</h2>
+                <ul class="project-mockup-card__stack">
+                  {project.stack.slice(0, 3).map((item) => <li>{item}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </Container>
+</section>

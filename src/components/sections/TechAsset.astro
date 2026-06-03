@@ -1,0 +1,22 @@
+---
+import { getTechAssetSrc } from "./techAssets";
+
+interface Props {
+  tech: string;
+  variant?: "hero" | "board" | "tag";
+}
+
+const { tech, variant = "tag" } = Astro.props;
+const src = getTechAssetSrc(tech);
+---
+
+{src && (
+  <img
+    class:list={["tech-asset", "skill-asset-sticker", `tech-asset--${variant}`]}
+    src={src}
+    alt=""
+    loading="lazy"
+    decoding="async"
+    aria-hidden="true"
+  />
+)}

@@ -174,6 +174,284 @@ export interface TranslationDictionary {
       secondaryLabel: string;
     };
   };
+  projectsPage: {
+    flagshipLabel: string;
+    galleryLabel: string;
+    technicalPanel: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      note: string;
+    };
+    finalCta: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      primaryLabel: string;
+      secondaryLabel: string;
+    };
+  };
+  projectsIntroHero: {
+    eyebrow: string;
+    title: string;
+    summary: string;
+    annotation: string;
+    ctaLabel: string;
+    marqueeLabel: string;
+    mockupStripLabel: string;
+    technicalLabels: string[];
+    mockups: Array<{
+      name: string;
+      status: string;
+      category: string;
+      summary: string;
+      stack: string[];
+      placeholder: string;
+      annotation: string;
+    }>;
+  };
+  projectsFeaturedCarousel: {
+    title: string;
+    ariaLabel: string;
+    previousLabel: string;
+    nextLabel: string;
+    placeholderLabel: string;
+    items: Array<{
+      name: string;
+      status: string;
+      description: string;
+      tags: string[];
+      isActive?: boolean;
+    }>;
+  };
+  projectsWorkNarrative: {
+    value: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      annotation: string;
+    };
+    separator: {
+      ariaLabel: string;
+      line: string;
+      items: string[];
+    };
+    services: {
+      eyebrow: string;
+      title: string;
+      items: Array<{
+        index: string;
+        title: string;
+        summary: string;
+        tags: string[];
+        annotation: string;
+        visualItems: string[];
+        layout: "text-left" | "text-right";
+      }>;
+    };
+    technical: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      items: Array<{
+        label: string;
+        title: string;
+        summary: string;
+      }>;
+    };
+    mosaicCta: {
+      ariaLabel: string;
+      eyebrow: string;
+      title: string;
+      summary: string;
+      primaryLabel: string;
+      secondaryLabel: string;
+      annotation: string;
+      fragments: string[];
+    };
+    faq: {
+      title: string;
+      ariaLabel: string;
+      items: Array<{
+        question: string;
+        answer: string;
+      }>;
+    };
+    finalCta: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      primaryLabel: string;
+      secondaryLabel: string;
+    };
+  };
+  skillsPage: {
+    inspectionLabel: string;
+    hero: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      annotation: string;
+      primaryLabel: string;
+      secondaryLabel: string;
+      tickerItems: string[];
+      stickers: Array<{
+        label: string;
+        detail: string;
+        tone: "yellow" | "green" | "coral" | "lilac" | "white";
+      }>;
+    };
+    positioning: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      annotation: string;
+      principles: Array<{
+        label: string;
+        title: string;
+        summary: string;
+      }>;
+    };
+    capability: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      groups: Array<{
+        label: string;
+        title: string;
+        summary: string;
+        tone: "applied" | "consolidation" | "learning";
+        items: string[];
+      }>;
+      supporting: {
+        label: string;
+        items: string[];
+      };
+    };
+    stackStateBoard: {
+      ariaLabel: string;
+      groups: Array<{
+        state: string;
+        summary: string;
+        tone: "applied" | "consolidation" | "learning" | "work";
+        items: Array<{
+          name: string;
+          note: string;
+        }>;
+      }>;
+    };
+    macroCapabilityChart: {
+      ariaLabel: string;
+      centerLabel: string;
+      centerNote: string;
+      nodes: Array<{
+        label: string;
+        note: string;
+      }>;
+    };
+    technicalDistributionChart: {
+      ariaLabel: string;
+      eyebrow: string;
+      title: string;
+      summary: string;
+      centerValue: string;
+      centerLabel: string;
+      items: Array<{
+        label: string;
+        percent: number;
+        note: string;
+      }>;
+    };
+    categories: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      items: Array<{
+        label: string;
+        title: string;
+        summary: string;
+        note: string;
+        variant: "paper" | "graphite" | "marker" | "blueprint";
+        stack: string[];
+        signals: string[];
+      }>;
+    };
+    process: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      steps: string[];
+      annotations: string[];
+    };
+    evidence: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      projectLabel: string;
+      items: Array<{
+        name: string;
+        status: string;
+        summary: string;
+        stack: string[];
+      }>;
+    };
+    finalCta: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      projectsLabel: string;
+      aboutLabel: string;
+      contactLabel: string;
+    };
+    depthPanel: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+    };
+    questionBlocks: Array<{
+      question: string;
+      answer: string;
+    }>;
+  };
+  automationPage: {
+    mapLabel: string;
+    connectorLabel: string;
+    handoffPanel: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+    };
+    finalCta: {
+      title: string;
+      summary: string;
+      label: string;
+    };
+  };
+  aboutPage: {
+    chapterLabel: string;
+    notes: Array<{
+      label: string;
+      title: string;
+      summary: string;
+    }>;
+    finalNote: {
+      title: string;
+      summary: string;
+    };
+  };
+  contactPage: {
+    intro: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+    };
+    securityPanel: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+    };
+    channelNote: string;
+  };
   sections: Record<Section["key"], Section>;
   hero: {
     actions: {

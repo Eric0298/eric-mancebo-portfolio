@@ -2,8 +2,7 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ChatbotPreviewSection from "../sections/ChatbotPreviewSection.astro";
-import ContactHubSection from "../sections/ContactHubSection.astro";
+import ContactNotebookSection from "../sections/ContactNotebookSection.astro";
 import PageHero from "../sections/PageHero.astro";
 
 interface Props {
@@ -24,6 +23,5 @@ const page = translations.pages.contact;
   description={page.metaDescription}
 >
   <PageHero page={page} pageKey="contact" />
-  <ContactHubSection translations={translations} />
-  <ChatbotPreviewSection translations={translations} />
+  <ContactNotebookSection translations={translations} />
 </BaseLayout>

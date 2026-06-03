@@ -1,0 +1,22 @@
+---
+interface Props {
+  label: string;
+  note?: string;
+  variant?: "compact" | "board";
+}
+
+const { label, note, variant = "compact" } = Astro.props;
+const tones = ["yellow", "mint", "lilac", "peach", "white", "blue"];
+const toneIndex = [...label].reduce((sum, character) => sum + character.charCodeAt(0), 0) % tones.length;
+const rotation = (((toneIndex + label.length) % 5) - 2) * 0.7;
+---
+
+<span
+  class:list={["skill-paper-tag", `skill-paper-tag--${tones[toneIndex]}`, `skill-paper-tag--${variant}`]}
+  style={`--skill-paper-tag-rotation: ${rotation.toFixed(1)}deg`}
+>
+  <span class="skill-paper-tag__tape" aria-hidden="true"></span>
+  <strong>{label}</strong>
+  {note && <small class="skill-handwritten-description">{note}</small>}
+</span>
+

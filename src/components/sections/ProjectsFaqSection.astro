@@ -1,0 +1,31 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const faq = translations.projectsWorkNarrative.faq;
+---
+
+<section class="projects-faq-section" aria-labelledby="projects-faq-title">
+  <Container size="wide" class="projects-faq">
+    <h2 id="projects-faq-title">{faq.title}</h2>
+
+    <div class="projects-faq__list" aria-label={faq.ariaLabel}>
+      {
+        faq.items.map((item) => (
+          <details class="projects-faq-row">
+            <summary>
+              <span>{item.question}</span>
+              <span aria-hidden="true">&rarr;</span>
+            </summary>
+            <p>{item.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </Container>
+</section>
