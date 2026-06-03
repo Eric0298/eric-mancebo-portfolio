@@ -19,8 +19,15 @@ const homePath = getPagePath(language, "home");
 <header class="site-header">
   <Container size="wide" class="site-header__inner">
     <a class="site-header__brand" href={homePath} aria-label={translations.layout.homeLabel}>
-      <span>{siteConfig.personName}</span>
-      <small>{translations.metadata.role}</small>
+      <img
+        class="site-header__logo"
+        src="/images/logo/Logo-Eric-Mancebo-SinFondo.png"
+        alt={siteConfig.personName}
+        width="1672"
+        height="941"
+        loading="eager"
+        decoding="async"
+      />
     </a>
 
     <nav class="site-header__nav" aria-label={translations.navigation.primaryLabel}>

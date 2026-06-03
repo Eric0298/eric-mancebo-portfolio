@@ -6,20 +6,96 @@ interface Props {
 }
 
 const { process } = Astro.props;
-const animatedSteps = [...process.steps, ...process.steps];
+const diagram = process.systemDiagram;
+const connectionPaths = [
+  "M500 207 C410 190 300 118 180 76",
+  "M500 207 C470 164 420 100 370 68",
+  "M500 207 C530 164 580 100 630 68",
+  "M500 207 C590 190 700 118 820 76",
+  "M500 207 C408 226 286 284 178 334",
+  "M500 207 C464 258 418 320 365 346",
+  "M500 207 C536 258 594 320 650 346",
+  "M500 207 C592 226 714 284 822 334",
+];
+const cycleSeconds = 6.4;
+const pulseDuration = 1.8;
+const pulseStep = cycleSeconds / connectionPaths.length;
 ---
 
-<div class="phone-process-pipeline" aria-hidden="true">
+<div class="phone-process-pipeline phone-system-diagram" aria-hidden="true">
   <div class="phone-process-pipeline__scan"></div>
-  <div class="phone-process-pipeline__track">
-    {animatedSteps.map((step, index) => (
-      <span aria-hidden={index >= process.steps.length ? "true" : undefined}>
-        <b>{step}</b>
-        <i></i>
+
+  <div class="phone-system-diagram__statusbar">
+    <span class="phone-system-diagram__led"></span>
+    <span class="phone-system-diagram__status">{diagram.status}</span>
+    <span class="phone-system-diagram__uptime">{diagram.uptime}</span>
+  </div>
+
+  <svg class="phone-system-diagram__network" viewBox="0 0 1000 414" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <linearGradient id="phone-system-line" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="hsl(210 74% 44%)" stop-opacity="0.65" />
+        <stop offset="100%" stop-color="hsl(210 74% 44%)" stop-opacity="0.18" />
+      </linearGradient>
+    </defs>
+    {connectionPaths.map((path, index) => (
+      <path
+        class:list={["phone-system-diagram__line", `phone-system-diagram__line--${index + 1}`]}
+        d={path}
+        style={`--line-index: ${index}`}
+      />
+    ))}
+    {connectionPaths.map((path, index) => (
+      <circle class="phone-system-diagram__pulse" r="4">
+        <animateMotion
+          dur={`${pulseDuration}s`}
+          repeatCount="indefinite"
+          begin={`${(index * pulseStep).toFixed(2)}s`}
+          path={path}
+          rotate="auto"
+          calcMode="spline"
+          keyTimes="0;1"
+          keySplines="0.45 0 0.25 1"
+        />
+        <animate
+          attributeName="opacity"
+          values="0;1;1;0"
+          keyTimes="0;0.15;0.78;1"
+          dur={`${pulseDuration}s`}
+          begin={`${(index * pulseStep).toFixed(2)}s`}
+          repeatCount="indefinite"
+        />
+      </circle>
+    ))}
+  </svg>
+
+  <div class="phone-system-diagram__center">
+    <span class="phone-system-diagram__center-ring" aria-hidden="true"></span>
+    <strong>{diagram.center}</strong>
+    <span class="phone-system-diagram__center-tab" aria-hidden="true"></span>
+  </div>
+
+  <div class="phone-system-diagram__modules">
+    {diagram.modules.map((module, index) => (
+      <span
+        class:list={["phone-system-diagram__module", `phone-system-diagram__module--${index + 1}`]}
+        style={`--module-index: ${index}; --cycle: ${cycleSeconds}s; --step: ${pulseStep}s;`}
+      >
+        <i class="phone-system-diagram__module-dot" aria-hidden="true"></i>
+        {module}
       </span>
     ))}
   </div>
-  <div class="phone-process-pipeline__dots">
-    {process.steps.map((step) => <span aria-label={step}></span>)}
+
+  <div class="phone-system-diagram__log">
+    {diagram.microLabels.map((label, index) => (
+      <span
+        class="phone-system-diagram__log-entry"
+        style={`--log-index: ${index}; --cycle: ${cycleSeconds}s; --step: ${pulseStep}s;`}
+      >
+        <i aria-hidden="true">›</i>
+        <b>{label}</b>
+      </span>
+    ))}
   </div>
 </div>

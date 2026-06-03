@@ -382,6 +382,13 @@ export interface TranslationDictionary {
       summary: string;
       steps: string[];
       annotations: string[];
+      systemDiagram: {
+        center: string;
+        modules: string[];
+        microLabels: string[];
+        status: string;
+        uptime: string;
+      };
     };
     evidence: {
       eyebrow: string;

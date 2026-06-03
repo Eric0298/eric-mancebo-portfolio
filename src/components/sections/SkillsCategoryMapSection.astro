@@ -18,10 +18,22 @@ const signalNoteTones = ["green", "purple", "yellow", "blue", "red", "green"] as
 
 <section class="skills-category-section" aria-labelledby="skills-category-title">
   <Container size="wide" class="skills-category">
-    <div class="skills-section-intro skills-section-intro--right" data-motion="reveal">
-      <p class="skills-page-eyebrow">{categories.eyebrow}</p>
-      <h2 id="skills-category-title">{categories.title}</h2>
-      <p>{categories.summary}</p>
+    <div class="skills-category-heading" data-motion="reveal">
+      <img
+        class="skills-category-heading__diagram"
+        src="/images/skills/DiagramSkills.png"
+        alt=""
+        width="1254"
+        height="1254"
+        loading="lazy"
+        decoding="async"
+        aria-hidden="true"
+      />
+      <div class="skills-section-intro skills-section-intro--right skills-category-heading__copy">
+        <p class="skills-page-eyebrow">{categories.eyebrow}</p>
+        <h2 id="skills-category-title">{categories.title}</h2>
+        <p>{categories.summary}</p>
+      </div>
     </div>
 
     <TechnicalDistributionChart chart={translations.skillsPage.technicalDistributionChart} />
@@ -31,12 +43,14 @@ const signalNoteTones = ["green", "purple", "yellow", "blue", "red", "green"] as
         <article
           class:list={[
             "skills-category-card",
+            "skills-section-layout",
             `skills-category-card--${item.variant}`,
             index % 2 === 1 && "skills-category-card--offset",
+            index % 2 === 1 ? "skills-section-layout--postit-left" : "skills-section-layout--postit-right",
           ]}
           data-motion="reveal"
         >
-          <div class="skills-category-card__copy">
+          <div class="skills-category-card__copy skills-section-copy">
             <p class="skills-category-card__label">{item.label}</p>
             <h3>{item.title}</h3>
             <p>{item.summary}</p>
@@ -66,7 +80,9 @@ const signalNoteTones = ["green", "purple", "yellow", "blue", "red", "green"] as
                 );
               })}
             </ul>
-            <SkillSignalPostIt signals={item.signals} tone={signalNoteTones[index % signalNoteTones.length]} />
+            <div class="skills-category-card__signal-wrap skills-section-postit">
+              <SkillSignalPostIt signals={item.signals} tone={signalNoteTones[index % signalNoteTones.length]} />
+            </div>
           </div>
         </article>
       ))}

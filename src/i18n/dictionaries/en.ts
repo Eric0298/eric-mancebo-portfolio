@@ -487,6 +487,9 @@ export const en = {
         "Data",
         "Automation",
         "Applied AI",
+        "Architecture",
+        "Performance",
+        "Accessibility",
       ],
       stickers: [
         {
@@ -755,6 +758,13 @@ export const en = {
         "The stack matters because of how it moves across phases: a visual idea becomes connected to data, backend, deployment and useful automation.",
       steps: ["Design", "Frontend", "Backend", "Data", "Deploy", "Automation"],
       annotations: ["full flow", "no invisible jumps", "each phase leaves evidence"],
+      systemDiagram: {
+        center: "Digital product",
+        modules: ["Design", "Frontend", "Backend", "Data", "Deploy", "SEO", "Automation", "Applied AI"],
+        microLabels: ["Components", "APIs", "Validation", "PostgreSQL", "CI/CD", "Handoff", "Leads", "Notifications"],
+        status: "System online",
+        uptime: "99.4% · v3.2",
+      },
     },
     evidence: {
       eyebrow: "Connected evidence",

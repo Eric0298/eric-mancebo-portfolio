@@ -4251,3 +4251,1267 @@
     z-index: auto;
   }
 }
+
+/* Focused category post-it spacing: shared layout rhythm for the six notebook notes. */
+.skills-section-layout.skills-category-card {
+  --skills-section-block-gap: clamp(1.75rem, 7vw, 2.5rem);
+  --skills-section-column-gap: clamp(3rem, 6vw, 5.5rem);
+  --skills-section-note-size: clamp(15.5rem, 74vw, 20.5rem);
+  gap: var(--skills-section-block-gap);
+}
+
+.skills-section-copy {
+  max-inline-size: 41rem;
+}
+
+.skills-section-layout .skills-category-card__technical {
+  display: grid;
+  align-content: center;
+  gap: clamp(1.35rem, 3vw, 2.25rem);
+  min-inline-size: 0;
+}
+
+.skills-section-layout .skills-category-card__stack {
+  max-inline-size: min(100%, 30rem);
+}
+
+.skills-category-card__signal-wrap,
+.skills-section-postit {
+  display: grid;
+  inline-size: 100%;
+  max-inline-size: var(--skills-section-note-size);
+  min-inline-size: 0;
+}
+
+.skills-section-postit .skills-signal-postit {
+  inline-size: min(100%, var(--skills-section-note-size));
+  justify-self: center;
+}
+
+@media (min-width: 768px) {
+  .skills-section-layout.skills-category-card {
+    --skills-section-block-gap: clamp(1.8rem, 3vw, 2.6rem);
+    --skills-section-note-size: clamp(15.5rem, 22vw, 20.5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.82fr);
+    align-items: center;
+    column-gap: var(--skills-section-column-gap);
+    row-gap: var(--skills-section-block-gap);
+  }
+
+  .skills-section-layout.skills-category-card--offset {
+    grid-template-columns: minmax(16rem, 0.82fr) minmax(0, 1fr);
+  }
+
+  .skills-section-layout--postit-right .skills-section-copy {
+    justify-self: end;
+  }
+
+  .skills-section-layout--postit-left .skills-section-copy {
+    justify-self: start;
+  }
+
+  .skills-section-layout--postit-right .skills-category-card__technical {
+    justify-items: start;
+  }
+
+  .skills-section-layout--postit-left .skills-category-card__technical {
+    justify-items: end;
+  }
+
+  .skills-section-layout--postit-right .skills-category-card__stack {
+    justify-content: flex-start;
+  }
+
+  .skills-section-layout--postit-left .skills-category-card__stack {
+    justify-content: flex-end;
+  }
+
+  .skills-section-layout--postit-right .skills-section-postit {
+    justify-self: start;
+  }
+
+  .skills-section-layout--postit-left .skills-section-postit {
+    justify-self: end;
+  }
+
+  .skills-category-card--offset .skills-category-card__copy {
+    order: 2;
+  }
+
+  .skills-category-card--offset .skills-category-card__technical {
+    order: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .skills-section-layout.skills-category-card {
+    row-gap: clamp(1.5rem, 8vw, 2.5rem);
+  }
+
+  .skills-section-copy,
+  .skills-section-layout .skills-category-card__stack,
+  .skills-section-postit {
+    max-inline-size: 100%;
+  }
+
+  .skills-section-layout .skills-category-card__technical,
+  .skills-section-layout .skills-category-card__stack,
+  .skills-section-postit {
+    justify-content: center;
+    justify-items: center;
+  }
+}
+
+/* Focused phone process correction: simulator lives under the transparent device screen. */
+.skills-phone-stage--asset {
+  --phone-screen-left: 8.7%;
+  --phone-screen-top: 25.23%;
+  --phone-screen-width: 81.91%;
+  --phone-screen-height: 45.12%;
+  --phone-screen-radius: 75px;
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  inline-size: min(100%, 74rem);
+  margin-inline: auto;
+}
+
+.skills-phone-stage--asset .phone-process-pipeline {
+  position: absolute;
+  inset-inline-start: var(--phone-screen-left);
+  inset-block-start: var(--phone-screen-top);
+  z-index: 1;
+  inline-size: var(--phone-screen-width);
+  block-size: var(--phone-screen-height);
+  overflow: hidden;
+  border-radius: clamp(1.1rem, 5.18vw, var(--phone-screen-radius));
+  border-radius: clamp(1.05rem, 5.18cqw, var(--phone-screen-radius));
+  background:
+    linear-gradient(180deg, hsl(0 0% 100%), hsl(43 42% 98%));
+  box-shadow:
+    inset 0 0 0 1px hsl(0 0% 4% / 0.16),
+    inset 0 0.8rem 1.3rem hsl(0 0% 100% / 0.68),
+    inset 0 -0.9rem 1.4rem hsl(0 0% 4% / 0.08);
+}
+
+.skills-phone-stage--asset .skills-phone-stage__image--base {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.skills-phone-stage--asset .skills-phone-stage__image {
+  pointer-events: none;
+}
+
+.skills-phone-stage__frame {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .skills-phone-stage--asset {
+    inline-size: min(100%, 42rem);
+    margin-inline: auto;
+  }
+
+  .skills-phone-stage--asset .phone-process-pipeline {
+    border-radius: clamp(1rem, 5.18cqw, var(--phone-screen-radius));
+  }
+}
+
+/* Focused polish: laptop screen width, stronger ticker, and category diagram marker. */
+.layered-device--laptop {
+  --laptop-screen-x: 33.55%;
+  --laptop-screen-width: 45.95%;
+}
+
+.skills-laptop-screen__plane {
+  inset: -10% -11%;
+}
+
+.skills-laptop-screen__ticker {
+  display: flex;
+  align-items: center;
+  inline-size: max-content;
+  white-space: nowrap;
+  font-size: clamp(1.32rem, 3vw, 3.25rem);
+  font-weight: 1000;
+  letter-spacing: 0.018em;
+  line-height: 0.92;
+}
+
+.skills-laptop-screen__ticker span {
+  padding-inline: clamp(1.55rem, 3.4vw, 3.15rem);
+}
+
+.skills-category-heading {
+  display: grid;
+  align-items: center;
+  gap: clamp(var(--space-5), 4vw, var(--space-9, 2.25rem));
+}
+
+.skills-category-heading__diagram {
+  inline-size: clamp(8.5rem, 18vw, 14rem);
+  max-inline-size: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0.8rem 0.9rem hsl(0 0% 4% / 0.14))
+    drop-shadow(0 0.08rem 0 hsl(0 0% 100% / 0.46));
+  transform: rotate(-2.5deg);
+}
+
+.skills-category-heading__copy {
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .skills-category-heading {
+    grid-template-columns: minmax(8rem, 0.28fr) minmax(0, 1fr);
+    justify-items: start;
+    max-inline-size: 66rem;
+    margin-inline-start: auto;
+  }
+
+  .skills-category-heading__copy.skills-section-intro--right {
+    justify-self: stretch;
+  }
+}
+
+@media (max-width: 767px) {
+  .layered-device--laptop {
+    --laptop-screen-x: 33.55%;
+    --laptop-screen-width: 45.95%;
+  }
+
+  .skills-laptop-screen__ticker {
+    font-size: clamp(1rem, 5vw, 1.55rem);
+    letter-spacing: 0.012em;
+  }
+
+  .skills-laptop-screen__ticker span {
+    padding-inline: clamp(1rem, 5.6vw, 1.85rem);
+  }
+
+  .skills-category-heading {
+    justify-items: start;
+  }
+
+  .skills-category-heading__diagram {
+    inline-size: clamp(7.5rem, 38vw, 11rem);
+  }
+}
+
+/* Focused polish: laptop underlay and editorial ticker variation. */
+.layered-device__laptop-shell {
+  isolation: isolate;
+}
+
+.layered-device--laptop .skills-laptop-screen {
+  z-index: 1;
+}
+
+.layered-device__asset--laptop {
+  z-index: 3;
+  pointer-events: none;
+}
+
+.skills-laptop-screen__ticker {
+  gap: clamp(1.45rem, 3vw, 3rem);
+}
+
+.skills-laptop-screen__ticker span {
+  min-block-size: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(0.58rem, 1.25vw, 1.2rem);
+  padding-inline: clamp(1.5rem, 3vw, 2.8rem);
+  white-space: nowrap;
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-word {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--skills-ink);
+  font-family: var(--font-display);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.skills-laptop-screen__ticker-word--1,
+.skills-laptop-screen__ticker-word--4 {
+  font-size: 1.08em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--2,
+.skills-laptop-screen__ticker-word--5 {
+  font-family: var(--font-mono);
+  font-size: 0.62em;
+  font-weight: 900;
+  letter-spacing: 0.035em;
+}
+
+.skills-laptop-screen__ticker-word--3 {
+  font-size: 0.82em;
+  font-weight: 950;
+}
+
+.skills-laptop-screen__ticker-separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--skills-ink);
+  font-family: var(--font-display);
+  font-size: 0.62em;
+  font-weight: 950;
+  line-height: 1;
+  opacity: 0.72;
+  transform: translateY(-0.08em);
+}
+
+.skills-category-heading {
+  gap: clamp(var(--space-8), 6vw, var(--space-14, 3.5rem));
+}
+
+.skills-category-heading__diagram {
+  inline-size: clamp(11.9rem, 25vw, 19.6rem);
+}
+
+@media (min-width: 768px) {
+  .skills-category-heading {
+    grid-template-columns: minmax(11rem, 0.38fr) minmax(0, 1fr);
+    max-inline-size: 76rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .skills-laptop-screen__ticker {
+    gap: clamp(1rem, 6vw, 1.8rem);
+  }
+
+  .skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+    gap: clamp(0.4rem, 2.4vw, 0.72rem);
+    padding-inline: clamp(1rem, 5vw, 1.75rem);
+  }
+
+  .skills-laptop-screen__ticker-word--2,
+  .skills-laptop-screen__ticker-word--5 {
+    font-size: 0.66em;
+  }
+
+  .skills-category-heading {
+    gap: clamp(var(--space-5), 8vw, var(--space-8));
+  }
+
+  .skills-category-heading__diagram {
+    inline-size: clamp(10.5rem, 52vw, 15.4rem);
+  }
+}
+
+/* Living system diagram inside the phone screen — synced pulses, status bar, event log. */
+.phone-system-diagram {
+  display: block;
+  isolation: isolate;
+  color: var(--skills-ink);
+  background:
+    radial-gradient(circle at 50% 50%, hsl(210 74% 44% / 0.09), transparent 38%),
+    linear-gradient(90deg, hsl(210 46% 42% / 0.055) 1px, transparent 1px),
+    linear-gradient(hsl(210 46% 42% / 0.04) 1px, transparent 1px),
+    hsl(0 0% 100%);
+  background-size: auto, 1.55rem 1.55rem, 0.52rem 0.52rem, auto;
+}
+
+.phone-system-diagram__statusbar {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.32rem, 1cqw, 0.7rem);
+  padding: clamp(0.2rem, 0.6cqw, 0.42rem) clamp(0.55rem, 1.6cqw, 1.05rem);
+  border-block-end: 1px solid hsl(0 0% 4% / 0.14);
+  background:
+    linear-gradient(180deg, hsl(43 42% 98% / 0.95), hsl(0 0% 100% / 0.78));
+  font-family: var(--font-mono);
+  font-size: clamp(0.38rem, 0.85cqw, 0.62rem);
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.phone-system-diagram__led {
+  inline-size: clamp(0.32rem, 0.85cqw, 0.5rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: hsl(140 70% 42%);
+  box-shadow:
+    0 0 0.28rem hsl(140 70% 42% / 0.75),
+    inset 0 0 0 1px hsl(0 0% 4% / 0.3);
+  animation: phone-system-led-pulse 1.4s ease-in-out infinite;
+}
+
+.phone-system-diagram__status {
+  flex: 1;
+  min-inline-size: 0;
+  color: hsl(0 0% 4% / 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone-system-diagram__uptime {
+  color: hsl(0 0% 4% / 0.55);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.phone-system-diagram__network {
+  position: absolute;
+  inset: 5% 4%;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.phone-system-diagram__line {
+  fill: none;
+  stroke: hsl(210 74% 44% / 0.3);
+  stroke-dasharray: 6 9;
+  stroke-linecap: round;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+  animation: phone-system-line-flow 6.4s linear infinite;
+  animation-delay: calc(var(--line-index) * -800ms);
+}
+
+.phone-system-diagram__pulse {
+  fill: hsl(210 74% 44%);
+  filter:
+    drop-shadow(0 0 3px hsl(210 74% 44% / 0.95))
+    drop-shadow(0 0 6px hsl(210 74% 44% / 0.5));
+}
+
+.phone-system-diagram__center {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  z-index: 4;
+  display: grid;
+  inline-size: clamp(6.4rem, 16cqw, 11.2rem);
+  min-block-size: clamp(2.8rem, 7cqw, 4.7rem);
+  place-items: center;
+  border: 1px solid hsl(0 0% 4% / 0.72);
+  border-radius: 0.42rem;
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.94), hsl(43 42% 98% / 0.92));
+  box-shadow:
+    0.22rem 0.26rem 0 hsl(0 0% 4% / 0.2),
+    0 0.7rem 1.2rem hsl(0 0% 4% / 0.1);
+  padding: clamp(0.42rem, 1.2cqw, 0.86rem);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  animation: phone-system-center-breathe 5.8s ease-in-out infinite;
+}
+
+.phone-system-diagram__center strong {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(0.68rem, 1.65cqw, 1.12rem);
+  font-weight: 950;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.phone-system-diagram__center-ring {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 0.42rem;
+  border: 1.5px solid hsl(210 74% 44% / 0.62);
+  opacity: 0;
+  pointer-events: none;
+  animation: phone-system-center-ring 0.8s ease-out infinite;
+}
+
+.phone-system-diagram__center-tab {
+  position: absolute;
+  z-index: 2;
+  inset-block-start: -0.42rem;
+  inline-size: 3rem;
+  block-size: 0.6rem;
+  border: 1px solid hsl(0 0% 4% / 0.1);
+  background: hsl(49 93% 72% / 0.46);
+  transform: rotate(-2deg);
+}
+
+.phone-system-diagram__module {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.34rem;
+  min-inline-size: clamp(3.8rem, 9.2cqw, 7.3rem);
+  min-block-size: clamp(1.35rem, 3.2cqw, 2.25rem);
+  border: 1px solid hsl(0 0% 4% / 0.2);
+  border-radius: 0.38rem;
+  background:
+    linear-gradient(180deg, hsl(0 0% 100% / 0.82), hsl(0 0% 100% / 0.56)),
+    hsl(205 72% 86% / 0.62);
+  box-shadow:
+    0.12rem 0.15rem 0 hsl(0 0% 4% / 0.16),
+    inset 0 0 0 1px hsl(0 0% 100% / 0.54);
+  color: var(--skills-ink);
+  font-family: var(--font-mono);
+  font-size: clamp(0.46rem, 1.02cqw, 0.78rem);
+  font-weight: 900;
+  line-height: 1;
+  padding: 0.32rem 0.5rem;
+  text-transform: uppercase;
+  animation: phone-system-module-pulse var(--cycle, 6.4s) linear infinite;
+  animation-delay: calc(var(--module-index) * var(--step, 0.8s) + 1.55s - var(--cycle, 6.4s));
+}
+
+.phone-system-diagram__module-dot {
+  flex: 0 0 auto;
+  inline-size: clamp(0.22rem, 0.55cqw, 0.36rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: hsl(210 74% 44% / 0.4);
+  box-shadow: inset 0 0 0 1px hsl(0 0% 4% / 0.18);
+}
+
+.phone-system-diagram__module--1 {
+  inset-block-start: 9%;
+  inset-inline-start: 6%;
+}
+
+.phone-system-diagram__module--2 {
+  inset-block-start: 7%;
+  inset-inline-start: 29%;
+}
+
+.phone-system-diagram__module--3 {
+  inset-block-start: 7%;
+  inset-inline-end: 29%;
+}
+
+.phone-system-diagram__module--4 {
+  inset-block-start: 9%;
+  inset-inline-end: 6%;
+}
+
+.phone-system-diagram__module--5 {
+  inset-block-end: 9%;
+  inset-inline-start: 6%;
+}
+
+.phone-system-diagram__module--6 {
+  inset-block-end: 7%;
+  inset-inline-start: 28%;
+}
+
+.phone-system-diagram__module--7 {
+  inset-block-end: 7%;
+  inset-inline-end: 28%;
+}
+
+.phone-system-diagram__module--8 {
+  inset-block-end: 9%;
+  inset-inline-end: 6%;
+}
+
+.phone-system-diagram__log {
+  position: absolute;
+  inset-block-start: 61%;
+  inset-inline: 18%;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.18rem, 0.55cqw, 0.4rem);
+  pointer-events: none;
+}
+
+.phone-system-diagram__log-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.24rem;
+  overflow: hidden;
+  border: 1px solid hsl(0 0% 4% / 0.18);
+  border-radius: 0.26rem;
+  background: hsl(43 42% 98% / 0.82);
+  box-shadow: 0.08rem 0.1rem 0 hsl(0 0% 4% / 0.1);
+  color: hsl(0 0% 4% / 0.62);
+  font-family: var(--font-mono);
+  font-size: clamp(0.34rem, 0.78cqw, 0.58rem);
+  font-weight: 800;
+  line-height: 1;
+  padding: 0.22rem 0.32rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: phone-system-log-activate var(--cycle, 6.4s) linear infinite;
+  animation-delay: calc(var(--log-index) * var(--step, 0.8s));
+}
+
+.phone-system-diagram__log-entry i {
+  color: hsl(210 74% 44%);
+  font-style: normal;
+  font-weight: 950;
+  opacity: 0.7;
+}
+
+.phone-system-diagram__log-entry b {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  font-weight: inherit;
+  text-overflow: ellipsis;
+}
+
+.phone-system-diagram .phone-process-pipeline__scan {
+  z-index: 7;
+  background:
+    linear-gradient(112deg, transparent 0 24%, hsl(0 0% 100% / 0.62) 44%, transparent 64%),
+    repeating-linear-gradient(0deg, hsl(0 0% 4% / 0.028) 0 1px, transparent 1px 8px);
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+}
+
+@keyframes phone-system-line-flow {
+  to {
+    stroke-dashoffset: -60;
+  }
+}
+
+@keyframes phone-system-led-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow:
+      0 0 0.28rem hsl(140 70% 42% / 0.75),
+      inset 0 0 0 1px hsl(0 0% 4% / 0.3);
+  }
+
+  50% {
+    opacity: 0.55;
+    box-shadow:
+      0 0 0.55rem hsl(140 70% 42% / 0.9),
+      inset 0 0 0 1px hsl(0 0% 4% / 0.3);
+  }
+}
+
+@keyframes phone-system-center-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0.22rem 0.26rem 0 hsl(0 0% 4% / 0.2),
+      0 0.7rem 1.2rem hsl(0 0% 4% / 0.1);
+  }
+
+  50% {
+    box-shadow:
+      0.26rem 0.3rem 0 hsl(0 0% 4% / 0.2),
+      0 0.9rem 1.55rem hsl(210 74% 44% / 0.16);
+  }
+}
+
+@keyframes phone-system-center-ring {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.42);
+  }
+}
+
+@keyframes phone-system-module-pulse {
+  0%,
+  100% {
+    opacity: 0.78;
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.82), hsl(0 0% 100% / 0.56)),
+      hsl(205 72% 86% / 0.62);
+    translate: 0 0;
+  }
+
+  3%,
+  9% {
+    opacity: 1;
+    background:
+      linear-gradient(180deg, hsl(0 0% 100% / 0.96), hsl(210 74% 92% / 0.88)),
+      hsl(205 72% 86% / 0.62);
+    translate: 0 -0.08rem;
+  }
+
+  18% {
+    opacity: 0.92;
+    translate: 0 0;
+  }
+}
+
+@keyframes phone-system-log-activate {
+  0%,
+  100% {
+    opacity: 0.55;
+    color: hsl(0 0% 4% / 0.5);
+    background: hsl(43 42% 98% / 0.7);
+    box-shadow: 0.08rem 0.1rem 0 hsl(0 0% 4% / 0.1);
+  }
+
+  4%,
+  11% {
+    opacity: 1;
+    color: hsl(0 0% 4% / 0.92);
+    background: hsl(210 74% 95% / 0.95);
+    box-shadow:
+      0.08rem 0.1rem 0 hsl(0 0% 4% / 0.1),
+      inset 0 0 0 1px hsl(210 74% 44% / 0.4);
+  }
+
+  22% {
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: 767px) {
+  .phone-system-diagram__module {
+    min-inline-size: clamp(3rem, 16cqw, 5.4rem);
+    min-block-size: clamp(1.2rem, 5.4cqw, 1.8rem);
+    font-size: clamp(0.38rem, 2cqw, 0.58rem);
+    padding: 0.24rem 0.32rem;
+  }
+
+  .phone-system-diagram__center {
+    inline-size: clamp(5.2rem, 23cqw, 8rem);
+    min-block-size: clamp(2.25rem, 10cqw, 3.5rem);
+  }
+
+  .phone-system-diagram__center strong {
+    font-size: clamp(0.54rem, 2.65cqw, 0.82rem);
+  }
+
+  .phone-system-diagram__log {
+    inset-inline: 22%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .phone-system-diagram__log-entry:nth-child(n + 5) {
+    display: none;
+  }
+
+  .phone-system-diagram__uptime {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-system-diagram__line,
+  .phone-system-diagram__center,
+  .phone-system-diagram__center-ring,
+  .phone-system-diagram__module,
+  .phone-system-diagram__log-entry,
+  .phone-system-diagram__led {
+    animation: none;
+  }
+
+  .phone-system-diagram__pulse {
+    display: none;
+  }
+
+  .phone-system-diagram__center-ring {
+    opacity: 0;
+  }
+
+  .phone-system-diagram__module,
+  .phone-system-diagram__log-entry {
+    opacity: 0.95;
+  }
+}
+
+/* Final focused polish: chart breathing room, phone depth, diagram scale, and laptop motion typography. */
+.technical-distribution-chart {
+  padding-block: clamp(var(--space-10), 7vw, var(--space-16));
+  padding-inline: clamp(var(--space-7, 1.75rem), 6.5vw, var(--space-18, 4.5rem));
+}
+
+.technical-distribution-chart__body {
+  gap: clamp(var(--space-8), 7vw, var(--space-16));
+}
+
+.skills-phone-stage--asset .skills-phone-stage__image--base {
+  filter:
+    drop-shadow(0 0.45rem 0.3rem hsl(0 0% 4% / 0.08))
+    drop-shadow(0 1.45rem 1.35rem hsl(0 0% 4% / 0.16))
+    drop-shadow(0 2.8rem 3.2rem hsl(0 0% 4% / 0.12));
+}
+
+.skills-category-heading__diagram {
+  inline-size: clamp(14rem, 32vw, 26rem);
+}
+
+.skills-laptop-screen__ticker {
+  gap: clamp(1.6rem, 3.2vw, 3.4rem);
+  font-size: clamp(1.48rem, 3.5vw, 3.95rem);
+  letter-spacing: 0.008em;
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+  gap: clamp(0.54rem, 1.12vw, 1.08rem);
+  padding-inline: clamp(1.8rem, 3.6vw, 3.4rem);
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-word {
+  position: relative;
+  isolation: isolate;
+  color: var(--skills-ink);
+  text-shadow: 0 0.035em 0 hsl(0 0% 100% / 0.82);
+}
+
+.skills-laptop-screen__ticker-word--1 {
+  font-size: 1.32em;
+  font-weight: 1000;
+  letter-spacing: 0.005em;
+}
+
+.skills-laptop-screen__ticker-word--2 {
+  color: hsl(0 0% 4% / 0.76);
+  font-family: var(--font-mono);
+  font-size: 0.56em;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  transform: translateY(-0.16em);
+}
+
+.skills-laptop-screen__ticker-word--3 {
+  color: var(--color-blue-pen);
+  font-size: 0.88em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--4 {
+  font-size: 1.22em;
+  font-weight: 1000;
+  letter-spacing: 0.035em;
+  transform: translateY(0.08em);
+}
+
+.skills-laptop-screen__ticker-word--5 {
+  color: hsl(0 0% 4% / 0.68);
+  font-family: var(--font-mono);
+  font-size: 0.58em;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+}
+
+.skills-laptop-screen__ticker-word--6 {
+  color: hsl(10 76% 46%);
+  font-size: 1.1em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--7 {
+  color: hsl(259 52% 48%);
+  font-family: var(--font-mono);
+  font-size: 0.64em;
+  font-weight: 950;
+  letter-spacing: 0.04em;
+  transform: translateY(-0.1em);
+}
+
+.skills-laptop-screen__ticker-word--8 {
+  font-size: 1.24em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--9 {
+  color: var(--color-blue-pen);
+  font-size: 0.78em;
+  font-weight: 1000;
+  letter-spacing: 0.02em;
+}
+
+.skills-laptop-screen__ticker-word--10 {
+  color: hsl(156 42% 34%);
+  font-family: var(--font-mono);
+  font-size: 0.6em;
+  font-weight: 950;
+  letter-spacing: 0.045em;
+}
+
+.skills-laptop-screen__ticker-word--1::after,
+.skills-laptop-screen__ticker-word--6::after,
+.skills-laptop-screen__ticker-word--9::after {
+  content: "";
+  position: absolute;
+  inset-inline: -0.08em;
+  inset-block-end: -0.02em;
+  z-index: -1;
+  block-size: 0.22em;
+  background: hsl(49 93% 72% / 0.58);
+  transform: rotate(-1deg);
+}
+
+.skills-laptop-screen__ticker-separator {
+  color: hsl(0 0% 4% / 0.72);
+  font-size: 0.58em;
+  transform: translateY(-0.08em);
+}
+
+@media (max-width: 767px) {
+  .technical-distribution-chart {
+    padding-block: clamp(var(--space-7, 1.75rem), 8vw, var(--space-10));
+    padding-inline: clamp(var(--space-5), 6vw, var(--space-8));
+  }
+
+  .skills-category-heading__diagram {
+    inline-size: clamp(12rem, 64vw, 17rem);
+  }
+
+  .skills-laptop-screen__ticker {
+    font-size: clamp(1.06rem, 5.6vw, 1.76rem);
+    letter-spacing: 0.004em;
+  }
+
+  .skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+    gap: clamp(0.38rem, 2vw, 0.68rem);
+    padding-inline: clamp(1.2rem, 5.5vw, 2rem);
+  }
+
+  .skills-laptop-screen__ticker-word--2,
+  .skills-laptop-screen__ticker-word--5,
+  .skills-laptop-screen__ticker-word--7,
+  .skills-laptop-screen__ticker-word--10 {
+    font-size: 0.66em;
+  }
+}
+
+/* Focused correction: laptop screen becomes a layered editorial motion board. */
+.skills-laptop-screen__ticker {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: clamp(0.55rem, 1.5vw, 1.35rem);
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  padding: clamp(0.55rem, 1.45vw, 1.25rem) clamp(0.9rem, 2.7vw, 2.25rem);
+  color: var(--skills-ink);
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  line-height: 0.86;
+  text-transform: uppercase;
+  transform: none;
+  animation: none;
+}
+
+.skills-laptop-screen__ticker::before,
+.skills-laptop-screen__ticker::after {
+  content: "";
+  position: absolute;
+  inset-inline: 5%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.skills-laptop-screen__ticker::before {
+  inset-block-start: 12%;
+  block-size: clamp(0.55rem, 1.3vw, 1rem);
+  background: hsl(49 93% 72% / 0.42);
+  transform: rotate(-0.8deg);
+}
+
+.skills-laptop-screen__ticker::after {
+  inset-block-end: 15%;
+  border-block-end: 2px solid hsl(210 74% 44% / 0.28);
+  transform: rotate(0.65deg);
+}
+
+.skills-laptop-screen__ticker-row {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  inline-size: max-content;
+  max-inline-size: none;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.skills-laptop-screen__ticker-row--primary {
+  font-size: clamp(1.9rem, 5.2vw, 5.8rem);
+  font-weight: 1000;
+  animation: skills-laptop-ticker 22s linear infinite;
+}
+
+.skills-laptop-screen__ticker-row--secondary {
+  justify-self: end;
+  margin-inline-start: -24%;
+  font-size: clamp(0.9rem, 2.2vw, 2.35rem);
+  font-weight: 950;
+  letter-spacing: 0.045em;
+  animation: skills-laptop-ticker-reverse 29s linear infinite;
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-group,
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-word,
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-separator {
+  display: inline-flex;
+  align-items: baseline;
+  min-block-size: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+  flex: 0 0 auto;
+  gap: clamp(0.34rem, 0.9vw, 0.85rem);
+  padding-inline: clamp(1.35rem, 3.4vw, 3rem);
+}
+
+.skills-laptop-screen__ticker .skills-laptop-screen__ticker-word {
+  position: relative;
+  isolation: isolate;
+  color: var(--skills-ink);
+  line-height: 0.78;
+  text-shadow: 0 0.035em 0 hsl(0 0% 100% / 0.86);
+}
+
+.skills-laptop-screen__ticker-row--primary .skills-laptop-screen__ticker-word {
+  transform: translateY(0.01em);
+}
+
+.skills-laptop-screen__ticker-row--secondary .skills-laptop-screen__ticker-word {
+  line-height: 0.95;
+}
+
+.skills-laptop-screen__ticker-word--1 {
+  font-size: 1.24em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--2 {
+  color: hsl(0 0% 4% / 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.52em;
+  font-weight: 950;
+  letter-spacing: 0.06em;
+  transform: translateY(-0.16em);
+}
+
+.skills-laptop-screen__ticker-word--3 {
+  color: var(--color-blue-pen);
+  font-size: 0.9em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--4 {
+  color: hsl(0 0% 4% / 0.9);
+  font-size: 1.08em;
+  font-weight: 1000;
+  letter-spacing: 0.035em;
+}
+
+.skills-laptop-screen__ticker-word--5 {
+  color: hsl(156 42% 30%);
+  font-family: var(--font-mono);
+  font-size: 0.58em;
+  font-weight: 950;
+  letter-spacing: 0.05em;
+  transform: translateY(0.08em);
+}
+
+.skills-laptop-screen__ticker-word--6 {
+  color: hsl(10 76% 44%);
+  font-size: 1.34em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--7 {
+  color: hsl(0 0% 4% / 0.78);
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  font-weight: 950;
+}
+
+.skills-laptop-screen__ticker-word--8 {
+  color: hsl(259 52% 45%);
+  font-size: 1.18em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--9 {
+  color: var(--color-blue-pen);
+  font-size: 0.88em;
+  font-weight: 1000;
+}
+
+.skills-laptop-screen__ticker-word--10 {
+  color: hsl(0 0% 4% / 0.86);
+  font-family: var(--font-mono);
+  font-size: 0.76em;
+  font-weight: 950;
+  letter-spacing: 0.05em;
+}
+
+.skills-laptop-screen__ticker-word--1::after,
+.skills-laptop-screen__ticker-word--4::after,
+.skills-laptop-screen__ticker-word--6::after,
+.skills-laptop-screen__ticker-word--9::after {
+  content: "";
+  position: absolute;
+  inset-inline: -0.08em;
+  inset-block-end: -0.04em;
+  z-index: -1;
+  block-size: 0.22em;
+  background: hsl(49 93% 72% / 0.62);
+  transform: rotate(-1.4deg);
+}
+
+.skills-laptop-screen__ticker-separator {
+  color: hsl(0 0% 4% / 0.62);
+  font-family: var(--font-mono);
+  font-size: 0.42em;
+  font-weight: 950;
+  transform: translateY(-0.12em);
+}
+
+.skills-laptop-screen__ticker-row--secondary .skills-laptop-screen__ticker-separator {
+  color: hsl(210 74% 44% / 0.68);
+  font-size: 0.76em;
+  transform: translateY(-0.03em);
+}
+
+/* Focused correction: make the horizontal phone feel physically placed on paper. */
+.skills-phone-stage--asset {
+  overflow: visible;
+}
+
+.skills-phone-stage--asset::before {
+  inset: 20% 3.5% 3%;
+  z-index: 0;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 50% 76%, hsl(0 0% 4% / 0.28), transparent 62%),
+    radial-gradient(ellipse at 50% 52%, hsl(0 0% 4% / 0.16), transparent 70%);
+  filter: blur(22px);
+  opacity: 0.92;
+  transform: rotate(-1.25deg);
+}
+
+.skills-phone-stage--asset::after {
+  content: "";
+  position: absolute;
+  inset-inline: 7% 6%;
+  inset-block-end: 7%;
+  z-index: 0;
+  block-size: 17%;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, hsl(0 0% 4% / 0.3), transparent 68%);
+  filter: blur(20px);
+  opacity: 0.86;
+  transform: rotate(-1.6deg);
+  pointer-events: none;
+}
+
+.skills-phone-stage--asset .phone-process-pipeline {
+  z-index: 1;
+}
+
+.skills-phone-stage--asset .skills-phone-stage__image--base {
+  z-index: 2;
+  filter:
+    drop-shadow(0 0.7rem 0.55rem hsl(0 0% 4% / 0.16))
+    drop-shadow(0 1.6rem 1.45rem hsl(0 0% 4% / 0.2))
+    drop-shadow(0 3.4rem 3.9rem hsl(0 0% 4% / 0.17));
+}
+
+@keyframes skills-laptop-ticker-reverse {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  .skills-laptop-screen__ticker {
+    gap: clamp(0.35rem, 2.2vw, 0.72rem);
+    padding: clamp(0.42rem, 2.2vw, 0.75rem) clamp(0.62rem, 3vw, 1rem);
+  }
+
+  .skills-laptop-screen__ticker-row--primary {
+    font-size: clamp(1.05rem, 7.2vw, 2.35rem);
+  }
+
+  .skills-laptop-screen__ticker-row--secondary {
+    margin-inline-start: -18%;
+    font-size: clamp(0.62rem, 3.6vw, 1.08rem);
+    letter-spacing: 0.025em;
+  }
+
+  .skills-laptop-screen__ticker .skills-laptop-screen__ticker-group {
+    gap: clamp(0.24rem, 1.6vw, 0.44rem);
+    padding-inline: clamp(0.85rem, 5vw, 1.55rem);
+  }
+
+  .skills-phone-stage--asset::before {
+    filter: blur(16px);
+  }
+
+  .skills-phone-stage--asset::after {
+    filter: blur(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skills-laptop-screen__ticker-row {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Focused polish: make DiagramSkills a dominant supporting visual, not a small accessory. */
+.skills-category-heading {
+  gap: clamp(var(--space-8), 6vw, var(--space-16));
+}
+
+.skills-category-heading__diagram {
+  inline-size: clamp(21rem, 42vw, 40rem);
+}
+
+@media (min-width: 768px) {
+  .skills-category-heading {
+    grid-template-columns: minmax(20rem, 0.62fr) minmax(0, 0.9fr);
+    max-inline-size: min(100%, 84rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .skills-category-heading {
+    gap: clamp(var(--space-7, 1.75rem), 8vw, var(--space-10));
+    justify-items: center;
+  }
+
+  .skills-category-heading__diagram {
+    inline-size: clamp(16rem, 82vw, 23rem);
+    justify-self: center;
+  }
+}

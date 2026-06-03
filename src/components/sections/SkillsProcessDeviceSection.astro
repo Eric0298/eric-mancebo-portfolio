@@ -20,6 +20,7 @@ const process = translations.skillsPage.process;
     </div>
 
     <div class="skills-phone-stage skills-phone-stage--asset" data-motion="reveal">
+      <PhoneProcessPipeline process={process} />
       <img
         class="skills-phone-stage__image skills-phone-stage__image--base"
         src="/images/skills/phone-horizontal-device.png.png"
@@ -30,21 +31,6 @@ const process = translations.skillsPage.process;
         decoding="async"
         aria-hidden="true"
       />
-      <PhoneProcessPipeline process={process} />
-      <div class="skills-phone-stage__frame" aria-hidden="true">
-        {["top", "bottom", "left", "right"].map((side) => (
-          <img
-            class:list={["skills-phone-stage__image", "skills-phone-stage__image--frame", `skills-phone-stage__image--${side}`]}
-            src="/images/skills/phone-horizontal-device.png.png"
-            alt=""
-            width="1448"
-            height="1086"
-            loading="lazy"
-            decoding="async"
-            aria-hidden="true"
-          />
-        ))}
-      </div>
       <div class="skills-phone-annotations" aria-hidden="true">
         {process.annotations.map((annotation) => <span>{annotation}</span>)}
       </div>

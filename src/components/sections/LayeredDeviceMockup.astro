@@ -7,8 +7,15 @@ interface Props {
 
 const { ariaLabel, items, variant } = Astro.props;
 const isLaptop = variant === "laptop";
-const laptopTickerSequence = items.join(" · ");
-const repeatedItems = isLaptop ? [laptopTickerSequence, laptopTickerSequence] : [...items, ...items];
+const repeatedItems = isLaptop ? [] : [...items, ...items];
+const laptopTickerPrimary = [items[0], items[1], items[3], items[7], items[8]].filter(Boolean);
+const laptopTickerSecondary = [items[2], items[4], items[5], items[6], items[9]].filter(Boolean);
+const laptopTickerRows = [
+  { key: "primary", items: laptopTickerPrimary },
+  { key: "secondary", items: laptopTickerSecondary },
+];
+const getTickerWordClass = (index: number, rowIndex: number) =>
+  `skills-laptop-screen__ticker-word--${((index + rowIndex * 5) % 10) + 1}`;
 ---
 
 <div
@@ -33,6 +40,44 @@ const repeatedItems = isLaptop ? [laptopTickerSequence, laptopTickerSequence] : 
   <div class:list={["layered-device__device", `layered-device__device--${variant}`]} aria-hidden="true">
     {isLaptop ? (
       <div class="layered-device__laptop-shell">
+        <div class="skills-laptop-screen layered-device__screen">
+          <div class="skills-laptop-screen__glow"></div>
+          <div class="skills-laptop-screen__plane">
+            <div class="skills-laptop-screen__ticker">
+              {laptopTickerRows.map((row, rowIndex) => (
+                <div
+                  class:list={[
+                    "skills-laptop-screen__ticker-row",
+                    `skills-laptop-screen__ticker-row--${row.key}`,
+                  ]}
+                >
+                  {[row.items, row.items].map((tickerItems, passIndex) => (
+                    <span
+                      class="skills-laptop-screen__ticker-group"
+                      aria-hidden={passIndex > 0 ? "true" : undefined}
+                    >
+                      {tickerItems.map((item, itemIndex) => (
+                        <>
+                          <span
+                            class:list={[
+                              "skills-laptop-screen__ticker-word",
+                              getTickerWordClass(itemIndex, rowIndex),
+                            ]}
+                          >
+                            {item}
+                          </span>
+                          {itemIndex < tickerItems.length - 1 && (
+                            <span class="skills-laptop-screen__ticker-separator" aria-hidden="true">·</span>
+                          )}
+                        </>
+                      ))}
+                    </span>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
         <img
           class="layered-device__asset layered-device__asset--laptop"
           src="/images/skills/laptop-device.png.png"
@@ -44,18 +89,6 @@ const repeatedItems = isLaptop ? [laptopTickerSequence, laptopTickerSequence] : 
           fetchpriority="high"
           aria-hidden="true"
         />
-        <div class="skills-laptop-screen layered-device__screen">
-          <div class="skills-laptop-screen__glow"></div>
-          <div class="skills-laptop-screen__plane">
-            <div class="skills-laptop-screen__ticker">
-              {repeatedItems.map((item, index) => (
-                <span aria-hidden={isLaptop ? (index > 0 ? "true" : undefined) : index >= items.length ? "true" : undefined}>
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
     ) : (
       <div class="layered-device__phone-frame">

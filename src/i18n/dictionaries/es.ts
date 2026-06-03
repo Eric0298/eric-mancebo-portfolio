@@ -488,6 +488,9 @@ export const es = {
         "Datos",
         "Automatización",
         "IA aplicada",
+        "Arquitectura",
+        "Performance",
+        "Accesibilidad",
       ],
       stickers: [
         {
@@ -756,6 +759,13 @@ export const es = {
         "El stack importa por cómo se mueve entre fases: una idea visual termina conectada a datos, backend, despliegue y automatización útil.",
       steps: ["Diseño", "Frontend", "Backend", "Datos", "Deploy", "Automatización"],
       annotations: ["flujo completo", "sin saltos invisibles", "cada fase deja evidencia"],
+      systemDiagram: {
+        center: "Producto digital",
+        modules: ["Diseño", "Frontend", "Backend", "Datos", "Deploy", "SEO", "Automatización", "IA aplicada"],
+        microLabels: ["Componentes", "APIs", "Validación", "PostgreSQL", "CI/CD", "Handoff", "Leads", "Notificaciones"],
+        status: "Sistema en vivo",
+        uptime: "99.4% · v3.2",
+      },
     },
     evidence: {
       eyebrow: "Evidencia conectada",
