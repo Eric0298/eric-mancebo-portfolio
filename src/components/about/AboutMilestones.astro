@@ -1,0 +1,158 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import AboutMilestoneHoverCard from "./AboutMilestoneHoverCard.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const timeline = translations.aboutPage.timeline;
+---
+
+<section class="about-milestones" aria-labelledby="about-milestones-title" data-about-milestones>
+  <Container size="wide" class="about-milestones__inner">
+    <div class="about-milestones__intro" data-motion="reveal">
+      <p class="about-kicker">{timeline.eyebrow}</p>
+      <h2 id="about-milestones-title">{timeline.title}</h2>
+      <p>{timeline.summary}</p>
+    </div>
+
+    <div class="about-milestones__explorer">
+      <ol class="about-milestones__list">
+        {timeline.items.map((item, index) => (
+          <li data-motion="reveal">
+            <article
+              class:list={["about-milestone-row", index === 0 && "is-active"]}
+              tabindex="0"
+              data-milestone-row
+              data-milestone-index={String(index)}
+              aria-current={index === 0 ? "step" : undefined}
+            >
+              <p class="about-milestone-row__label">{item.label}</p>
+              <h3 class="about-milestone-row__title">{item.title}</h3>
+              <p class="about-milestone-row__summary">{item.summary}</p>
+              <AboutMilestoneHoverCard
+                label={item.visualLabel}
+                note={item.visualNote}
+                index={index}
+                mode="inline"
+              />
+            </article>
+          </li>
+        ))}
+      </ol>
+
+      <div class="about-milestones__media-stage" aria-hidden="true">
+        {timeline.items.map((item, index) => (
+          <AboutMilestoneHoverCard
+            label={item.visualLabel}
+            note={item.visualNote}
+            index={index}
+            mode="desktop"
+            active={index === 0}
+          />
+        ))}
+      </div>
+
+      <div class="about-milestones__detail-stage" aria-live="polite">
+        {timeline.items.map((item, index) => (
+          <article
+            class:list={["about-milestone-detail", index === 0 && "is-active"]}
+            data-milestone-detail={String(index)}
+            aria-hidden={index === 0 ? "false" : "true"}
+          >
+            <p class="about-milestone-detail__label">{item.label}</p>
+            <h3>{item.title}</h3>
+            <p>{item.summary}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script is:inline type="module">
+  const milestoneControllers = new WeakMap();
+
+  function setupAboutMilestones(root) {
+    milestoneControllers.get(root)?.();
+
+    const rows = Array.from(root.querySelectorAll("[data-milestone-row]"));
+    const cards = Array.from(root.querySelectorAll("[data-milestone-card]"));
+    const details = Array.from(root.querySelectorAll("[data-milestone-detail]"));
+    const defaultIndex = 0;
+    const cleanups = [];
+
+    const setActive = (activeIndex) => {
+      rows.forEach((row, index) => {
+        const isActive = index === activeIndex;
+        row.classList.toggle("is-active", isActive);
+
+        if (isActive) {
+          row.setAttribute("aria-current", "step");
+        } else {
+          row.removeAttribute("aria-current");
+        }
+      });
+
+      cards.forEach((card) => {
+        card.classList.toggle("is-active", Number(card.dataset.milestoneCard) === activeIndex);
+      });
+
+      details.forEach((detail) => {
+        const isActive = Number(detail.dataset.milestoneDetail) === activeIndex;
+        detail.classList.toggle("is-active", isActive);
+        detail.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      root.style.setProperty("--active-milestone", String(activeIndex));
+    };
+
+    rows.forEach((row, index) => {
+      const activate = () => setActive(index);
+      const deactivate = () => {
+        if (!root.matches(":focus-within")) {
+          setActive(defaultIndex);
+        }
+      };
+      row.addEventListener("mouseenter", activate);
+      row.addEventListener("mouseleave", deactivate);
+      row.addEventListener("focusin", activate);
+      cleanups.push(() => row.removeEventListener("mouseenter", activate));
+      cleanups.push(() => row.removeEventListener("mouseleave", deactivate));
+      cleanups.push(() => row.removeEventListener("focusin", activate));
+    });
+
+    const resetOnLeave = () => setActive(defaultIndex);
+    const resetOnBlur = () => {
+      requestAnimationFrame(() => {
+        if (!root.contains(document.activeElement)) {
+          setActive(defaultIndex);
+        }
+      });
+    };
+
+    root.addEventListener("mouseleave", resetOnLeave);
+    root.addEventListener("focusout", resetOnBlur);
+    cleanups.push(() => root.removeEventListener("mouseleave", resetOnLeave));
+    cleanups.push(() => root.removeEventListener("focusout", resetOnBlur));
+
+    setActive(defaultIndex);
+    milestoneControllers.set(root, () => cleanups.forEach((cleanup) => cleanup()));
+  }
+
+  function initAboutMilestones(root = document) {
+    root.querySelectorAll("[data-about-milestones]").forEach(setupAboutMilestones);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initAboutMilestones(), { once: true });
+  } else {
+    initAboutMilestones();
+  }
+
+  document.addEventListener("astro:page-load", () => initAboutMilestones());
+  window.addEventListener("pageshow", () => initAboutMilestones());
+</script>

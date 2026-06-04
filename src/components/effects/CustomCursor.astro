@@ -1,0 +1,141 @@
+<div class="custom-cursor" aria-hidden="true">
+  <span class="custom-cursor__dot"></span>
+  <span class="custom-cursor__hand">
+    <svg viewBox="0 0 48 48" focusable="false" aria-hidden="true">
+      <path
+        d="M19.4 4.7c2.4 0 4.1 1.7 4.1 4.1v10.8l1.5-.8c1.7-.9 3.7-.3 4.6 1.1l.5.9 1.7-.9c1.7-.9 3.9-.3 4.8 1.2l.4.7 1.1-.5c2-.9 4.4 0 5.1 2.1.4 1.1.3 2.4-.2 3.5l-5.2 10.2c-2.1 4.1-6.3 6.8-11 6.8h-5.4c-3.5 0-6.8-1.5-9.2-4.1L5.1 32c-1.5-1.7-1.3-4.2.4-5.7 1.5-1.3 3.8-1.2 5.3.3l3.2 3.3V8.8c0-2.4 1.7-4.1 4.1-4.1h1.3Z"
+      />
+      <path
+        class="custom-cursor__hand-line"
+        d="M23.5 20.6v9.8M30 22.2v8.8M36.9 23.9l-2.1 7.6M14 30l4.5 4.5"
+      />
+    </svg>
+  </span>
+</div>
+
+<script>
+  (() => {
+    if (window.__portfolioCustomCursorReady) return;
+    window.__portfolioCustomCursorReady = true;
+
+    const cursor = document.querySelector(".custom-cursor");
+    const finePointerQuery = window.matchMedia("(pointer: fine)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!cursor || !finePointerQuery.matches || reducedMotionQuery.matches) {
+      cursor?.remove();
+      return;
+    }
+
+    const root = document.documentElement;
+    const interactiveSelector = [
+      "a[href]",
+      "button",
+      "[role='button']",
+      "summary",
+      "label",
+      "select",
+      "input[type='button']",
+      "input[type='submit']",
+      "input[type='reset']",
+      "input[type='checkbox']",
+      "input[type='radio']",
+      "[aria-haspopup]",
+      "[tabindex]:not([tabindex='-1'])",
+      ".project-card",
+      ".carousel-control",
+      ".language-switcher a",
+      "[data-cursor='hover']",
+    ].join(",");
+    const textSelector = [
+      "input:not([type])",
+      "input[type='text']",
+      "input[type='email']",
+      "input[type='search']",
+      "input[type='tel']",
+      "input[type='url']",
+      "input[type='password']",
+      "input[type='number']",
+      "textarea",
+      "[contenteditable]:not([contenteditable='false'])",
+    ].join(",");
+
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+    let frame = 0;
+    let visible = false;
+
+    const setState = (eventTarget) => {
+      const element = eventTarget instanceof Element ? eventTarget : null;
+      const isText = Boolean(element?.closest(textSelector));
+      const isHover = !isText && Boolean(element?.closest(interactiveSelector));
+
+      cursor.classList.toggle("is-text", isText);
+      cursor.classList.toggle("is-hover", isHover);
+    };
+
+    const render = () => {
+      currentX += (targetX - currentX) * 0.22;
+      currentY += (targetY - currentY) * 0.22;
+      cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+      frame = requestAnimationFrame(render);
+    };
+
+    const show = () => {
+      if (visible) return;
+      visible = true;
+      cursor.classList.add("is-visible");
+    };
+
+    const hide = () => {
+      visible = false;
+      cursor.classList.remove("is-visible", "is-hover", "is-pressed", "is-text");
+    };
+
+    const handlePointerMove = (event) => {
+      if (event.pointerType === "touch") return;
+      targetX = event.clientX;
+      targetY = event.clientY;
+      setState(event.target);
+      show();
+    };
+
+    const handlePointerDown = (event) => {
+      if (event.pointerType === "touch") return;
+      cursor.classList.add("is-pressed");
+    };
+
+    const handlePointerUp = () => {
+      cursor.classList.remove("is-pressed");
+    };
+
+    const disable = () => {
+      cancelAnimationFrame(frame);
+      root.removeAttribute("data-custom-cursor");
+      cursor.remove();
+      document.removeEventListener("pointermove", handlePointerMove);
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("pointerup", handlePointerUp);
+      document.removeEventListener("pointerleave", hide);
+      window.removeEventListener("blur", hide);
+    };
+
+    root.dataset.customCursor = "active";
+    frame = requestAnimationFrame(render);
+
+    document.addEventListener("pointermove", handlePointerMove, { passive: true });
+    document.addEventListener("pointerdown", handlePointerDown, { passive: true });
+    document.addEventListener("pointerup", handlePointerUp, { passive: true });
+    document.addEventListener("pointerleave", hide, { passive: true });
+    window.addEventListener("blur", hide);
+
+    finePointerQuery.addEventListener("change", () => {
+      if (!finePointerQuery.matches) disable();
+    });
+    reducedMotionQuery.addEventListener("change", () => {
+      if (reducedMotionQuery.matches) disable();
+    });
+  })();
+</script>

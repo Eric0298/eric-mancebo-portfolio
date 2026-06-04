@@ -1,0 +1,160 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import AboutPlaceholder from "./AboutPlaceholder.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const story = translations.aboutPage.horizontalStory;
+---
+
+<section class="about-horizontal" aria-labelledby="about-horizontal-title">
+  <Container size="wide" class="about-horizontal__inner">
+    <h2 id="about-horizontal-title" class="sr-only">{story.ariaLabel}</h2>
+    <div class="about-story-scroller" data-about-story-scroller data-horizontal="false">
+      <div class="about-story-scroller__sticky" data-story-viewport>
+        <div class="about-story-scroller__progress" aria-label={story.progressLabel} aria-hidden="true">
+          <span data-story-progress></span>
+        </div>
+        <div class="about-story-scroller__track" data-story-track>
+          {story.chapters.map((chapter) => (
+            <article
+              class:list={[
+                "about-story-card",
+                chapter.layout === "text-right" ? "about-story-card--text-right" : "about-story-card--text-left",
+              ]}
+              data-motion="reveal"
+            >
+              <div class="about-story-card__copy">
+                <p class="about-story-card__label">{chapter.label}</p>
+                <h3>{chapter.title}</h3>
+                <p>{chapter.summary}</p>
+              </div>
+              <AboutPlaceholder
+                label={chapter.visualLabel}
+                note={chapter.visualNote}
+                variant="chapter"
+              />
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<script is:inline type="module">
+  const controllers = new WeakMap();
+  const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+
+  function setupAboutStoryScroller(scroller) {
+    controllers.get(scroller)?.();
+
+    const viewport = scroller.querySelector("[data-story-viewport]");
+    const track = scroller.querySelector("[data-story-track]");
+    const progressBar = scroller.querySelector("[data-story-progress]");
+
+    if (!viewport || !track) {
+      return;
+    }
+
+    const desktopQuery = window.matchMedia("(min-width: 900px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let maxTranslate = 0;
+    let sectionStart = 0;
+    let scrollRange = 1;
+    let isActive = false;
+
+    const setProgress = (progress) => {
+      progressBar?.style.setProperty("transform", `scaleX(${progress})`);
+    };
+
+    const update = () => {
+      if (!isActive) {
+        return;
+      }
+
+      const progress = clamp((window.scrollY - sectionStart) / scrollRange);
+      track.style.transform = `translate3d(${-progress * maxTranslate}px, 0, 0)`;
+      setProgress(progress);
+    };
+
+    const queueUpdate = () => {
+      if (!isActive) {
+        return;
+      }
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    const refresh = () => {
+      const canUseHorizontal = desktopQuery.matches && !reducedMotionQuery.matches;
+      scroller.dataset.horizontal = String(canUseHorizontal);
+      track.style.transform = "translate3d(0, 0, 0)";
+
+      const stickyTop = parseFloat(getComputedStyle(viewport).top) || 0;
+      const viewportHeight = Math.max(1, viewport.clientHeight || window.innerHeight - stickyTop);
+      maxTranslate = Math.max(0, track.scrollWidth - viewport.clientWidth);
+      isActive = canUseHorizontal && maxTranslate > 24;
+      scroller.dataset.horizontal = String(isActive);
+
+      if (!isActive) {
+        scroller.style.removeProperty("--about-story-scroll-height");
+        track.style.removeProperty("transform");
+        setProgress(0);
+        return;
+      }
+
+      sectionStart = scroller.getBoundingClientRect().top + window.scrollY - stickyTop;
+      scrollRange = Math.max(1, maxTranslate);
+      scroller.style.setProperty(
+        "--about-story-scroll-height",
+        `${Math.ceil(viewportHeight + scrollRange)}px`,
+      );
+      queueUpdate();
+    };
+
+    const resizeObserver = new ResizeObserver(refresh);
+    resizeObserver.observe(track);
+    resizeObserver.observe(viewport);
+
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    window.addEventListener("resize", refresh);
+    desktopQuery.addEventListener("change", refresh);
+    reducedMotionQuery.addEventListener("change", refresh);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(refresh).catch(() => {});
+    }
+
+    refresh();
+
+    const teardown = () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", queueUpdate);
+      window.removeEventListener("resize", refresh);
+      desktopQuery.removeEventListener("change", refresh);
+      reducedMotionQuery.removeEventListener("change", refresh);
+    };
+
+    controllers.set(scroller, teardown);
+  }
+
+  function initAboutStoryScroll(root = document) {
+    root.querySelectorAll("[data-about-story-scroller]").forEach(setupAboutStoryScroller);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initAboutStoryScroll(), { once: true });
+  } else {
+    initAboutStoryScroll();
+  }
+
+  document.addEventListener("astro:page-load", () => initAboutStoryScroll());
+  window.addEventListener("pageshow", () => initAboutStoryScroll());
+</script>

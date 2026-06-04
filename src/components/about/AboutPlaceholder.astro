@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+  note?: string;
+  variant?: "hero" | "collage" | "chapter" | "closing";
+}
+
+const { label, note, variant = "chapter" } = Astro.props;
+---
+
+<div class:list={["about-placeholder", `about-placeholder--${variant}`]} data-future-image="true">
+  <span>{label}</span>
+  {note ? <small>{note}</small> : null}
+</div>

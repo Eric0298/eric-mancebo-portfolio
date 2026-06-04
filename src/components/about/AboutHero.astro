@@ -1,0 +1,33 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import AboutPlaceholder from "./AboutPlaceholder.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const hero = translations.aboutPage.hero;
+---
+
+<section class="about-hero" aria-labelledby="about-hero-title">
+  <Container size="wide" class="about-hero__inner">
+    <div class="about-hero__scene">
+      <div class="about-hero__visual" data-motion="reveal">
+        <AboutPlaceholder
+          label={hero.placeholderLabel}
+          note={hero.placeholderNote}
+          variant="hero"
+        />
+      </div>
+
+      <div class="about-hero__copy" data-motion="reveal">
+      <p class="about-kicker">{hero.eyebrow}</p>
+      <h1 id="about-hero-title">{hero.title}</h1>
+      <p class="about-hero__summary">{hero.summary}</p>
+      <p class="about-pen-note">{hero.annotation}</p>
+      </div>
+    </div>
+  </Container>
+</section>

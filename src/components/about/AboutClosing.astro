@@ -1,0 +1,12 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import AboutStickyClosing from "./AboutStickyClosing.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+---
+
+<AboutStickyClosing translations={translations} />

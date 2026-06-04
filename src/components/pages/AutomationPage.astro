@@ -11,8 +11,8 @@ interface Props {
 
 const { language } = Astro.props;
 const translations = useTranslations(language);
-const canonicalPath = getPagePath(language, "automation");
-const page = translations.pages.automation;
+const canonicalPath = getPagePath(language, "about");
+const page = translations.pages.about;
 ---
 
 <BaseLayout
@@ -21,7 +21,8 @@ const page = translations.pages.automation;
   canonicalPath={canonicalPath}
   title={page.metaTitle}
   description={page.metaDescription}
+  noindex
 >
-  <PageHero page={page} pageKey="automation" />
+  <PageHero page={page} pageKey="about" />
   <AutomationMapSection language={language} translations={translations} />
 </BaseLayout>

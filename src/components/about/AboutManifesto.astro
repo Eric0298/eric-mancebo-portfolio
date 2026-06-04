@@ -1,0 +1,26 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import AboutPlaceholder from "./AboutPlaceholder.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const manifesto = translations.aboutPage.manifesto;
+const support = translations.aboutPage.hero.annotation;
+---
+
+<section class="about-manifesto" aria-label={manifesto.phrase}>
+  <div class="about-manifesto__scene">
+    <div class="about-manifesto__copy">
+      <h2 data-motion="reveal">{manifesto.phrase}</h2>
+      <p>{support}</p>
+    </div>
+    <div class="about-manifesto__placeholders" aria-hidden="true">
+      {manifesto.placeholders.map((label) => (
+        <AboutPlaceholder label={label} variant="collage" />
+      ))}
+    </div>
+  </div>
+</section>

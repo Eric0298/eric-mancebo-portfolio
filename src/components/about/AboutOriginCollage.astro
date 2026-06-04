@@ -1,0 +1,28 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import AboutPlaceholder from "./AboutPlaceholder.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const origin = translations.aboutPage.origin;
+---
+
+<section class="about-origin" aria-labelledby="about-origin-title">
+  <Container size="wide" class="about-origin__inner">
+    <div class="about-origin__copy" data-motion="reveal">
+      <p class="about-kicker">{origin.eyebrow}</p>
+      <h2 id="about-origin-title">{origin.title}</h2>
+      <p>{origin.summary}</p>
+    </div>
+
+    <div class="about-origin__collage" data-motion="reveal">
+      {origin.placeholders.map((label) => (
+        <AboutPlaceholder label={label} variant="collage" />
+      ))}
+    </div>
+  </Container>
+</section>

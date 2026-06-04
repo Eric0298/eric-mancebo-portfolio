@@ -1,0 +1,12 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import AboutMilestones from "./AboutMilestones.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+---
+
+<AboutMilestones translations={translations} />

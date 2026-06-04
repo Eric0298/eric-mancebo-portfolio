@@ -36,8 +36,7 @@ export const es = {
     items: [
       { label: "Proyectos", href: "/proyectos/", section: "projects", mobilePriority: 1 },
       { label: "Skills", href: "/skills/", section: "skills", mobilePriority: 2 },
-      { label: "Automatización", href: "/automatizacion/", section: "automation", mobilePriority: 3 },
-      { label: "Sobre mí", href: "/sobre-mi/", section: "about" },
+      { label: "Sobre mí", href: "/sobre-mi/", section: "about", mobilePriority: 3 },
       { label: "Contacto", href: "/contacto/", section: "contact", mobilePriority: 4 },
     ],
   },
@@ -86,26 +85,15 @@ export const es = {
       annotation: "pensado para revisión técnica",
       sticker: "Stack",
     },
-    automation: {
-      metaTitle: "Automatización | Eric Mancebo",
-      metaDescription:
-        "Automatización de procesos reales para contacto, leads, operaciones y handoff profesional, preparada con datos estructurados y seguridad.",
-      eyebrow: "Procesos reales",
-      title: "Automatización para procesos reales",
-      summary:
-        "Flujos preparados para capturar, cualificar, enrutar y seguir conversaciones profesionales sin exponer lógica sensible.",
-      annotation: "menos fricción, más trazabilidad",
-      sticker: "Workflows",
-    },
     about: {
       metaTitle: "Sobre mí | Eric Mancebo",
       metaDescription:
-        "Contexto profesional de Eric Mancebo: evolución hacia producto digital, desarrollo full stack, automatización y criterio técnico.",
-      eyebrow: "Contexto profesional",
+        "Historia profesional de Eric Mancebo: de operaciones reales a producto digital, desarrollo web, automatización e IA aplicada.",
+      eyebrow: "Sobre mí",
       title: "De operaciones a producto digital",
       summary:
-        "Una lectura del perfil de Eric desde la ejecución práctica, la automatización y la construcción de sistemas web orientados a negocio.",
-      annotation: "perfil con contexto",
+        "Una lectura narrativa del perfil de Eric desde trabajo operativo, ecommerce y procesos reales hacia desarrollo web, producto e IA aplicada.",
+      annotation: "recorrido con criterio",
       sticker: "About",
     },
     contact: {
@@ -147,20 +135,20 @@ export const es = {
         sticker: "Leer stack",
       },
       {
-        pageKey: "automation",
-        label: "03 / Automatización",
-        title: "Procesos con handoff real",
+        pageKey: "about",
+        label: "03 / Sobre mí",
+        title: "De operaciones a producto digital",
         summary:
-          "Flujos de contacto, leads y operación preparados para validación, routing y seguimiento futuro.",
-        sticker: "Ver flujos",
+          "La historia profesional que conecta operaciones, ecommerce, desarrollo web, automatización e IA aplicada.",
+        sticker: "Leer historia",
       },
       {
-        pageKey: "about",
-        label: "04 / Sobre mí",
-        title: "Contexto profesional",
+        pageKey: "contact",
+        label: "04 / Contacto",
+        title: "Abrir conversación",
         summary:
-          "Una lectura breve del perfil, la evolución hacia producto digital y el criterio técnico detrás del trabajo.",
-        sticker: "Conocer perfil",
+          "Canales preparados para oportunidades profesionales, proyectos y colaboración.",
+        sticker: "Contactar",
       },
     ],
     finalCta: {
@@ -849,31 +837,196 @@ export const es = {
     },
   },
   aboutPage: {
-    chapterLabel: "Capítulo",
-    notes: [
-      {
-        label: "Origen",
-        title: "Operación antes que artificio",
-        summary:
-          "La mirada viene de resolver procesos reales: entender necesidades, ordenar prioridades y convertir fricción en sistemas más claros.",
-      },
-      {
-        label: "Evolución",
-        title: "Producto digital con base técnica",
-        summary:
-          "El foco actual está en construir interfaces, backend y automatizaciones que ayuden a negocio sin perder mantenibilidad.",
-      },
-      {
-        label: "Criterio",
-        title: "Decisiones explicables",
-        summary:
-          "Cada proyecto debe poder justificar su stack, sus límites y sus próximos pasos con lenguaje técnico y de producto.",
-      },
-    ],
-    finalNote: {
-      title: "Un perfil para equipos que necesitan construir y ordenar",
+    hero: {
+      eyebrow: "SOBRE MÍ",
+      title: "DE OPERACIONES A PRODUCTO DIGITAL",
       summary:
-        "El portfolio está pensado para mostrar evolución, práctica aplicada y capacidad de conectar ejecución técnica con contexto de negocio.",
+        "Mi recorrido no empezó en una pantalla. Empezó trabajando, observando procesos reales y aprendiendo a resolver problemas donde los tiempos, los pedidos y los clientes importaban. Hoy conecto esa experiencia con desarrollo web, producto digital, automatización e IA aplicada.",
+      placeholderLabel: "Retrato futuro",
+      placeholderNote: "Área reservada para una imagen profesional o retrato editorial.",
+      annotation: "trabajo real antes que teoría perfecta",
+    },
+    manifesto: {
+      phrase: "La tecnología tiene sentido cuando mejora procesos reales.",
+      placeholders: ["procesos", "trabajo real", "producto"],
+    },
+    origin: {
+      eyebrow: "Antes del código",
+      title: "Trabajo real, procesos y criterio",
+      summary:
+        "Antes del código hubo trabajo real: atención al cliente, almacén, ecommerce, pedidos, etiquetas, marketplaces, errores que corregir y procesos repetitivos que debían salir bien. Esa etapa me enseñó a mirar la tecnología desde dentro del trabajo, no desde fuera.",
+      placeholders: ["cliente", "pedidos", "ecommerce", "procesos", "aprendizaje"],
+    },
+    horizontalStory: {
+      ariaLabel: "Historia profesional en cuatro capítulos",
+      progressLabel: "Progreso de la historia",
+      chapters: [
+        {
+          label: "01",
+          title: "Responsabilidad antes del camino perfecto",
+          summary:
+            "Por ciertas complicaciones de la vida tuve que empezar a trabajar antes de lo previsto y construir mi camino desde ahí. Ese inicio me enseñó responsabilidad, constancia y la importancia de cumplir cuando las cosas dependen de ti.",
+          visualLabel: "Inicio",
+          visualNote: "Placeholder para imagen de origen profesional.",
+          layout: "text-left",
+        },
+        {
+          label: "02",
+          title: "Operaciones, pedidos y procesos reales",
+          summary:
+            "Durante años trabajé en entornos operativos, especialmente en almacén y ecommerce. Preparar pedidos, gestionar etiquetas, subir trackings o trabajar con marketplaces me enseñó algo muy útil para el desarrollo: los procesos importan tanto como la interfaz.",
+          visualLabel: "Operaciones",
+          visualNote: "Placeholder para collage de pedidos, etiquetas y marketplaces.",
+          layout: "text-right",
+        },
+        {
+          label: "03",
+          title: "Aprender mientras seguía avanzando",
+          summary:
+            "Mientras trabajaba, fui construyendo mi siguiente etapa: inglés, Desarrollo de Aplicaciones Web y proyectos personales. No fue un cambio inmediato, sino una transición sostenida a base de disciplina, práctica y muchas horas de aprendizaje.",
+          visualLabel: "Aprendizaje",
+          visualNote: "Placeholder para notas, pantalla y cuaderno técnico.",
+          layout: "text-left",
+        },
+        {
+          label: "04",
+          title: "Producto digital, IA y automatización",
+          summary:
+            "Hoy estoy llevando esa experiencia hacia el desarrollo de producto: prácticas en Beply, proyectos como KORUS y JustWriteIt, y una forma de trabajar donde frontend, backend, SEO, automatización e IA aplicada se conectan para resolver problemas reales.",
+          visualLabel: "Producto",
+          visualNote: "Placeholder para sistema digital y herramientas conectadas.",
+          layout: "text-right",
+        },
+      ],
+    },
+    timeline: {
+      eyebrow: "Hitos",
+      title: "UNA TRANSICIÓN CONSTRUIDA POR ETAPAS",
+      summary:
+        "No es una línea perfecta: es una secuencia de trabajo, aprendizaje y práctica aplicada que hoy se conecta en producto digital.",
+      items: [
+        {
+          label: "Etapa 01",
+          title: "Empezar a trabajar",
+          summary:
+            "Una etapa marcada por responsabilidad temprana, trato con clientes y adaptación a contextos reales de trabajo.",
+          visualLabel: "Primer trabajo",
+          visualNote: "Espacio para una imagen de inicio profesional.",
+        },
+        {
+          label: "Etapa 02",
+          title: "Operaciones y ecommerce",
+          summary:
+            "Años de almacén, pedidos, marketplaces, etiquetas, tracking y tareas repetitivas que me enseñaron a detectar fricción operativa.",
+          visualLabel: "Operaciones",
+          visualNote: "Futuro collage de pedidos, etiquetas y marketplaces.",
+        },
+        {
+          label: "Etapa 03",
+          title: "Inglés como reto personal",
+          summary:
+            "Avancé con el inglés hasta obtener el B2 y preparé el C1, reforzando disciplina, constancia y capacidad de aprendizaje.",
+          visualLabel: "Inglés",
+          visualNote: "Placeholder para notas, certificados o material de estudio.",
+        },
+        {
+          label: "Etapa 04",
+          title: "Desarrollo de Aplicaciones Web",
+          summary:
+            "La formación técnica me dio base en programación, bases de datos, backend, frontend, despliegue y estructura de proyectos.",
+          visualLabel: "DAW",
+          visualNote: "Espacio reservado para cuaderno técnico y pantalla.",
+        },
+        {
+          label: "Etapa 05",
+          title: "Proyectos personales",
+          summary:
+            "KORUS, JustWriteIt y este portfolio me han permitido unir código, producto, automatización, IA, SEO y criterio visual.",
+          visualLabel: "Proyectos",
+          visualNote: "Slot editorial para bocetos, repos y producto en proceso.",
+        },
+        {
+          label: "Etapa 06",
+          title: "Beply",
+          summary:
+            "En prácticas, he trabajado en un entorno profesional de CRM/ERP, migración web hacia Astro, diseño, integraciones y herramientas asistidas por IA.",
+          visualLabel: "Beply",
+          visualNote: "Placeholder para fragmentos de CRM, ERP y migración web.",
+        },
+        {
+          label: "Etapa 07",
+          title: "Siguiente etapa",
+          summary:
+            "Busco crecer en equipos donde pueda construir producto digital útil, aprender rápido y aportar visión técnica con sentido operativo.",
+          visualLabel: "Siguiente paso",
+          visualNote: "Espacio para una imagen de equipo, producto o futuro rol.",
+        },
+      ],
+    },
+    closing: {
+      eyebrow: "Valor profesional",
+      title: "CÓDIGO CON TRABAJO REAL DETRÁS",
+      summary:
+        "Mi recorrido mezcla operaciones, aprendizaje y desarrollo: código pensado para procesos reales, producto útil y automatización con sentido.",
+      placeholderLabel: "Collage final",
+      notes: ["operaciones", "desarrollo web", "producto", "automatización", "IA aplicada"],
+      media: [
+        {
+          label: "Operaciones",
+          note: "Pedidos, etiquetas y procesos reales.",
+          column: "left",
+        },
+        {
+          label: "Cuaderno técnico",
+          note: "Aprendizaje sostenido mientras trabajaba.",
+          column: "left",
+        },
+        {
+          label: "Beply",
+          note: "CRM, ERP, migración web e integraciones.",
+          column: "left",
+        },
+        {
+          label: "Pedidos",
+          note: "Detalle operativo y ritmo real.",
+          column: "left",
+        },
+        {
+          label: "Aprendizaje",
+          note: "Horas de práctica entre turnos y proyectos.",
+          column: "left",
+        },
+        {
+          label: "Producto digital",
+          note: "Frontend, backend y criterio de producto.",
+          column: "right",
+        },
+        {
+          label: "Automatización",
+          note: "Flujos útiles, no decoración técnica.",
+          column: "right",
+        },
+        {
+          label: "IA aplicada",
+          note: "Herramientas asistidas con contexto real.",
+          column: "right",
+        },
+        {
+          label: "Portfolio",
+          note: "Sistema editorial, rendimiento e i18n.",
+          column: "right",
+        },
+        {
+          label: "Siguiente equipo",
+          note: "Un rol donde construir producto útil.",
+          column: "right",
+        },
+      ],
+    },
+    cta: {
+      summary: "Si mi recorrido encaja con lo que necesitas, revisa mis proyectos o hablemos.",
+      projectsLabel: "Ver proyectos",
+      contactLabel: "Contactar",
     },
   },
   contactPage: {

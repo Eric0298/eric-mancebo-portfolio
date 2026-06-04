@@ -1,0 +1,25 @@
+---
+import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
+import ButtonLink from "../ui/ButtonLink.astro";
+import Container from "../ui/Container.astro";
+
+interface Props {
+  language: Language;
+  translations: TranslationDictionary;
+}
+
+const { language, translations } = Astro.props;
+const cta = translations.aboutPage.cta;
+const projectsPath = getPagePath(language, "projects");
+const contactPath = getPagePath(language, "contact");
+---
+
+<section class="about-cta" aria-label={cta.summary}>
+  <Container size="standard" class="about-cta__inner" data-motion="reveal">
+    <p>{cta.summary}</p>
+    <div class="about-cta__actions">
+      <ButtonLink href={projectsPath}>{cta.projectsLabel}</ButtonLink>
+      <ButtonLink href={contactPath} variant="secondary">{cta.contactLabel}</ButtonLink>
+    </div>
+  </Container>
+</section>

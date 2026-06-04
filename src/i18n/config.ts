@@ -34,10 +34,6 @@ export const pageRoutes = {
     es: "/skills/",
     en: "/en/skills/",
   },
-  automation: {
-    es: "/automatizacion/",
-    en: "/en/automation/",
-  },
   about: {
     es: "/sobre-mi/",
     en: "/en/about/",
@@ -435,15 +431,64 @@ export interface TranslationDictionary {
     };
   };
   aboutPage: {
-    chapterLabel: string;
-    notes: Array<{
-      label: string;
+    hero: {
+      eyebrow: string;
       title: string;
       summary: string;
-    }>;
-    finalNote: {
+      placeholderLabel: string;
+      placeholderNote: string;
+      annotation: string;
+    };
+    manifesto: {
+      phrase: string;
+      placeholders: string[];
+    };
+    origin: {
+      eyebrow: string;
       title: string;
       summary: string;
+      placeholders: string[];
+    };
+    horizontalStory: {
+      ariaLabel: string;
+      progressLabel: string;
+      chapters: Array<{
+        label: string;
+        title: string;
+        summary: string;
+        visualLabel: string;
+        visualNote: string;
+        layout: "text-left" | "text-right";
+      }>;
+    };
+    timeline: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      items: Array<{
+        label: string;
+        title: string;
+        summary: string;
+        visualLabel: string;
+        visualNote: string;
+      }>;
+    };
+    closing: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      placeholderLabel: string;
+      notes: string[];
+      media: Array<{
+        label: string;
+        note: string;
+        column: "left" | "right";
+      }>;
+    };
+    cta: {
+      summary: string;
+      projectsLabel: string;
+      contactLabel: string;
     };
   };
   contactPage: {

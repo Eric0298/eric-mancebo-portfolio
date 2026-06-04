@@ -1,0 +1,111 @@
+---
+import type { TranslationDictionary } from "../../i18n/config";
+import Container from "../ui/Container.astro";
+import AboutFloatingPlaceholders from "./AboutFloatingPlaceholders.astro";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const closing = translations.aboutPage.closing;
+---
+
+<section class="about-sticky-closing" aria-labelledby="about-closing-title" data-about-sticky-closing>
+  <Container size="wide" class="about-sticky-closing__sticky">
+    <div class="about-sticky-closing__copy" data-motion="reveal">
+      <p class="about-kicker">{closing.eyebrow}</p>
+      <h2 id="about-closing-title">{closing.title}</h2>
+      <p>{closing.summary}</p>
+      <ul class="about-sticky-closing__notes">
+        {closing.notes.map((note) => <li>{note}</li>)}
+      </ul>
+    </div>
+
+    <AboutFloatingPlaceholders items={closing.media} />
+  </Container>
+</section>
+
+<script is:inline type="module">
+  const stickyClosingControllers = new WeakMap();
+  const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+
+  function setupStickyClosing(section) {
+    stickyClosingControllers.get(section)?.();
+
+    const desktopQuery = window.matchMedia("(min-width: 900px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0;
+    let isActive = false;
+
+    const clearMotion = () => {
+      section.style.removeProperty("--closing-progress");
+      section.style.removeProperty("--closing-left-y");
+      section.style.removeProperty("--closing-right-y");
+    };
+
+    const update = () => {
+      if (!isActive) {
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const scrollableDistance = Math.max(1, rect.height - window.innerHeight);
+      const progress = clamp(-rect.top / scrollableDistance);
+      section.style.setProperty("--closing-progress", progress.toFixed(4));
+      section.style.setProperty("--closing-left-y", `${34 - progress * 86}vh`);
+      section.style.setProperty("--closing-right-y", `${-42 + progress * 92}vh`);
+    };
+
+    const queueUpdate = () => {
+      if (!isActive) {
+        return;
+      }
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    const refresh = () => {
+      isActive = desktopQuery.matches && !reducedMotionQuery.matches;
+
+      if (!isActive) {
+        cancelAnimationFrame(frame);
+        clearMotion();
+        return;
+      }
+
+      update();
+    };
+
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    window.addEventListener("resize", refresh);
+    desktopQuery.addEventListener("change", refresh);
+    reducedMotionQuery.addEventListener("change", refresh);
+
+    refresh();
+
+    const teardown = () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", queueUpdate);
+      window.removeEventListener("resize", refresh);
+      desktopQuery.removeEventListener("change", refresh);
+      reducedMotionQuery.removeEventListener("change", refresh);
+    };
+
+    stickyClosingControllers.set(section, teardown);
+  }
+
+  function initStickyClosing(root = document) {
+    root.querySelectorAll("[data-about-sticky-closing]").forEach(setupStickyClosing);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initStickyClosing(), { once: true });
+  } else {
+    initStickyClosing();
+  }
+
+  document.addEventListener("astro:page-load", () => initStickyClosing());
+  window.addEventListener("pageshow", () => initStickyClosing());
+</script>

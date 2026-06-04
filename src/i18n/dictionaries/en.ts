@@ -36,8 +36,7 @@ export const en = {
     items: [
       { label: "Projects", href: "/en/projects/", section: "projects", mobilePriority: 1 },
       { label: "Skills", href: "/en/skills/", section: "skills", mobilePriority: 2 },
-      { label: "Automation", href: "/en/automation/", section: "automation", mobilePriority: 3 },
-      { label: "About", href: "/en/about/", section: "about" },
+      { label: "About", href: "/en/about/", section: "about", mobilePriority: 3 },
       { label: "Contact", href: "/en/contact/", section: "contact", mobilePriority: 4 },
     ],
   },
@@ -86,26 +85,15 @@ export const en = {
       annotation: "built for technical review",
       sticker: "Stack",
     },
-    automation: {
-      metaTitle: "Automation | Eric Mancebo",
-      metaDescription:
-        "Automation for real processes: contact, leads, operations, and professional handoff prepared with structured data and security.",
-      eyebrow: "Real workflows",
-      title: "Automation for real processes",
-      summary:
-        "Workflows prepared to capture, qualify, route, and follow up on professional conversations without exposing sensitive logic.",
-      annotation: "less friction, more traceability",
-      sticker: "Workflows",
-    },
     about: {
       metaTitle: "About | Eric Mancebo",
       metaDescription:
-        "Professional context for Eric Mancebo: evolution toward digital product, full stack development, automation, and technical judgment.",
-      eyebrow: "Professional context",
+        "Eric Mancebo's professional story: from real operations to digital product, web development, automation, and applied AI.",
+      eyebrow: "About me",
       title: "From operations to digital product",
       summary:
-        "A profile view shaped by practical execution, automation, and web systems built around business needs.",
-      annotation: "profile with context",
+        "A narrative view of Eric's profile, connecting operational work, ecommerce, web development, product thinking, and applied AI.",
+      annotation: "a path with judgment",
       sticker: "About",
     },
     contact: {
@@ -147,20 +135,20 @@ export const en = {
         sticker: "Read stack",
       },
       {
-        pageKey: "automation",
-        label: "03 / Automation",
-        title: "Processes with real handoff",
+        pageKey: "about",
+        label: "03 / About",
+        title: "From operations to digital product",
         summary:
-          "Contact, lead, and operation flows prepared for validation, routing, and future follow-up.",
-        sticker: "View flows",
+          "The professional story connecting operations, ecommerce, web development, automation, and applied AI.",
+        sticker: "Read story",
       },
       {
-        pageKey: "about",
-        label: "04 / About",
-        title: "Professional context",
+        pageKey: "contact",
+        label: "04 / Contact",
+        title: "Open a conversation",
         summary:
-          "A short profile view, the move toward digital product, and the technical judgment behind the work.",
-        sticker: "Meet profile",
+          "Channels prepared for professional opportunities, projects, and collaboration.",
+        sticker: "Contact",
       },
     ],
     finalCta: {
@@ -848,31 +836,196 @@ export const en = {
     },
   },
   aboutPage: {
-    chapterLabel: "Chapter",
-    notes: [
-      {
-        label: "Origin",
-        title: "Operations before theatre",
-        summary:
-          "The perspective comes from solving real processes: understanding needs, ordering priorities, and turning friction into clearer systems.",
-      },
-      {
-        label: "Evolution",
-        title: "Digital product with technical grounding",
-        summary:
-          "The current focus is building interfaces, backend foundations, and automation that support business needs without losing maintainability.",
-      },
-      {
-        label: "Judgment",
-        title: "Explainable decisions",
-        summary:
-          "Each project should justify its stack, boundaries, and next steps with both technical and product language.",
-      },
-    ],
-    finalNote: {
-      title: "A profile for teams that need to build and organize",
+    hero: {
+      eyebrow: "ABOUT ME",
+      title: "FROM OPERATIONS TO DIGITAL PRODUCT",
       summary:
-        "The portfolio is designed to show evolution, applied practice, and the ability to connect technical execution with business context.",
+        "My path did not start on a screen. It started by working, observing real processes and learning to solve problems where timing, orders and customers mattered. Today I connect that experience with web development, digital product, automation and applied AI.",
+      placeholderLabel: "Future portrait",
+      placeholderNote: "Reserved area for a professional image or editorial portrait.",
+      annotation: "real work before perfect theory",
+    },
+    manifesto: {
+      phrase: "Technology matters when it improves real processes.",
+      placeholders: ["processes", "real work", "product"],
+    },
+    origin: {
+      eyebrow: "Before code",
+      title: "Real work, processes and judgment",
+      summary:
+        "Before code, there was real work: customer service, warehouse operations, ecommerce, orders, labels, marketplaces, mistakes to fix and repetitive processes that had to work. That stage taught me to look at technology from inside the work, not from outside it.",
+      placeholders: ["customers", "orders", "ecommerce", "processes", "learning"],
+    },
+    horizontalStory: {
+      ariaLabel: "Professional story in four chapters",
+      progressLabel: "Story progress",
+      chapters: [
+        {
+          label: "01",
+          title: "Responsibility before a perfect path",
+          summary:
+            "Life circumstances pushed me into work earlier than expected, and I had to build my path from there. That beginning taught me responsibility, consistency and the importance of showing up when things depend on you.",
+          visualLabel: "Beginning",
+          visualNote: "Placeholder for an origin image.",
+          layout: "text-left",
+        },
+        {
+          label: "02",
+          title: "Operations, orders and real processes",
+          summary:
+            "For years I worked in operational environments, especially warehouse and ecommerce. Preparing orders, managing labels, uploading tracking data and working with marketplaces taught me something very useful for development: processes matter as much as interfaces.",
+          visualLabel: "Operations",
+          visualNote: "Placeholder for orders, labels and marketplace fragments.",
+          layout: "text-right",
+        },
+        {
+          label: "03",
+          title: "Learning while moving forward",
+          summary:
+            "While working, I started building my next stage: English, Web Application Development and personal projects. It was not an instant change, but a sustained transition built through discipline, practice and many hours of learning.",
+          visualLabel: "Learning",
+          visualNote: "Placeholder for notes, screen work and technical notebook pages.",
+          layout: "text-left",
+        },
+        {
+          label: "04",
+          title: "Digital product, AI and automation",
+          summary:
+            "Today I am moving that experience into product development: my internship at Beply, projects like KORUS and JustWriteIt, and a way of working where frontend, backend, SEO, automation and applied AI connect to solve real problems.",
+          visualLabel: "Product",
+          visualNote: "Placeholder for connected tools and a digital system.",
+          layout: "text-right",
+        },
+      ],
+    },
+    timeline: {
+      eyebrow: "Milestones",
+      title: "A TRANSITION BUILT IN STAGES",
+      summary:
+        "This is not a perfect straight line: it is a sequence of work, learning and applied practice that now connects inside digital product.",
+      items: [
+        {
+          label: "Stage 01",
+          title: "Starting work",
+          summary:
+            "An early stage shaped by responsibility, customer contact and adapting to real working contexts.",
+          visualLabel: "First work",
+          visualNote: "Reserved space for an early professional image.",
+        },
+        {
+          label: "Stage 02",
+          title: "Operations and ecommerce",
+          summary:
+            "Years of warehouse work, orders, marketplaces, labels, tracking and repetitive tasks taught me to detect operational friction.",
+          visualLabel: "Operations",
+          visualNote: "Future collage of orders, labels and marketplaces.",
+        },
+        {
+          label: "Stage 03",
+          title: "English as a personal challenge",
+          summary:
+            "I progressed to B2 English and prepared for C1, strengthening discipline, consistency and learning capacity.",
+          visualLabel: "English",
+          visualNote: "Placeholder for notes, certificates or study material.",
+        },
+        {
+          label: "Stage 04",
+          title: "Web Application Development",
+          summary:
+            "Technical training gave me foundations in programming, databases, backend, frontend, deployment and project structure.",
+          visualLabel: "Web dev",
+          visualNote: "Reserved space for a technical notebook and screen.",
+        },
+        {
+          label: "Stage 05",
+          title: "Personal projects",
+          summary:
+            "KORUS, JustWriteIt and this portfolio let me connect code, product, automation, AI, SEO and visual judgment.",
+          visualLabel: "Projects",
+          visualNote: "Editorial slot for sketches, repos and work in progress.",
+        },
+        {
+          label: "Stage 06",
+          title: "Beply",
+          summary:
+            "During my internship, I have worked in a professional CRM/ERP environment, web migration to Astro, design, integrations and AI-assisted tools.",
+          visualLabel: "Beply",
+          visualNote: "Placeholder for CRM, ERP and web migration fragments.",
+        },
+        {
+          label: "Stage 07",
+          title: "Next stage",
+          summary:
+            "I want to grow in teams where I can build useful digital product, learn fast and bring technical vision with operational sense.",
+          visualLabel: "Next step",
+          visualNote: "Space for a future team, product or role image.",
+        },
+      ],
+    },
+    closing: {
+      eyebrow: "Professional value",
+      title: "CODE WITH REAL WORK BEHIND IT",
+      summary:
+        "My path connects operations, learning and development: code shaped by real processes, useful product work and purposeful automation.",
+      placeholderLabel: "Final collage",
+      notes: ["operations", "web development", "product", "automation", "applied AI"],
+      media: [
+        {
+          label: "Operations",
+          note: "Orders, labels and real processes.",
+          column: "left",
+        },
+        {
+          label: "Technical notebook",
+          note: "Sustained learning while working.",
+          column: "left",
+        },
+        {
+          label: "Beply",
+          note: "CRM, ERP, web migration and integrations.",
+          column: "left",
+        },
+        {
+          label: "Orders",
+          note: "Operational detail and real pace.",
+          column: "left",
+        },
+        {
+          label: "Learning",
+          note: "Practice hours between work and projects.",
+          column: "left",
+        },
+        {
+          label: "Digital product",
+          note: "Frontend, backend and product judgment.",
+          column: "right",
+        },
+        {
+          label: "Automation",
+          note: "Useful flows, not technical decoration.",
+          column: "right",
+        },
+        {
+          label: "Applied AI",
+          note: "Assisted tools with real context.",
+          column: "right",
+        },
+        {
+          label: "Portfolio",
+          note: "Editorial system, performance and i18n.",
+          column: "right",
+        },
+        {
+          label: "Next team",
+          note: "A role where useful product gets built.",
+          column: "right",
+        },
+      ],
+    },
+    cta: {
+      summary: "If my path fits what you need, explore my projects or let's talk.",
+      projectsLabel: "View projects",
+      contactLabel: "Contact",
     },
   },
   contactPage: {

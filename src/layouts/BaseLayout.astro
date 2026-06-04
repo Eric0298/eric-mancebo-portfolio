@@ -1,5 +1,6 @@
 ---
 import MobileActionBar from "../components/mobile/MobileActionBar.astro";
+import CustomCursor from "../components/effects/CustomCursor.astro";
 import EntryLoader from "../components/effects/EntryLoader.astro";
 import SeoHead from "../components/seo/SeoHead.astro";
 import StructuredData from "../components/seo/StructuredData.astro";
@@ -50,6 +51,7 @@ const structuredData = [
     <StructuredData data={structuredData} />
   </head>
   <body>
+    <CustomCursor />
     <script>
       import "../web-components/contact-intent";
       import "../web-components/scroll-reveal";

@@ -2,8 +2,15 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AboutStorySection from "../sections/AboutStorySection.astro";
-import PageHero from "../sections/PageHero.astro";
+import AboutCTA from "../about/AboutCTA.astro";
+import AboutClosing from "../about/AboutClosing.astro";
+import AboutHero from "../about/AboutHero.astro";
+import AboutHorizontalStory from "../about/AboutHorizontalStory.astro";
+import AboutManifesto from "../about/AboutManifesto.astro";
+import AboutOriginCollage from "../about/AboutOriginCollage.astro";
+import AboutTimeline from "../about/AboutTimeline.astro";
+import "../../styles/about.css";
+import "../../styles/about-scroll.css";
 
 interface Props {
   language: Language;
@@ -22,6 +29,13 @@ const page = translations.pages.about;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <PageHero page={page} pageKey="about" />
-  <AboutStorySection translations={translations} />
+  <div class="about-journey-page">
+    <AboutHero translations={translations} />
+    <AboutManifesto translations={translations} />
+    <AboutOriginCollage translations={translations} />
+    <AboutHorizontalStory translations={translations} />
+    <AboutTimeline translations={translations} />
+    <AboutClosing translations={translations} />
+    <AboutCTA language={language} translations={translations} />
+  </div>
 </BaseLayout>

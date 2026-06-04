@@ -1,0 +1,27 @@
+---
+interface Props {
+  label: string;
+  note: string;
+  index: number;
+  mode?: "desktop" | "inline";
+  active?: boolean;
+}
+
+const { label, note, index, mode = "desktop", active = false } = Astro.props;
+const rotations = [-4.5, 2.8, -2.2, 3.6, -3.4, 1.9, -2.8];
+const offsets = ["-0.4rem", "0.75rem", "-0.1rem", "1rem", "-0.65rem", "0.45rem", "-0.25rem"];
+---
+
+<div
+  class:list={["about-milestone-card", `about-milestone-card--${mode}`, active && "is-active"]}
+  data-milestone-card={mode === "desktop" ? String(index) : undefined}
+  style={`--card-rotate: ${rotations[index % rotations.length]}deg; --card-offset: ${offsets[index % offsets.length]};`}
+  aria-hidden={mode === "desktop" ? "true" : undefined}
+>
+  <span class="about-milestone-card__tape"></span>
+  <div class="about-milestone-card__media"></div>
+  <div class="about-milestone-card__caption">
+    <span>{label}</span>
+    <small>{note}</small>
+  </div>
+</div>
