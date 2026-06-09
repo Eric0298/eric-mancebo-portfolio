@@ -13,13 +13,9 @@ const closing = translations.aboutPage.closing;
 
 <section class="about-sticky-closing" aria-labelledby="about-closing-title" data-about-sticky-closing>
   <Container size="wide" class="about-sticky-closing__sticky">
-    <div class="about-sticky-closing__copy" data-motion="reveal">
-      <p class="about-kicker">{closing.eyebrow}</p>
+    <div class="about-sticky-closing__copy">
       <h2 id="about-closing-title">{closing.title}</h2>
       <p>{closing.summary}</p>
-      <ul class="about-sticky-closing__notes">
-        {closing.notes.map((note) => <li>{note}</li>)}
-      </ul>
     </div>
 
     <AboutFloatingPlaceholders items={closing.media} />
@@ -29,6 +25,14 @@ const closing = translations.aboutPage.closing;
 <script is:inline type="module">
   const stickyClosingControllers = new WeakMap();
   const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+  const slotMotion = [
+    { start: 34, travel: -76 },
+    { start: 24, travel: -58 },
+    { start: 54, travel: -108 },
+    { start: 42, travel: -96 },
+    { start: 18, travel: -104 },
+    { start: 28, travel: -88 },
+  ];
 
   function setupStickyClosing(section) {
     stickyClosingControllers.get(section)?.();
@@ -40,8 +44,9 @@ const closing = translations.aboutPage.closing;
 
     const clearMotion = () => {
       section.style.removeProperty("--closing-progress");
-      section.style.removeProperty("--closing-left-y");
-      section.style.removeProperty("--closing-right-y");
+      slotMotion.forEach((_, index) => {
+        section.style.removeProperty(`--closing-slot-${index + 1}-y`);
+      });
     };
 
     const update = () => {
@@ -53,8 +58,9 @@ const closing = translations.aboutPage.closing;
       const scrollableDistance = Math.max(1, rect.height - window.innerHeight);
       const progress = clamp(-rect.top / scrollableDistance);
       section.style.setProperty("--closing-progress", progress.toFixed(4));
-      section.style.setProperty("--closing-left-y", `${34 - progress * 86}vh`);
-      section.style.setProperty("--closing-right-y", `${-42 + progress * 92}vh`);
+      slotMotion.forEach(({ start, travel }, index) => {
+        section.style.setProperty(`--closing-slot-${index + 1}-y`, `${start + progress * travel}vh`);
+      });
     };
 
     const queueUpdate = () => {

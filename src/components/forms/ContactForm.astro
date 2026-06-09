@@ -1,0 +1,170 @@
+---
+import { contactDetails } from "../../data/contact-details";
+import type { TranslationDictionary } from "../../i18n/config";
+import { contactAutomationConfig } from "../../lib/contact-automation";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const form = translations.contactPage.form;
+const formId = `contact-form-${translations.metadata.htmlLang}`;
+const recipientEmail = contactDetails.email.isConfigured ? contactDetails.email.value : "";
+const mailtoAction = contactDetails.email.isConfigured ? contactDetails.email.href : contactAutomationConfig.futureEndpoint;
+---
+
+<portfolio-contact-form
+  class="contact-form-shell"
+  data-contact-mode="mailto"
+  data-contact-endpoint={contactAutomationConfig.futureEndpoint}
+  data-contact-recipient={recipientEmail}
+  data-honeypot-field={contactAutomationConfig.honeypotFieldName}
+  data-label-name={form.name}
+  data-label-email={form.email}
+  data-label-phone={form.phone}
+  data-label-reason={form.reason}
+  data-label-message={form.message}
+  data-label-not-provided={form.notProvided}
+  data-mail-subject-prefix={form.mailSubjectPrefix}
+  data-message-success={form.messages.success}
+  data-message-failure={form.messages.failure}
+  data-message-invalid={form.messages.invalid}
+  data-message-mailto={form.messages.mailto}
+  data-error-name-required={form.errors.nameRequired}
+  data-error-email-required={form.errors.emailRequired}
+  data-error-email-invalid={form.errors.emailInvalid}
+  data-error-phone-invalid={form.errors.phoneInvalid}
+  data-error-reason-required={form.errors.reasonRequired}
+  data-error-message-required={form.errors.messageRequired}
+  data-error-consent-required={form.errors.consentRequired}
+>
+  <form
+    id={formId}
+    class="contact-form"
+    action={mailtoAction}
+    method="post"
+    enctype="text/plain"
+    novalidate
+    aria-describedby={`${formId}-status`}
+  >
+    <div class="contact-form__field" data-field-index="01">
+      <div class="contact-form__control">
+        <label for={`${formId}-name`}>{form.name}</label>
+        <input
+          id={`${formId}-name`}
+          type="text"
+          name="name"
+          autocomplete="name"
+          maxlength={contactAutomationConfig.maxNameLength}
+          placeholder={form.placeholders.name}
+          aria-describedby={`${formId}-name-error`}
+          required
+        />
+        <p id={`${formId}-name-error`} class="contact-form__error" data-contact-error-for="name" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="contact-form__field" data-field-index="02">
+      <div class="contact-form__control">
+        <label for={`${formId}-email`}>{form.email}</label>
+        <input
+          id={`${formId}-email`}
+          type="email"
+          name="email"
+          autocomplete="email"
+          inputmode="email"
+          maxlength={contactAutomationConfig.maxEmailLength}
+          placeholder={form.placeholders.email}
+          aria-describedby={`${formId}-email-error`}
+          required
+        />
+        <p id={`${formId}-email-error`} class="contact-form__error" data-contact-error-for="email" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="contact-form__field" data-field-index="03">
+      <div class="contact-form__control">
+        <label for={`${formId}-phone`}>
+          {form.phone}
+          <span>{form.optional}</span>
+        </label>
+        <input
+          id={`${formId}-phone`}
+          type="tel"
+          name="phone"
+          autocomplete="tel"
+          inputmode="tel"
+          maxlength={contactAutomationConfig.maxPhoneLength}
+          placeholder={form.placeholders.phone}
+          aria-describedby={`${formId}-phone-error`}
+        />
+        <p id={`${formId}-phone-error`} class="contact-form__error" data-contact-error-for="phone" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="contact-form__field" data-field-index="04">
+      <div class="contact-form__control">
+        <label for={`${formId}-reason`}>{form.reason}</label>
+        <select id={`${formId}-reason`} name="reason" aria-describedby={`${formId}-reason-error`} required>
+          <option value="" disabled selected>{form.placeholders.reason}</option>
+          {form.reasons.map((reason) => (
+            <option value={reason.value}>{reason.label}</option>
+          ))}
+        </select>
+        <p id={`${formId}-reason-error`} class="contact-form__error" data-contact-error-for="reason" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="contact-form__field contact-form__field--message" data-field-index="05">
+      <div class="contact-form__control">
+        <label for={`${formId}-message`}>{form.message}</label>
+        <textarea
+          id={`${formId}-message`}
+          name="message"
+          rows="5"
+          maxlength={contactAutomationConfig.maxMessageLength}
+          placeholder={form.placeholders.message}
+          aria-describedby={`${formId}-message-error`}
+          required
+        ></textarea>
+        <p id={`${formId}-message-error`} class="contact-form__error" data-contact-error-for="message" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="contact-form__trap" aria-hidden="true">
+      <label for={`${formId}-company`}>{form.honeypot}</label>
+      <input
+        id={`${formId}-company`}
+        type="text"
+        name={contactAutomationConfig.honeypotFieldName}
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="contact-form__consent">
+      <input
+        id={`${formId}-consent`}
+        type="checkbox"
+        name="consent"
+        value="yes"
+        aria-describedby={`${formId}-consent-error`}
+        required
+      />
+      <label for={`${formId}-consent`}>{form.consent}</label>
+      <p id={`${formId}-consent-error`} class="contact-form__error" data-contact-error-for="consent" aria-live="polite"></p>
+    </div>
+
+    <p id={`${formId}-status`} class="contact-form__status" data-contact-status aria-live="polite"></p>
+
+    <button class="contact-form__submit" type="submit">
+      <span>{form.submit}</span>
+      <span aria-hidden="true">-&gt;</span>
+    </button>
+  </form>
+</portfolio-contact-form>
+
+<script>
+  import "../../web-components/contact-form";
+</script>

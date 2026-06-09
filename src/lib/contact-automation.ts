@@ -3,6 +3,9 @@ import { contactIntentSchema, type ContactChannel, type ContactIntent } from "..
 export const contactAutomationConfig = {
   futureEndpoint: "/api/contact",
   honeypotFieldName: "companyWebsite",
+  maxNameLength: 80,
+  maxEmailLength: 120,
+  maxPhoneLength: 30,
   maxMessageLength: 2000,
   allowedChannels: ["email", "whatsapp", "telegram", "instagram", "linkedin", "github"],
 } as const;

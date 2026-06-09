@@ -441,12 +441,22 @@ export interface TranslationDictionary {
     };
     manifesto: {
       phrase: string;
+      support: string;
       placeholders: string[];
+      media: Array<{
+        imageSrc: string;
+        imagePosition?: string;
+        width: number;
+        height: number;
+      }>;
     };
     origin: {
       eyebrow: string;
       title: string;
       summary: string;
+      backgroundLabel: string;
+      backgroundNote: string;
+      narrativeBlocks: string[];
       placeholders: string[];
     };
     horizontalStory: {
@@ -458,6 +468,8 @@ export interface TranslationDictionary {
         summary: string;
         visualLabel: string;
         visualNote: string;
+        imageSrc?: string;
+        imagePosition?: string;
         layout: "text-left" | "text-right";
       }>;
     };
@@ -483,9 +495,15 @@ export interface TranslationDictionary {
         label: string;
         note: string;
         column: "left" | "right";
+        imageSrc: string;
+        imageAlt: string;
+        imagePosition?: string;
+        width?: number;
+        height?: number;
       }>;
     };
     cta: {
+      brandWordmark: string;
       summary: string;
       projectsLabel: string;
       contactLabel: string;
@@ -503,6 +521,60 @@ export interface TranslationDictionary {
       summary: string;
     };
     channelNote: string;
+    title: string;
+    subtitle: string;
+    directIntro: string;
+    availability: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+    };
+    methods: {
+      email: string;
+      whatsapp: string;
+      phone: string;
+      linkedinHiring: string;
+      unavailable: string;
+    };
+    form: {
+      name: string;
+      email: string;
+      phone: string;
+      reason: string;
+      message: string;
+      optional: string;
+      consent: string;
+      submit: string;
+      honeypot: string;
+      notProvided: string;
+      mailSubjectPrefix: string;
+      placeholders: {
+        name: string;
+        email: string;
+        phone: string;
+        reason: string;
+        message: string;
+      };
+      reasons: Array<{
+        value: "web" | "app" | "automation" | "hiring" | "collaboration" | "other";
+        label: string;
+      }>;
+      messages: {
+        success: string;
+        failure: string;
+        invalid: string;
+        mailto: string;
+      };
+      errors: {
+        nameRequired: string;
+        emailRequired: string;
+        emailInvalid: string;
+        phoneInvalid: string;
+        reasonRequired: string;
+        messageRequired: string;
+        consentRequired: string;
+      };
+    };
   };
   sections: Record<Section["key"], Section>;
   hero: {

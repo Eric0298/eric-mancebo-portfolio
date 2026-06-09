@@ -1,0 +1,70 @@
+---
+import { contactDetails, type ContactDetailKey } from "../../data/contact-details";
+import type { TranslationDictionary } from "../../i18n/config";
+
+interface Props {
+  translations: TranslationDictionary;
+}
+
+const { translations } = Astro.props;
+const { methods } = translations.contactPage;
+const methodItems: Array<{ key: ContactDetailKey; label: string }> = [
+  { key: "email", label: methods.email },
+  { key: "whatsapp", label: methods.whatsapp },
+  { key: "phone", label: methods.phone },
+  { key: "linkedin", label: methods.linkedinHiring },
+];
+---
+
+<aside class="contact-methods" aria-labelledby="contact-methods-title">
+  <div class="contact-methods__availability">
+    <p class="contact-methods__eyebrow">{translations.contactPage.availability.eyebrow}</p>
+    <h2 id="contact-methods-title">{translations.contactPage.availability.title}</h2>
+    <p>{translations.contactPage.availability.summary}</p>
+  </div>
+
+  <address class="contact-methods__list" aria-label={translations.contactPage.directIntro}>
+    {methodItems.map((item) => {
+      const detail = contactDetails[item.key];
+      const handle = detail.isConfigured ? detail.value : methods.unavailable;
+      const methodClass = detail.icon ? "contact-method contact-method--icon" : "contact-method";
+
+      return detail.isConfigured ? (
+        <a
+          class={methodClass}
+          href={detail.href}
+          target={detail.isExternal ? "_blank" : undefined}
+          rel={detail.isExternal ? "noopener noreferrer" : undefined}
+          data-contact-channel={item.key}
+          data-contact-intent="direct-contact"
+        >
+          <span class="contact-method__label">{item.label}</span>
+          <span class="contact-method__handle">
+            {detail.icon === "whatsapp" ? (
+              <>
+                <svg class="contact-method__svg" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M16 3.5A12.3 12.3 0 0 0 5.5 22.1L4 28l6.1-1.5A12.3 12.3 0 1 0 16 3.5Zm0 2.2a10.1 10.1 0 0 1 8.7 15.3 10 10 0 0 1-11.7 4.2l-.4-.2-3.6.9.9-3.5-.2-.4A10.1 10.1 0 0 1 16 5.7Zm-4.1 4.9c-.2 0-.5.1-.7.3-.4.4-1.3 1.3-1.3 3.1s1.3 3.6 1.5 3.8c.2.3 2.5 4 6.2 5.4 3.1 1.2 3.7.9 4.4.9.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8-.1-.2-.3-.3-.7-.5l-2.4-1.2c-.3-.1-.6-.2-.8.2-.2.3-.9 1.2-1.1 1.5-.2.2-.4.3-.7.1-.4-.2-1.5-.5-2.8-1.7-1-1-1.7-2.1-1.9-2.4-.2-.4 0-.6.2-.8.2-.2.4-.5.5-.7.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1.1-2.5c-.3-.7-.6-.7-.8-.7h-.7Z"></path>
+                </svg>
+                <span>{handle}</span>
+              </>
+            ) : detail.icon === "linkedin" ? (
+              <>
+                <svg class="contact-method__svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path d="M5.1 8.9h3.1v10H5.1v-10Zm1.6-5a1.8 1.8 0 1 1 0 3.6 1.8 1.8 0 0 1 0-3.6Zm3.6 5h3v1.4h.1c.4-.8 1.5-1.7 3-1.7 3.2 0 3.8 2.1 3.8 4.9v5.4h-3.1v-4.8c0-1.2 0-2.7-1.6-2.7s-1.9 1.3-1.9 2.6v4.9h-3.1v-10Z"></path>
+                </svg>
+                <span class="sr-only">{handle}</span>
+              </>
+            ) : (
+              handle
+            )}
+          </span>
+        </a>
+      ) : (
+        <span class="contact-method contact-method--pending" data-placeholder-key={detail.value} aria-disabled="true">
+          <span class="contact-method__label">{item.label}</span>
+          <span class="contact-method__handle">{handle}</span>
+        </span>
+      );
+    })}
+  </address>
+</aside>

@@ -1,7 +1,6 @@
 ---
 import { siteConfig } from "../../data/site";
 import { getPagePath, type Language, type TranslationDictionary } from "../../i18n/config";
-import MotionWrapper from "../effects/MotionWrapper.astro";
 import ButtonLink from "../ui/ButtonLink.astro";
 import Container from "../ui/Container.astro";
 
@@ -12,62 +11,120 @@ interface Props {
 
 const { language, translations } = Astro.props;
 const section = translations.sections.hero;
-const headlineAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "headline");
-const portraitAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "portrait");
-const actionsAnnotation = translations.hero.annotations.find((annotation) => annotation.placement === "actions");
+const titleLines = translations.hero.displayLines.slice(0, 2);
+const titleDepths = [0.18, -0.12];
 const projectsPath = getPagePath(language, "projects");
 const contactPath = getPagePath(language, "contact");
 ---
 
-<section id={section.anchor} class="hero-section" aria-labelledby="hero-title">
+<section id={section.anchor} class="hero-section" aria-labelledby="hero-title" data-home-hero>
   <Container size="wide" class="hero-section__inner">
-    <div class="hero-section__editorial" data-motion="reveal">
-      <p class="hero-section__eyebrow">{section.eyebrow}</p>
+    <div class="hero-section__stage">
+      <p class="hero-section__intro" data-hero-depth style="--hero-depth: 0.08">{section.eyebrow}</p>
+
       <h1 id="hero-title" class="hero-section__title" aria-label={`${siteConfig.personName}: ${translations.hero.displayLines.join(" ")}`}>
-        <span class="hero-section__name">{siteConfig.personName}</span>
-        {translations.hero.displayLines.map((line, index) => (
-          <span class:list={["hero-section__title-line", index === 1 && "hero-section__title-line--offset"]}>
+        {titleLines.map((line, index) => (
+          <span
+            class:list={[
+              "hero-section__title-line",
+              index === 0 ? "hero-section__title-line--solid" : "hero-section__title-line--outline",
+            ]}
+            data-hero-depth
+            style={`--hero-depth: ${titleDepths[index]}`}
+          >
             {line}
           </span>
         ))}
       </h1>
-      {headlineAnnotation ? (
-        <p class="hero-annotation hero-annotation--headline">{headlineAnnotation.label}</p>
-      ) : null}
-    </div>
 
-    <MotionWrapper mode="subtle" class="hero-section__portrait-layer">
-      <div class="hero-portrait" aria-label={translations.hero.portrait.alt} data-portrait-status="placeholder">
-        <span class="hero-portrait__label">{translations.hero.portrait.placeholderLabel}</span>
-        <span class="hero-portrait__figure">{translations.hero.portrait.futureImageLabel}</span>
-        <span class="hero-portrait__note">{translations.hero.portrait.placeholderNote}</span>
+      <div class="hero-section__portrait-anchor" aria-hidden="true">
+        <div class="hero-section__portrait-layer" data-hero-depth style="--hero-depth: 0.42">
+          <img
+            class="hero-section__portrait"
+            src="/images/ImagenHeroPortfolioBlancoYNegroSinFondo.png"
+            alt=""
+            width="1122"
+            height="1402"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
       </div>
-      {portraitAnnotation ? (
-        <p class="hero-annotation hero-annotation--portrait">{portraitAnnotation.label}</p>
-      ) : null}
-    </MotionWrapper>
 
-    <div class="hero-section__lower" data-motion="reveal">
-      <p class="hero-section__summary">{translations.hero.supportingParagraph}</p>
-      <div class="hero-section__actions" data-contact-ready="future-intake">
+      <p class="sr-only">{translations.hero.portrait.alt}</p>
+
+      <div class="hero-section__meta" aria-label={translations.hero.snapshotLabel}>
+        <p class="hero-section__summary" data-hero-depth style="--hero-depth: -0.06">
+          {translations.hero.supportingParagraph}
+        </p>
+        <ul class="hero-section__marks">
+          {translations.hero.architectureSignals.map((signal) => (
+            <li>{signal}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="hero-section__actions" data-contact-ready="future-intake" data-hero-depth style="--hero-depth: 0.16">
         <ButtonLink href={projectsPath}>{translations.hero.actions.projects}</ButtonLink>
         <ButtonLink href={contactPath} variant="secondary">{translations.hero.actions.contact}</ButtonLink>
       </div>
-      {actionsAnnotation ? (
-        <p class="hero-annotation hero-annotation--actions">{actionsAnnotation.label}</p>
-      ) : null}
-    </div>
-
-    <div class="hero-section__chips" aria-label={translations.hero.snapshotLabel}>
-      {translations.hero.architectureSignals.map((signal, index) => (
-        <span class:list={["hero-chip", `hero-chip--${(index % 4) + 1}`]}>{signal}</span>
-      ))}
-    </div>
-
-    <div class="hero-section__stickers" aria-hidden="true">
-      {translations.hero.stickers.map((sticker, index) => (
-        <span class:list={["hero-sticker", `hero-sticker--${index + 1}`]}>{sticker}</span>
-      ))}
     </div>
   </Container>
 </section>
+
+<script>
+  (() => {
+    const hero = document.querySelector<HTMLElement>("[data-home-hero]");
+    const finePointer = window.matchMedia("(pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    if (!hero || !finePointer.matches || reducedMotion.matches) return;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let frame = 0;
+
+    const render = () => {
+      currentX += (targetX - currentX) * 0.12;
+      currentY += (targetY - currentY) * 0.12;
+      hero.style.setProperty("--hero-parallax-x", `${currentX.toFixed(2)}px`);
+      hero.style.setProperty("--hero-parallax-y", `${currentY.toFixed(2)}px`);
+      frame = window.requestAnimationFrame(render);
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = hero.getBoundingClientRect();
+      const normalizedX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const normalizedY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      targetX = normalizedX * 24;
+      targetY = normalizedY * 16;
+    };
+
+    const settle = () => {
+      targetX = 0;
+      targetY = 0;
+    };
+
+    const disable = () => {
+      window.cancelAnimationFrame(frame);
+      hero.style.removeProperty("--hero-parallax-x");
+      hero.style.removeProperty("--hero-parallax-y");
+      hero.removeEventListener("pointermove", handlePointerMove);
+      hero.removeEventListener("pointerleave", settle);
+    };
+
+    hero.addEventListener("pointermove", handlePointerMove, { passive: true });
+    hero.addEventListener("pointerleave", settle, { passive: true });
+    finePointer.addEventListener("change", () => {
+      if (!finePointer.matches) disable();
+    });
+    reducedMotion.addEventListener("change", () => {
+      if (reducedMotion.matches) disable();
+    });
+
+    frame = window.requestAnimationFrame(render);
+  })();
+</script>

@@ -1,5 +1,6 @@
 ---
 import type { TranslationDictionary } from "../../i18n/config";
+import PointerArrowField from "../effects/PointerArrowField.astro";
 import Container from "../ui/Container.astro";
 
 interface Props {
@@ -11,6 +12,7 @@ const technical = translations.projectsWorkNarrative.technical;
 ---
 
 <section class="projects-technical-section" aria-labelledby="projects-technical-title">
+  <PointerArrowField count={84} columns={12} class="pointer-arrow-field--section" />
   <Container size="wide" class="projects-technical">
     <div class="projects-technical__intro">
       <p class="projects-page-label projects-page-label--dark">{technical.eyebrow}</p>

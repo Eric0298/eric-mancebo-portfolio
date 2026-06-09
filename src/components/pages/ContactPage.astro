@@ -2,8 +2,9 @@
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ContactNotebookSection from "../sections/ContactNotebookSection.astro";
-import PageHero from "../sections/PageHero.astro";
+import ContactMethods from "../contact/ContactMethods.astro";
+import ContactForm from "../forms/ContactForm.astro";
+import "../../styles/contact.css";
 
 interface Props {
   language: Language;
@@ -13,6 +14,7 @@ const { language } = Astro.props;
 const translations = useTranslations(language);
 const canonicalPath = getPagePath(language, "contact");
 const page = translations.pages.contact;
+const contactPage = translations.contactPage;
 ---
 
 <BaseLayout
@@ -22,6 +24,15 @@ const page = translations.pages.contact;
   title={page.metaTitle}
   description={page.metaDescription}
 >
-  <PageHero page={page} pageKey="contact" />
-  <ContactNotebookSection translations={translations} />
+  <section class="contact-page" aria-labelledby="contact-page-title">
+    <div class="contact-page__layout">
+      <div class="contact-page__intro">
+        <h1 id="contact-page-title">{contactPage.title}</h1>
+        <p>{contactPage.subtitle}</p>
+      </div>
+
+      <ContactMethods translations={translations} />
+      <ContactForm translations={translations} />
+    </div>
+  </section>
 </BaseLayout>

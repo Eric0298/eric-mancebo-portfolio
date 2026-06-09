@@ -20,26 +20,44 @@ const story = translations.aboutPage.horizontalStory;
           <span data-story-progress></span>
         </div>
         <div class="about-story-scroller__track" data-story-track>
-          {story.chapters.map((chapter) => (
-            <article
-              class:list={[
-                "about-story-card",
-                chapter.layout === "text-right" ? "about-story-card--text-right" : "about-story-card--text-left",
-              ]}
-              data-motion="reveal"
-            >
-              <div class="about-story-card__copy">
-                <p class="about-story-card__label">{chapter.label}</p>
-                <h3>{chapter.title}</h3>
-                <p>{chapter.summary}</p>
-              </div>
-              <AboutPlaceholder
-                label={chapter.visualLabel}
-                note={chapter.visualNote}
-                variant="chapter"
-              />
-            </article>
-          ))}
+          {story.chapters.map((chapter, index) => {
+            const imageSrc = chapter.imageSrc;
+            const imageStyle = chapter.imagePosition
+              ? `--about-story-image-position: ${chapter.imagePosition};`
+              : undefined;
+
+            return (
+              <article
+                class:list={[
+                  "about-story-card",
+                  chapter.layout === "text-right" ? "about-story-card--text-right" : "about-story-card--text-left",
+                ]}
+                data-motion="reveal"
+              >
+                <div class="about-story-card__copy">
+                  <p class="about-story-card__label">{chapter.label}</p>
+                  <h3>{chapter.title}</h3>
+                  <p>{chapter.summary}</p>
+                </div>
+                {imageSrc ? (
+                  <figure class="about-placeholder about-placeholder--chapter about-story-card__media" style={imageStyle}>
+                    <img
+                      src={imageSrc}
+                      alt={chapter.visualLabel}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                  </figure>
+                ) : (
+                  <AboutPlaceholder
+                    label={chapter.visualLabel}
+                    note={chapter.visualNote}
+                    variant="chapter"
+                  />
+                )}
+              </article>
+            );
+          })}
         </div>
       </div>
     </div>

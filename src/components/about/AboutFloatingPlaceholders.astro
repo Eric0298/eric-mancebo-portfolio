@@ -1,8 +1,15 @@
 ---
+type FloatingLayer = "left" | "right";
+
 interface FloatingPlaceholder {
   label: string;
   note: string;
-  column: "left" | "right";
+  column: FloatingLayer;
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition?: string;
+  width?: number;
+  height?: number;
 }
 
 interface Props {
@@ -10,32 +17,27 @@ interface Props {
 }
 
 const { items } = Astro.props;
-const columns = {
-  left: items.filter((item) => item.column === "left"),
-  right: items.filter((item) => item.column === "right"),
-};
-const rotations = [-5, 2.8, -2.4, 4, -3.2, 1.7];
+const collageItems = items.slice(0, 6);
 ---
 
 <div class="about-floating-placeholders" aria-hidden="true">
-  {(Object.keys(columns) as Array<"left" | "right">).map((column) => (
-    <div class:list={["about-floating-placeholders__column", `about-floating-placeholders__column--${column}`]}>
-      {columns[column].map((item, index) => {
-        const rotation = rotations[(index + (column === "right" ? 2 : 0)) % rotations.length];
-
-        return (
-          <figure
-            class="about-floating-card"
-            style={`--floating-rotate: ${rotation}deg; --floating-delay: ${index * 0.06}s;`}
-          >
-            <div class="about-floating-card__media"></div>
-            <figcaption>
-              <span>{item.label}</span>
-              <small>{item.note}</small>
-            </figcaption>
-          </figure>
-        );
-      })}
-    </div>
+  {collageItems.map((item, index) => (
+    <figure class:list={["about-floating-card", `about-floating-card--${item.column}`, `about-floating-card--slot-${index + 1}`]}>
+      <div class="about-floating-card__media">
+        <img
+          src={item.imageSrc}
+          alt={item.imageAlt}
+          width={item.width}
+          height={item.height}
+          loading="lazy"
+          decoding="async"
+          style={item.imagePosition ? `object-position: ${item.imagePosition}` : undefined}
+        />
+      </div>
+      <figcaption>
+        <span>{item.label}</span>
+        <small>{item.note}</small>
+      </figcaption>
+    </figure>
   ))}
 </div>

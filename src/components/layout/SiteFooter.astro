@@ -9,19 +9,157 @@ interface Props {
 
 const { translations } = Astro.props;
 const currentYear = new Date().getFullYear();
+const isSpanish = translations.metadata.htmlLang === "es";
+const contactNavigation = translations.navigation.items.find((item) => item.section === "contact");
+const contactHref = contactNavigation?.href ?? "/";
+const emailAddress = "ericmancebo6950@gmail.com";
+const emailHref = `mailto:${emailAddress}`;
+const footerPitch = isSpanish
+  ? "Construyo webs, herramientas y automatizaciones para personas y equipos que valoran claridad, criterio de producto y una ejecución técnica cuidada."
+  : "I build websites, tools, and automations for people and teams who value clarity, product judgment, and careful technical execution.";
+const labels = {
+  navigation: isSpanish ? "Navegación" : "Navigation",
+  contact: isSpanish ? "Contacto" : "Contact",
+  connect: isSpanish ? "Conecta" : "Connect",
+  cta: isSpanish ? "Hablemos" : "Speak to me",
+  location: isSpanish ? "Valencia, España" : "Valencia, Spain",
+  portfolio: isSpanish ? "Portfolio técnico" : "Technical portfolio",
+  availability: isSpanish ? "Disponible para proyectos" : "Open to projects",
+};
+const connectLinks = [
+  {
+    label: "LinkedIn",
+    icon: "linkedin",
+    href: "https://www.linkedin.com/in/eric-mancebo-muminhodzic-a50361330/",
+  },
+  {
+    label: "Instagram",
+    icon: "instagram",
+    href: "https://www.instagram.com/",
+  },
+  {
+    label: "GitHub",
+    icon: "github",
+    href: "https://github.com/Eric0298",
+  },
+];
 ---
 
-<footer class="site-footer">
+<footer class="site-footer" data-footer-reveal>
   <Container size="wide" class="site-footer__inner">
-    <div>
-      <p class="site-footer__name">{siteConfig.personName}</p>
-      <p class="site-footer__summary">{translations.layout.footerSummary}</p>
+    <div class="site-footer__top">
+      <section class="site-footer__pitch" aria-labelledby="site-footer-title">
+        <h2 id="site-footer-title" class="sr-only">{siteConfig.personName}</h2>
+        <p class="site-footer__summary">{footerPitch}</p>
+        <a class="site-footer__cta" href={contactHref}>
+          <span>{labels.cta}</span>
+          <span class="site-footer__cta-mark" aria-hidden="true">&rarr;</span>
+        </a>
+      </section>
+
+      <section class="site-footer__column" aria-labelledby="site-footer-navigation">
+        <p id="site-footer-navigation" class="site-footer__column-title">{labels.navigation}</p>
+        <nav class="site-footer__nav" aria-label={translations.navigation.footerLabel}>
+          {translations.navigation.items.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </nav>
+      </section>
+
+      <section class="site-footer__column" aria-labelledby="site-footer-contact">
+        <p id="site-footer-contact" class="site-footer__column-title">{labels.contact}</p>
+        <address class="site-footer__contact">
+          <a class="site-footer__contact-link" href={emailHref}>{emailAddress}</a>
+          <span>{translations.metadata.role}</span>
+          <span>{labels.location}</span>
+        </address>
+      </section>
+
+      <section class="site-footer__column site-footer__column--connect" aria-labelledby="site-footer-connect">
+        <p id="site-footer-connect" class="site-footer__column-title">{labels.connect}</p>
+        <div class="site-footer__socials">
+          {connectLinks.map((link) => (
+            <a class="site-footer__social" href={link.href} aria-label={link.label} target="_blank" rel="me noopener noreferrer">
+              <span class:list={["site-footer__social-icon", `site-footer__social-icon--${link.icon}`]} aria-hidden="true"></span>
+            </a>
+          ))}
+        </div>
+        <p class="site-footer__stamp" aria-hidden="true">EM</p>
+      </section>
     </div>
-    <nav class="site-footer__nav" aria-label={translations.navigation.footerLabel}>
-      {translations.navigation.items.map((item) => (
-        <a href={item.href}>{item.label}</a>
-      ))}
-    </nav>
-    <p class="site-footer__meta">&copy; {currentYear} {siteConfig.personName}. {translations.layout.copyright}</p>
+
+    <div class="site-footer__meta-row">
+      <p class="site-footer__meta">&copy; {currentYear} {siteConfig.personName}. {translations.layout.copyright}</p>
+      <div class="site-footer__legal" aria-label={labels.portfolio}>
+        <span>{labels.portfolio}</span>
+        <span>{labels.availability}</span>
+      </div>
+    </div>
+
+    <div class="site-footer__wordmark-clip" aria-hidden="true">
+      <p class="site-footer__wordmark">
+        <span>ERIC</span>
+        <span>MANCEBO</span>
+      </p>
+    </div>
   </Container>
 </footer>
+
+<script>
+  const setupFooterReveal = () => {
+    const footer = document.querySelector<HTMLElement>("[data-footer-reveal]");
+
+    if (!footer || footer.dataset.footerRevealReady === "true") {
+      return;
+    }
+
+    footer.dataset.footerRevealReady = "true";
+
+    const reveal = () => {
+      footer.classList.add("is-name-visible");
+    };
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      reveal();
+      return;
+    }
+
+    let ticking = false;
+
+    const checkScrollEnd = () => {
+      ticking = false;
+      const viewportBottom = window.scrollY + window.innerHeight;
+      const documentHeight = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+      );
+
+      if (documentHeight - viewportBottom <= 24) {
+        reveal();
+        window.removeEventListener("scroll", queueCheck);
+        window.removeEventListener("resize", queueCheck);
+      }
+    };
+
+    const queueCheck = () => {
+      if (ticking) {
+        return;
+      }
+
+      ticking = true;
+      window.requestAnimationFrame(checkScrollEnd);
+    };
+
+    queueCheck();
+    window.addEventListener("scroll", queueCheck, { passive: true });
+    window.addEventListener("resize", queueCheck);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupFooterReveal, { once: true });
+  } else {
+    setupFooterReveal();
+  }
+
+  document.addEventListener("astro:page-load", setupFooterReveal);
+</script>

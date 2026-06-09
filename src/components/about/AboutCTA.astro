@@ -15,11 +15,26 @@ const contactPath = getPagePath(language, "contact");
 ---
 
 <section class="about-cta" aria-label={cta.summary}>
-  <Container size="standard" class="about-cta__inner" data-motion="reveal">
-    <p>{cta.summary}</p>
-    <div class="about-cta__actions">
-      <ButtonLink href={projectsPath}>{cta.projectsLabel}</ButtonLink>
-      <ButtonLink href={contactPath} variant="secondary">{cta.contactLabel}</ButtonLink>
+  <Container size="wide" class="about-cta__inner" data-motion="reveal">
+    <div class="about-cta__poster">
+      <div class="about-cta__copy">
+        <p class="about-cta__message">{cta.summary}</p>
+        <div class="about-cta__actions">
+          <ButtonLink href={projectsPath}>{cta.projectsLabel}</ButtonLink>
+          <ButtonLink href={contactPath} variant="secondary">{cta.contactLabel}</ButtonLink>
+        </div>
+      </div>
+
+      <div class="about-cta__footer-strip">
+        <p>{translations.metadata.role}</p>
+        <nav class="about-cta__nav" aria-label={translations.navigation.footerLabel}>
+          {translations.navigation.items.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+        </nav>
+      </div>
+
+      <p class="about-cta__wordmark" aria-hidden="true">{cta.brandWordmark}</p>
     </div>
   </Container>
 </section>

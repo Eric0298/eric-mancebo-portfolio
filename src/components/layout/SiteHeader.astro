@@ -13,6 +13,7 @@ interface Props {
 
 const { language, translations, currentPath } = Astro.props;
 const headerNavigation = translations.navigation.items.filter((item) => item.mobilePriority);
+const contactNavigation = translations.navigation.items.find((item) => item.section === "contact");
 const homePath = getPagePath(language, "home");
 ---
 
@@ -32,7 +33,7 @@ const homePath = getPagePath(language, "home");
 
     <nav class="site-header__nav" aria-label={translations.navigation.primaryLabel}>
       {headerNavigation.map((item) => (
-        <a href={item.href}>{item.label}</a>
+        <a href={item.href} data-section={item.section}>{item.label}</a>
       ))}
     </nav>
 
@@ -43,6 +44,9 @@ const homePath = getPagePath(language, "home");
         labels={translations.languageSwitcher}
         client:load
       />
+      {contactNavigation ? (
+        <a class="site-header__contact" href={contactNavigation.href}>{contactNavigation.label}</a>
+      ) : null}
       <MobileNavigation
         navItems={translations.navigation.items}
         contactItems={translations.contact.channels}

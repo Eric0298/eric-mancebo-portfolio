@@ -1,6 +1,5 @@
 ---
 import type { TranslationDictionary } from "../../i18n/config";
-import AboutPlaceholder from "./AboutPlaceholder.astro";
 
 interface Props {
   translations: TranslationDictionary;
@@ -8,19 +7,37 @@ interface Props {
 
 const { translations } = Astro.props;
 const manifesto = translations.aboutPage.manifesto;
-const support = translations.aboutPage.hero.annotation;
+const fourPhotoPositions = [1, 2, 4, 5];
+const visibleMedia = manifesto.media.map((item, index) => ({
+  item,
+  position: manifesto.media.length === 4 ? (fourPhotoPositions[index] ?? index + 1) : index + 1,
+}));
 ---
 
-<section class="about-manifesto" aria-label={manifesto.phrase}>
+<section id="about-manifesto" class="about-manifesto" aria-label={manifesto.phrase}>
   <div class="about-manifesto__scene">
+    <div class="about-manifesto__media-stack" aria-hidden="true">
+      {visibleMedia.map(({ item, position }) => (
+        <figure
+          class:list={["about-manifesto__photo", `about-manifesto__photo--${position}`]}
+          style={`--manifesto-image-position: ${item.imagePosition ?? "center"};`}
+        >
+          <img
+            src={item.imageSrc}
+            alt=""
+            width={item.width}
+            height={item.height}
+            loading="lazy"
+            decoding="async"
+            sizes="(min-width: 900px) 32vw, 46vw"
+          />
+        </figure>
+      ))}
+    </div>
+
     <div class="about-manifesto__copy">
       <h2 data-motion="reveal">{manifesto.phrase}</h2>
-      <p>{support}</p>
-    </div>
-    <div class="about-manifesto__placeholders" aria-hidden="true">
-      {manifesto.placeholders.map((label) => (
-        <AboutPlaceholder label={label} variant="collage" />
-      ))}
+      <p class="about-manifesto__support">{manifesto.support}</p>
     </div>
   </div>
 </section>

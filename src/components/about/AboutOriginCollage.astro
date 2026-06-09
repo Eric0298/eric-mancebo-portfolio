@@ -1,7 +1,6 @@
 ---
 import type { TranslationDictionary } from "../../i18n/config";
 import Container from "../ui/Container.astro";
-import AboutPlaceholder from "./AboutPlaceholder.astro";
 
 interface Props {
   translations: TranslationDictionary;
@@ -11,18 +10,172 @@ const { translations } = Astro.props;
 const origin = translations.aboutPage.origin;
 ---
 
-<section class="about-origin" aria-labelledby="about-origin-title">
-  <Container size="wide" class="about-origin__inner">
-    <div class="about-origin__copy" data-motion="reveal">
-      <p class="about-kicker">{origin.eyebrow}</p>
-      <h2 id="about-origin-title">{origin.title}</h2>
-      <p>{origin.summary}</p>
+<section
+  class="about-origin about-origin--background-narrative"
+  aria-labelledby="about-origin-title"
+  data-about-origin-scene
+  data-origin-active="false"
+>
+  <div class="about-origin__sticky">
+    <div class="about-origin__media" aria-hidden="true">
+      <img
+        class="about-origin__image"
+        src="/images/about-me/FotoEric-Programando-Vista-detras-SetUp-Animado.png"
+        alt=""
+        width="1448"
+        height="1086"
+        loading="lazy"
+        decoding="async"
+        sizes="100vw"
+      />
     </div>
+    <div class="about-origin__shade" aria-hidden="true"></div>
 
-    <div class="about-origin__collage" data-motion="reveal">
-      {origin.placeholders.map((label) => (
-        <AboutPlaceholder label={label} variant="collage" />
-      ))}
-    </div>
-  </Container>
+    <Container size="wide" class="about-origin__stage">
+      <p class="about-origin__eyebrow">{origin.eyebrow}</p>
+      <h2 id="about-origin-title" class="sr-only">{origin.title}</h2>
+      <div class="about-origin__blocks">
+        {origin.narrativeBlocks.map((block, index) => (
+          <p
+            class="about-origin__block"
+            data-origin-block
+            style={`--origin-block-index: ${index};`}
+          >
+            {block}
+          </p>
+        ))}
+      </div>
+    </Container>
+  </div>
 </section>
+
+<script is:inline type="module">
+  const originSceneControllers = new WeakMap();
+  const clamp = (value, min = 0, max = 1) => Math.min(Math.max(value, min), max);
+
+  function setupAboutOriginScene(section) {
+    originSceneControllers.get(section)?.();
+
+    const desktopQuery = window.matchMedia("(min-width: 900px)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const blocks = Array.from(section.querySelectorAll("[data-origin-block]"));
+    let frame = 0;
+    let isActive = false;
+
+    const clearMotion = () => {
+      section.dataset.originActive = "false";
+      section.style.removeProperty("--origin-progress");
+      section.style.removeProperty("--origin-bg-dim");
+      section.style.removeProperty("--origin-bg-scale");
+      section.style.removeProperty("--origin-bg-y");
+      blocks.forEach((block) => {
+        block.style.removeProperty("--origin-block-opacity");
+        block.style.removeProperty("--origin-block-y");
+        block.style.removeProperty("--origin-block-visibility");
+      });
+    };
+
+    const update = () => {
+      if (!isActive) {
+        return;
+      }
+
+      const rect = section.getBoundingClientRect();
+      const scrollableDistance = Math.max(1, rect.height - window.innerHeight);
+      const progress = clamp(-rect.top / scrollableDistance);
+
+      section.style.setProperty("--origin-progress", progress.toFixed(4));
+      section.style.setProperty("--origin-bg-dim", (0.34 + progress * 0.08).toFixed(4));
+      section.style.setProperty("--origin-bg-scale", (1.015 + progress * 0.035).toFixed(4));
+      section.style.setProperty("--origin-bg-y", `${(-progress * 1.8).toFixed(2)}vh`);
+
+      const centers = blocks.map((_, index) => {
+        if (blocks.length <= 1) {
+          return 0.5;
+        }
+
+        return 0.12 + index * (0.76 / (blocks.length - 1));
+      });
+      const segmentStarts = centers.map((center, index) =>
+        index === 0 ? 0 : (centers[index - 1] + center) / 2
+      );
+      const segmentEnds = centers.map((center, index) =>
+        index === centers.length - 1 ? 1 : (center + centers[index + 1]) / 2
+      );
+      const fadeRatio = 0.24;
+
+      blocks.forEach((block, index) => {
+        const center = centers[index] ?? 0.5;
+        const start = segmentStarts[index] ?? 0;
+        const end = segmentEnds[index] ?? 1;
+        const isInSegment = index === blocks.length - 1
+          ? progress >= start && progress <= end
+          : progress >= start && progress < end;
+        const localProgress = clamp((progress - start) / Math.max(0.001, end - start));
+        const entrance = clamp(localProgress / fadeRatio);
+        const exit = clamp((1 - localProgress) / fadeRatio);
+        const strength = isInSegment ? Math.min(entrance, exit) : 0;
+        const direction = progress < center ? 1 : -1;
+        const segmentHalf = Math.max(center - start, end - center, 0.001);
+        const y = direction * clamp(Math.abs(progress - center) / segmentHalf) * 1.35;
+
+        block.style.setProperty("--origin-block-opacity", strength.toFixed(4));
+        block.style.setProperty("--origin-block-visibility", strength > 0.01 ? "visible" : "hidden");
+        block.style.setProperty("--origin-block-y", `${y.toFixed(2)}vh`);
+      });
+    };
+
+    const queueUpdate = () => {
+      if (!isActive) {
+        return;
+      }
+
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+
+    const refresh = () => {
+      isActive = desktopQuery.matches && !reducedMotionQuery.matches;
+
+      if (!isActive) {
+        cancelAnimationFrame(frame);
+        clearMotion();
+        return;
+      }
+
+      section.dataset.originActive = "true";
+      update();
+    };
+
+    window.addEventListener("scroll", queueUpdate, { passive: true });
+    window.addEventListener("resize", refresh);
+    desktopQuery.addEventListener("change", refresh);
+    reducedMotionQuery.addEventListener("change", refresh);
+
+    refresh();
+
+    const teardown = () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", queueUpdate);
+      window.removeEventListener("resize", refresh);
+      desktopQuery.removeEventListener("change", refresh);
+      reducedMotionQuery.removeEventListener("change", refresh);
+      clearMotion();
+    };
+
+    originSceneControllers.set(section, teardown);
+  }
+
+  function initAboutOriginScenes(root = document) {
+    root.querySelectorAll("[data-about-origin-scene]").forEach(setupAboutOriginScene);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initAboutOriginScenes(), { once: true });
+  } else {
+    initAboutOriginScenes();
+  }
+
+  document.addEventListener("astro:page-load", () => initAboutOriginScenes());
+  window.addEventListener("pageshow", () => initAboutOriginScenes());
+</script>

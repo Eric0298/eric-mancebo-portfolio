@@ -1,7 +1,6 @@
 ---
 import type { TranslationDictionary } from "../../i18n/config";
 import Container from "../ui/Container.astro";
-import AboutPlaceholder from "./AboutPlaceholder.astro";
 
 interface Props {
   translations: TranslationDictionary;
@@ -15,10 +14,16 @@ const hero = translations.aboutPage.hero;
   <Container size="wide" class="about-hero__inner">
     <div class="about-hero__scene">
       <div class="about-hero__visual" data-motion="reveal">
-        <AboutPlaceholder
-          label={hero.placeholderLabel}
-          note={hero.placeholderNote}
-          variant="hero"
+        <img
+          class="about-hero__image"
+          src="/images/about-me/ImagenHero-AboutMe.png"
+          alt="Retrato visual de Eric Mancebo para la pagina sobre mi"
+          width="1672"
+          height="941"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+          sizes="100vw"
         />
       </div>
 

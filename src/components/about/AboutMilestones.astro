@@ -1,7 +1,6 @@
 ---
 import type { TranslationDictionary } from "../../i18n/config";
 import Container from "../ui/Container.astro";
-import AboutMilestoneHoverCard from "./AboutMilestoneHoverCard.astro";
 
 interface Props {
   translations: TranslationDictionary;
@@ -9,13 +8,30 @@ interface Props {
 
 const { translations } = Astro.props;
 const timeline = translations.aboutPage.timeline;
+const milestoneImageVersion = "20260608";
+const milestoneImages = [
+  "/images/about-me/etapas/Etapa1.png",
+  "/images/about-me/etapas/Etapa2.png",
+  "/images/about-me/etapas/Etapa3.png",
+  "/images/about-me/etapas/Etapa4.png",
+  "/images/about-me/etapas/Etapa5.png",
+  "/images/about-me/etapas/Etapa6.png",
+].map((src) => `${src}?v=${milestoneImageVersion}`);
+const titleLines =
+  timeline.title === "UNA TRANSICIÓN CONSTRUIDA POR ETAPAS"
+    ? ["UNA TRANSICIÓN", "CONSTRUIDA", "POR ETAPAS"]
+    : timeline.title === "A TRANSITION BUILT IN STAGES"
+      ? ["A TRANSITION", "BUILT IN STAGES"]
+      : [timeline.title];
 ---
 
 <section class="about-milestones" aria-labelledby="about-milestones-title" data-about-milestones>
   <Container size="wide" class="about-milestones__inner">
     <div class="about-milestones__intro" data-motion="reveal">
       <p class="about-kicker">{timeline.eyebrow}</p>
-      <h2 id="about-milestones-title">{timeline.title}</h2>
+      <h2 id="about-milestones-title">
+        {titleLines.map((line) => <span>{line}</span>)}
+      </h2>
       <p>{timeline.summary}</p>
     </div>
 
@@ -30,45 +46,36 @@ const timeline = translations.aboutPage.timeline;
               data-milestone-index={String(index)}
               aria-current={index === 0 ? "step" : undefined}
             >
-              <p class="about-milestone-row__label">{item.label}</p>
-              <h3 class="about-milestone-row__title">{item.title}</h3>
-              <p class="about-milestone-row__summary">{item.summary}</p>
-              <AboutMilestoneHoverCard
-                label={item.visualLabel}
-                note={item.visualNote}
-                index={index}
-                mode="inline"
-              />
+              <div class="about-milestone-row__marker">
+                <p class="about-milestone-row__label">{item.label}</p>
+              </div>
+              <div class="about-milestone-row__copy">
+                <h3 class="about-milestone-row__title">{item.title}</h3>
+                <p class="about-milestone-row__summary">{item.summary}</p>
+              </div>
             </article>
           </li>
         ))}
       </ol>
 
-      <div class="about-milestones__media-stage" aria-hidden="true">
-        {timeline.items.map((item, index) => (
-          <AboutMilestoneHoverCard
-            label={item.visualLabel}
-            note={item.visualNote}
-            index={index}
-            mode="desktop"
-            active={index === 0}
-          />
-        ))}
-      </div>
-
-      <div class="about-milestones__detail-stage" aria-live="polite">
-        {timeline.items.map((item, index) => (
-          <article
-            class:list={["about-milestone-detail", index === 0 && "is-active"]}
-            data-milestone-detail={String(index)}
-            aria-hidden={index === 0 ? "false" : "true"}
-          >
-            <p class="about-milestone-detail__label">{item.label}</p>
-            <h3>{item.title}</h3>
-            <p>{item.summary}</p>
-          </article>
-        ))}
-      </div>
+      <figure class="about-milestones__polaroid" data-milestone-polaroid aria-hidden="true">
+        <div class="about-milestones__polaroid-media">
+          {timeline.items.map((item, index) => (
+            <img
+              class:list={[
+                "about-milestones__polaroid-image",
+                index === 0 && "is-active",
+                index === timeline.items.length - 1 && "about-milestones__polaroid-image--zoom-out",
+              ]}
+              src={milestoneImages[index % milestoneImages.length]}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              data-milestone-polaroid-image={String(index)}
+            />
+          ))}
+        </div>
+      </figure>
     </div>
   </Container>
 </section>
@@ -80,10 +87,14 @@ const timeline = translations.aboutPage.timeline;
     milestoneControllers.get(root)?.();
 
     const rows = Array.from(root.querySelectorAll("[data-milestone-row]"));
-    const cards = Array.from(root.querySelectorAll("[data-milestone-card]"));
-    const details = Array.from(root.querySelectorAll("[data-milestone-detail]"));
+    const polaroid = root.querySelector("[data-milestone-polaroid]");
+    const polaroidImages = Array.from(root.querySelectorAll("[data-milestone-polaroid-image]"));
     const defaultIndex = 0;
     const cleanups = [];
+    const imageTransitionTimers = new Set();
+    let pointerIndex = null;
+    let activeImageIndex = defaultIndex;
+    let rafId = 0;
 
     const setActive = (activeIndex) => {
       rows.forEach((row, index) => {
@@ -97,49 +108,143 @@ const timeline = translations.aboutPage.timeline;
         }
       });
 
-      cards.forEach((card) => {
-        card.classList.toggle("is-active", Number(card.dataset.milestoneCard) === activeIndex);
-      });
-
-      details.forEach((detail) => {
-        const isActive = Number(detail.dataset.milestoneDetail) === activeIndex;
-        detail.classList.toggle("is-active", isActive);
-        detail.setAttribute("aria-hidden", String(!isActive));
-      });
-
       root.style.setProperty("--active-milestone", String(activeIndex));
     };
 
-    rows.forEach((row, index) => {
-      const activate = () => setActive(index);
-      const deactivate = () => {
-        if (!root.matches(":focus-within")) {
-          setActive(defaultIndex);
+    const setPolaroidPosition = (event) => {
+      if (!polaroid || !event || event.pointerType === "touch") {
+        return;
+      }
+
+      polaroid.style.setProperty("--polaroid-x", `${event.clientX}px`);
+      polaroid.style.setProperty("--polaroid-y", `${event.clientY}px`);
+    };
+
+    const showPolaroid = () => {
+      polaroid?.classList.add("is-visible");
+    };
+
+    const hidePolaroid = () => {
+      polaroid?.classList.remove("is-visible");
+    };
+
+    const setPolaroidImage = (nextIndex) => {
+      if (!polaroidImages.length || nextIndex === activeImageIndex) {
+        return;
+      }
+
+      const previousImage = polaroidImages[activeImageIndex];
+      const nextImage = polaroidImages[nextIndex];
+
+      previousImage?.classList.remove("is-active");
+      previousImage?.classList.add("is-leaving");
+      nextImage?.classList.remove("is-leaving");
+      nextImage?.getBoundingClientRect();
+      nextImage?.classList.add("is-active");
+
+      if (previousImage) {
+        const timerId = window.setTimeout(() => {
+          previousImage.classList.remove("is-leaving");
+          imageTransitionTimers.delete(timerId);
+        }, 520);
+        imageTransitionTimers.add(timerId);
+      }
+
+      activeImageIndex = nextIndex;
+    };
+
+    const getScrollActiveIndex = () => {
+      if (!rows.length) {
+        return defaultIndex;
+      }
+
+      const viewportAnchor = window.innerHeight * 0.52;
+      let closestIndex = defaultIndex;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      rows.forEach((row, index) => {
+        const rect = row.getBoundingClientRect();
+        const rowAnchor = rect.top + rect.height * 0.5;
+        const distance = Math.abs(rowAnchor - viewportAnchor);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
         }
+      });
+
+      return closestIndex;
+    };
+
+    const updateFromScroll = () => {
+      rafId = 0;
+
+      if (pointerIndex !== null || root.matches(":focus-within")) {
+        return;
+      }
+
+      setActive(getScrollActiveIndex());
+    };
+
+    const scheduleScrollUpdate = () => {
+      if (!rafId) {
+        rafId = window.requestAnimationFrame(updateFromScroll);
+      }
+    };
+
+    rows.forEach((row, index) => {
+      const updatePointerPosition = (event) => setPolaroidPosition(event);
+      const activate = (event) => {
+        pointerIndex = index;
+        updatePointerPosition(event);
+        showPolaroid();
+        setPolaroidImage(index);
+        setActive(index);
       };
-      row.addEventListener("mouseenter", activate);
-      row.addEventListener("mouseleave", deactivate);
-      row.addEventListener("focusin", activate);
-      cleanups.push(() => row.removeEventListener("mouseenter", activate));
-      cleanups.push(() => row.removeEventListener("mouseleave", deactivate));
-      cleanups.push(() => row.removeEventListener("focusin", activate));
+      const focusActivate = () => setActive(index);
+      row.addEventListener("pointerenter", activate);
+      row.addEventListener("pointermove", updatePointerPosition);
+      row.addEventListener("focusin", focusActivate);
+      row.addEventListener("click", activate);
+      cleanups.push(() => row.removeEventListener("pointerenter", activate));
+      cleanups.push(() => row.removeEventListener("pointermove", updatePointerPosition));
+      cleanups.push(() => row.removeEventListener("focusin", focusActivate));
+      cleanups.push(() => row.removeEventListener("click", activate));
     });
 
-    const resetOnLeave = () => setActive(defaultIndex);
+    const resetOnLeave = () => {
+      pointerIndex = null;
+      hidePolaroid();
+
+      if (!root.matches(":focus-within")) {
+        scheduleScrollUpdate();
+      }
+    };
     const resetOnBlur = () => {
       requestAnimationFrame(() => {
         if (!root.contains(document.activeElement)) {
-          setActive(defaultIndex);
+          pointerIndex = null;
+          scheduleScrollUpdate();
         }
       });
     };
 
     root.addEventListener("mouseleave", resetOnLeave);
     root.addEventListener("focusout", resetOnBlur);
+    window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+    window.addEventListener("resize", scheduleScrollUpdate);
     cleanups.push(() => root.removeEventListener("mouseleave", resetOnLeave));
     cleanups.push(() => root.removeEventListener("focusout", resetOnBlur));
+    cleanups.push(() => window.removeEventListener("scroll", scheduleScrollUpdate));
+    cleanups.push(() => window.removeEventListener("resize", scheduleScrollUpdate));
+    cleanups.push(() => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+    });
+    cleanups.push(() => imageTransitionTimers.forEach((timerId) => window.clearTimeout(timerId)));
 
-    setActive(defaultIndex);
+    setActive(getScrollActiveIndex());
     milestoneControllers.set(root, () => cleanups.forEach((cleanup) => cleanup()));
   }
 

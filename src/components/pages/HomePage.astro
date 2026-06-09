@@ -1,6 +1,5 @@
 ---
 import HeroSection from "../sections/HeroSection.astro";
-import HomeCoverSection from "../sections/HomeCoverSection.astro";
 import { getPagePath, type Language } from "../../i18n/config";
 import { useTranslations } from "../../i18n/useTranslations";
 import BaseLayout from "../../layouts/BaseLayout.astro";
@@ -23,5 +22,4 @@ const page = translations.pages.home;
   description={page.metaDescription}
 >
   <HeroSection language={language} translations={translations} />
-  <HomeCoverSection language={language} translations={translations} />
 </BaseLayout>
