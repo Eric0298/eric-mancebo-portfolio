@@ -1,0 +1,13 @@
+{
+  "name": "eric-mancebo-portfolio",
+  "compatibility_date": "2026-06-10",
+  "assets": {
+    "directory": "./dist"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "7983a2c0e8cc47bc8fe85aed6b5ab138"
+    }
+  ]
+}
