@@ -2,14 +2,23 @@
 import { content } from "../../data/content";
 const es = content.es;
 const en = content.en;
+
+// Long marquee sequence
+const esMarquee = [...es.header.marqueeTerms, ...es.header.marqueeTerms, ...es.header.marqueeTerms];
+const enMarquee = [...en.header.marqueeTerms, ...en.header.marqueeTerms, ...en.header.marqueeTerms];
 ---
 
 <section id="top" class="hero">
-  <div class="hero__stage">
-    <h1 class="hero__display display" aria-label={es.header.name} data-motion="display">
-      <span aria-hidden="true">E</span><span aria-hidden="true">R</span><span aria-hidden="true">I</span><span aria-hidden="true">C</span>
-    </h1>
+  <div class="hero__marquee-row" data-motion="marquee" aria-hidden="true">
+    <div class="marquee hero__marquee-track" data-i18n="es">
+      {esMarquee.map((term) => <span class="hero__word display">{term}</span>)}
+    </div>
+    <div class="marquee hero__marquee-track" data-i18n="en">
+      {enMarquee.map((term) => <span class="hero__word display">{term}</span>)}
+    </div>
+  </div>
 
+  <div class="hero__stage">
     <div class="hero__portrait" data-motion="portrait" aria-hidden="true">
       <div class="hero__portrait-frame">
         <span class="hero__portrait-label" data-i18n="es">Retrato</span>
@@ -18,19 +27,23 @@ const en = content.en;
     </div>
   </div>
 
-  <div class="hero__caption">
-    <p class="hero__lead display" data-motion="rise" data-delay="0.5">
-      <span data-i18n="es">Desarrollo web con criterio y precisión.</span>
-      <span data-i18n="en">Web development with judgment and precision.</span>
-    </p>
-    <p class="hero__meta mono" data-motion="rise" data-delay="0.65">
-      <span data-i18n="es">{es.header.role} · {es.header.location}</span>
-      <span data-i18n="en">{en.header.role} · {en.header.location}</span>
-    </p>
-    <a class="cta hero__cta" href="#projects" data-motion="rise" data-delay="0.8">
-      <span class="cta__dot"></span>
-      <span data-i18n="es">Ver proyectos</span>
-      <span data-i18n="en">See projects</span>
+  <div class="hero__foot">
+    <div class="hero__meta-block" data-motion="rise" data-delay="0.6">
+      <p class="hero__meta mono">
+        <span>{es.header.locationLine}</span>
+        <span class="hero__meta-sep" aria-hidden="true">·</span>
+        <span data-clock aria-live="polite">--:--:--</span>
+      </p>
+      <p class="hero__meta mono">
+        <span data-i18n="es">{es.header.role}</span>
+        <span data-i18n="en">{en.header.role}</span>
+      </p>
+    </div>
+
+    <a class="link-cta hero__cta" href="#links" data-motion="rise" data-delay="0.75">
+      <span class="hero__cta-dot" aria-hidden="true"></span>
+      <span data-i18n="es">{es.header.ctaLabel}</span>
+      <span data-i18n="en">{en.header.ctaLabel}</span>
     </a>
   </div>
 </section>
@@ -39,52 +52,47 @@ const en = content.en;
   .hero {
     position: relative;
     min-block-size: 100dvh;
-    padding-block-start: 6.5rem;
-    padding-block-end: var(--space-8);
-    padding-inline: var(--page-gutter);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    padding-block-start: 6rem;
+    padding-block-end: var(--space-6);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-6);
     overflow: hidden;
+  }
+
+  .hero__marquee-row {
+    position: absolute;
+    inset-block-start: 42%;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    transform: translateY(-50%);
+    z-index: 0;
+    inline-size: 200%;
+    max-inline-size: none;
+    pointer-events: none;
+  }
+
+  .hero__marquee-track {
+    font-size: clamp(4rem, 2rem + 12vw, 14rem);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    color: var(--ink-strong);
+  }
+
+  .hero__word {
+    display: inline-block;
+    padding-inline-end: 1.2rem;
   }
 
   .hero__stage {
     position: relative;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: 100%;
-    max-inline-size: 100rem;
-    isolation: isolate;
-  }
-
-  .hero__display {
-    font-size: var(--step-display);
-    line-height: 0.82;
-    color: var(--ink-strong);
-    text-align: center;
-    letter-spacing: -0.06em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    inline-size: 100%;
-    gap: clamp(0.5rem, 2vw, 3rem);
-    user-select: none;
-    text-shadow: 0 0 80px var(--glow-soft);
-  }
-
-  .hero__display > span {
-    display: inline-block;
-    will-change: transform, opacity;
+    display: grid;
+    place-items: center;
+    z-index: 1;
+    padding-inline: var(--page-gutter);
   }
 
   .hero__portrait {
-    position: absolute;
-    inset-block-start: 50%;
-    inset-inline-start: 50%;
-    transform: translate(-50%, -50%);
     z-index: 2;
     aspect-ratio: 3 / 4;
     inline-size: clamp(14rem, 24vw, 22rem);
@@ -110,22 +118,20 @@ const en = content.en;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
   }
 
-  .hero__caption {
+  .hero__foot {
+    position: relative;
+    z-index: 3;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    padding-block-start: var(--space-6);
-    text-align: center;
-    max-inline-size: 34rem;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-5);
+    padding-inline: var(--page-gutter);
   }
 
-  .hero__lead {
-    font-size: clamp(1.2rem, 1rem + 1vw, 1.9rem);
-    font-weight: 600;
-    line-height: 1.15;
-    color: var(--ink);
-    letter-spacing: -0.02em;
+  .hero__meta-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
   }
 
   .hero__meta {
@@ -133,15 +139,21 @@ const en = content.en;
   }
 
   .hero__cta {
-    margin-block-start: var(--space-3);
+    margin-inline-start: auto;
   }
 
   @media (max-width: 640px) {
     .hero {
       padding-block-start: 5rem;
+      gap: var(--space-4);
     }
-    .hero__display {
-      gap: 0;
+    .hero__foot {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-5);
+    }
+    .hero__cta {
+      margin-inline-start: 0;
     }
     .hero__portrait {
       inline-size: clamp(11rem, 55vw, 18rem);

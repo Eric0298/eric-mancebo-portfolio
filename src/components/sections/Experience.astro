@@ -2,79 +2,130 @@
 import { content } from "../../data/content";
 const es = content.es;
 const en = content.en;
-const rows = es.experience.items.map((_, i) => i);
+const items = es.experience.items.map((_, i) => i);
 ---
 
-<section id="experience" class="section experience">
-  <div class="page-shell">
-    <div class="section-head">
-      <span class="eyebrow">
-        <span data-i18n="es">{es.experience.eyebrow}</span>
-        <span data-i18n="en">{en.experience.eyebrow}</span>
-      </span>
-    </div>
+<section id="experience" class="experience" data-motion="experience">
+  <div class="experience__pin">
+    <div class="page-shell page-shell--wide">
+      <h2 class="section-title experience__title" data-motion="title">
+        <span data-i18n="es">{es.experience.title}</span>
+        <span data-i18n="en">{en.experience.title}</span>
+      </h2>
 
-    <ul class="experience__list" role="list">
-      {rows.map((i) => {
-        const esItem = es.experience.items[i];
-        const enItem = en.experience.items[i];
-        return (
-          <li class="experience__row" data-motion="row">
-            <span class="experience__period mono">
-              <span data-i18n="es">{esItem.period}</span>
-              <span data-i18n="en">{enItem.period}</span>
-            </span>
-            <span class="experience__role display">
-              <span data-i18n="es">{esItem.role}</span>
-              <span data-i18n="en">{enItem.role}</span>
-            </span>
-            <span class="experience__place">
-              <span data-i18n="es">{esItem.place}</span>
-              <span data-i18n="en">{enItem.place}</span>
-            </span>
-          </li>
-        );
-      })}
-    </ul>
+      <div class="experience__viewport">
+        {items.map((i) => {
+          const esItem = es.experience.items[i];
+          const enItem = en.experience.items[i];
+          return (
+            <>
+              <div class="experience__slide experience__slide--year" data-slide-index={i * 2}>
+                <span class="experience__year display">{esItem.period}</span>
+              </div>
+              <div class="experience__slide experience__slide--detail" data-slide-index={i * 2 + 1}>
+                <span class="experience__role display">
+                  <span data-i18n="es">{esItem.role}</span>
+                  <span data-i18n="en">{enItem.role}</span>
+                </span>
+                <span class="experience__summary">
+                  <span data-i18n="es">{esItem.summary}</span>
+                  <span data-i18n="en">{enItem.summary}</span>
+                </span>
+                <span class="experience__place mono">
+                  <span data-i18n="es">{esItem.place}</span>
+                  <span data-i18n="en">{enItem.place}</span>
+                </span>
+              </div>
+            </>
+          );
+        })}
+      </div>
+
+      <p class="experience__hint mono">
+        <span data-i18n="es">{es.experience.scrollHint}</span>
+        <span data-i18n="en">{en.experience.scrollHint}</span>
+      </p>
+    </div>
   </div>
 </section>
 
 <style>
-  .experience__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-5);
+  .experience {
+    position: relative;
+    padding-block: 0;
   }
 
-  .experience__row {
-    display: grid;
-    grid-template-columns: 10rem 1fr auto;
-    gap: var(--space-5);
-    align-items: baseline;
+  .experience__pin {
+    block-size: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .experience__period {
-    color: var(--ink-muted);
+  .experience__title {
+    margin-block-end: var(--space-6);
+  }
+
+  .experience__viewport {
+    position: relative;
+    inline-size: 100%;
+    block-size: min(46dvh, 32rem);
+  }
+
+  .experience__slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .experience__slide--year {
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .experience__year {
+    font-size: clamp(5rem, 3rem + 12vw, 18rem);
+    font-weight: 400;
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+    color: var(--ink-strong);
+    text-shadow: 0 0 60px var(--glow-soft);
   }
 
   .experience__role {
-    font-size: var(--step-2);
-    font-weight: 600;
+    font-size: clamp(2rem, 1rem + 3.5vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.035em;
     color: var(--ink);
-    letter-spacing: -0.02em;
+  }
+
+  .experience__summary {
+    font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem);
+    line-height: 1.4;
+    max-inline-size: 42ch;
+    color: var(--ink-muted);
   }
 
   .experience__place {
     color: var(--ink-faint);
-    font-size: var(--step-0);
+  }
+
+  .experience__hint {
+    color: var(--ink-faint);
+    margin-block-start: var(--space-6);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
   }
 
   @media (max-width: 640px) {
-    .experience__row {
-      grid-template-columns: 1fr;
-      gap: var(--space-1);
+    .experience__viewport {
+      block-size: min(56dvh, 30rem);
     }
   }
 </style>

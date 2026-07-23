@@ -11,6 +11,7 @@ export interface ExperienceItem {
   period: string;
   role: string;
   place: string;
+  summary: string;
 }
 
 export interface StackGroup {
@@ -36,30 +37,35 @@ export interface PortfolioContent {
     langLabel: string;
   };
   header: {
-    eyebrow: string;
-    name: string;
+    displayLine: string;
     role: string;
-    location: string;
+    locationLine: string;
+    ctaLabel: string;
+    marqueeTerms: string[];
   };
-  summary: {
-    eyebrow: string;
+  about: {
+    title: string;
     body: string;
   };
   projects: {
-    eyebrow: string;
+    title: string;
     items: Project[];
   };
   experience: {
-    eyebrow: string;
+    title: string;
     items: ExperienceItem[];
+    scrollHint: string;
   };
   stack: {
-    eyebrow: string;
+    title: string;
     groups: StackGroup[];
   };
   links: {
-    eyebrow: string;
+    title: string;
     email: string;
+    phone: string;
+    phoneHref: string;
+    whatsappHref: string;
     items: LinkItem[];
     footer: string;
   };
@@ -68,6 +74,11 @@ export interface PortfolioContent {
     caption: string;
   };
 }
+
+const email = "ericmancebo6950@gmail.com";
+const phoneDisplay = "+34 610 27 11 91";
+const phoneHref = "tel:+34610271191";
+const whatsappHref = "https://wa.me/34610271191";
 
 export const content: Record<Language, PortfolioContent> = {
   es: {
@@ -84,17 +95,18 @@ export const content: Record<Language, PortfolioContent> = {
       langLabel: "ES",
     },
     header: {
-      eyebrow: "Portfolio",
-      name: "Eric Mancebo",
+      displayLine: "FULLSTACK DEVELOPER",
       role: "Desarrollador full-stack",
-      location: "Basado en España",
+      locationLine: "BASED IN VALENCIA",
+      ctaLabel: "Abierto a trabajar",
+      marqueeTerms: ["FULLSTACK", "DEVELOPER", "INTERFACES", "PRODUCTO"],
     },
-    summary: {
-      eyebrow: "Resumen",
+    about: {
+      title: "Sobre mí",
       body: "Construyo productos web con criterio de ingeniero y ojo de diseñador. Me interesa la precisión, el ritmo del scroll y las interfaces que no sobran.",
     },
     projects: {
-      eyebrow: "Proyectos",
+      title: "Trabajo destacado",
       items: [
         {
           name: "Proyecto uno",
@@ -114,15 +126,34 @@ export const content: Record<Language, PortfolioContent> = {
       ],
     },
     experience: {
-      eyebrow: "Experiencia",
+      title: "Experiencia",
+      scrollHint: "Desliza para avanzar",
       items: [
-        { period: "2024 — hoy", role: "Desarrollador freelance", place: "Independiente" },
-        { period: "2022 — 2024", role: "Full-stack", place: "Empresa" },
-        { period: "2020 — 2022", role: "Frontend Junior", place: "Empresa" },
+        {
+          period: "2024",
+          role: "Desarrollador freelance",
+          place: "Independiente",
+          summary:
+            "Trabajos por encargo end-to-end: producto web, automatización y arquitectura.",
+        },
+        {
+          period: "2022",
+          role: "Full-stack",
+          place: "Empresa",
+          summary:
+            "Diseño e implementación de interfaces y APIs para producto en producción.",
+        },
+        {
+          period: "2020",
+          role: "Frontend Junior",
+          place: "Empresa",
+          summary:
+            "Primeros pasos profesionales: HTML/CSS/JS, componentes y buenas prácticas.",
+        },
       ],
     },
     stack: {
-      eyebrow: "Stack",
+      title: "Stack",
       groups: [
         { label: "Frontend", items: ["Astro", "React", "TypeScript", "GSAP", "Lenis", "Tailwind"] },
         { label: "Backend", items: ["Node.js", "Python", "PostgreSQL", "REST", "Cloudflare"] },
@@ -130,10 +161,15 @@ export const content: Record<Language, PortfolioContent> = {
       ],
     },
     links: {
-      eyebrow: "Contacto",
-      email: "ericmancebo6950@gmail.com",
+      title: "Contacto",
+      email,
+      phone: phoneDisplay,
+      phoneHref,
+      whatsappHref,
       items: [
-        { label: "Email", href: "mailto:ericmancebo6950@gmail.com" },
+        { label: "Email", href: `mailto:${email}` },
+        { label: "WhatsApp", href: whatsappHref },
+        { label: "Teléfono", href: phoneHref },
         { label: "GitHub", href: "https://github.com/" },
         { label: "LinkedIn", href: "https://linkedin.com/" },
       ],
@@ -158,17 +194,18 @@ export const content: Record<Language, PortfolioContent> = {
       langLabel: "EN",
     },
     header: {
-      eyebrow: "Portfolio",
-      name: "Eric Mancebo",
+      displayLine: "FULLSTACK DEVELOPER",
       role: "Full-stack developer",
-      location: "Based in Spain",
+      locationLine: "BASED IN VALENCIA",
+      ctaLabel: "Open to work",
+      marqueeTerms: ["FULLSTACK", "DEVELOPER", "INTERFACES", "PRODUCT"],
     },
-    summary: {
-      eyebrow: "Summary",
+    about: {
+      title: "About",
       body: "I build web products with an engineer's judgment and a designer's eye. I care about precision, scroll cadence, and interfaces that leave nothing extra.",
     },
     projects: {
-      eyebrow: "Projects",
+      title: "Featured work",
       items: [
         {
           name: "Project one",
@@ -188,15 +225,34 @@ export const content: Record<Language, PortfolioContent> = {
       ],
     },
     experience: {
-      eyebrow: "Experience",
+      title: "Experience",
+      scrollHint: "Scroll to advance",
       items: [
-        { period: "2024 — now", role: "Freelance developer", place: "Independent" },
-        { period: "2022 — 2024", role: "Full-stack", place: "Company" },
-        { period: "2020 — 2022", role: "Junior frontend", place: "Company" },
+        {
+          period: "2024",
+          role: "Freelance developer",
+          place: "Independent",
+          summary:
+            "End-to-end commissioned work: web product, automation, and architecture.",
+        },
+        {
+          period: "2022",
+          role: "Full-stack",
+          place: "Company",
+          summary:
+            "Design and implementation of interfaces and APIs for a live product.",
+        },
+        {
+          period: "2020",
+          role: "Junior frontend",
+          place: "Company",
+          summary:
+            "First professional steps: HTML/CSS/JS, components and good practices.",
+        },
       ],
     },
     stack: {
-      eyebrow: "Stack",
+      title: "Stack",
       groups: [
         { label: "Frontend", items: ["Astro", "React", "TypeScript", "GSAP", "Lenis", "Tailwind"] },
         { label: "Backend", items: ["Node.js", "Python", "PostgreSQL", "REST", "Cloudflare"] },
@@ -204,10 +260,15 @@ export const content: Record<Language, PortfolioContent> = {
       ],
     },
     links: {
-      eyebrow: "Contact",
-      email: "ericmancebo6950@gmail.com",
+      title: "Contact",
+      email,
+      phone: phoneDisplay,
+      phoneHref,
+      whatsappHref,
       items: [
-        { label: "Email", href: "mailto:ericmancebo6950@gmail.com" },
+        { label: "Email", href: `mailto:${email}` },
+        { label: "WhatsApp", href: whatsappHref },
+        { label: "Phone", href: phoneHref },
         { label: "GitHub", href: "https://github.com/" },
         { label: "LinkedIn", href: "https://linkedin.com/" },
       ],

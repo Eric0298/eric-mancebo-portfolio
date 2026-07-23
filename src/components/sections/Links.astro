@@ -7,15 +7,14 @@ const items = es.links.items.map((_, i) => i);
 
 <section id="links" class="section links">
   <div class="page-shell">
-    <div class="section-head">
-      <span class="eyebrow">
-        <span data-i18n="es">{es.links.eyebrow}</span>
-        <span data-i18n="en">{en.links.eyebrow}</span>
-      </span>
-    </div>
+    <h2 class="section-title" data-motion="title">
+      <span data-i18n="es">{es.links.title}</span>
+      <span data-i18n="en">{en.links.title}</span>
+    </h2>
 
     <div class="links__grid">
       <a class="links__email display" href={`mailto:${es.links.email}`}>{es.links.email}</a>
+      <a class="links__phone display" href={es.links.phoneHref}>{es.links.phone}</a>
 
       <ul class="links__list" role="list">
         {items.map((i) => {
@@ -52,11 +51,12 @@ const items = es.links.items.map((_, i) => i);
 <style>
   .links__grid {
     display: grid;
-    gap: var(--space-7);
+    gap: var(--space-6);
     margin-block-end: var(--space-8);
   }
 
-  .links__email {
+  .links__email,
+  .links__phone {
     font-size: clamp(1.6rem, 1.2rem + 1.5vw, 3rem);
     font-weight: 600;
     letter-spacing: -0.03em;
@@ -66,7 +66,8 @@ const items = es.links.items.map((_, i) => i);
     transition: text-shadow var(--dur-med) var(--ease-out);
   }
 
-  .links__email:hover {
+  .links__email:hover,
+  .links__phone:hover {
     text-shadow: 0 0 24px var(--glow), 0 0 60px var(--glow-soft);
   }
 

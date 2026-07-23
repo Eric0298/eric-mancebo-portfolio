@@ -10,6 +10,9 @@ export function initMotion() {
   if (reduce) {
     document.documentElement.classList.remove("motion-loading");
     document.documentElement.classList.add("motion-ready");
+    document.querySelectorAll<HTMLElement>(".words__word").forEach((el) => {
+      el.classList.add("words__word--visible", "words__word--lit");
+    });
     return;
   }
 
@@ -42,27 +45,40 @@ export function initMotion() {
     });
   });
 
-  // Hero display: letter-by-letter reveal + subtle float
-  const displayEl = document.querySelector<HTMLElement>("[data-motion='display']");
-  if (displayEl) {
-    const letters = Array.from(displayEl.children) as HTMLElement[];
-    gsap.from(letters, {
-      yPercent: 120,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.08,
-      ease: "power4.out",
-      delay: 0.15,
+  // Hero marquee — infinite horizontal drift, subtle parallax on scroll
+  document
+    .querySelectorAll<HTMLElement>("[data-motion='marquee'] .hero__marquee-track")
+    .forEach((track, i) => {
+      gsap.set(track, { x: i === 0 ? "-5%" : "-5%" });
+      gsap.to(track, {
+        x: "-25%",
+        duration: 30,
+        ease: "none",
+        repeat: -1,
+      });
+    });
+
+  const marqueeRow = document.querySelector<HTMLElement>("[data-motion='marquee']");
+  if (marqueeRow) {
+    gsap.to(marqueeRow, {
+      yPercent: 8,
+      ease: "none",
+      scrollTrigger: {
+        trigger: marqueeRow,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
     });
   }
 
-  // Hero portrait: gentle parallax + slight scale as scroll
+  // Portrait — appear + parallax
   const portrait = document.querySelector<HTMLElement>("[data-motion='portrait']");
   if (portrait) {
     gsap.fromTo(
       portrait,
       { y: 40, opacity: 0, scale: 0.94 },
-      { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "power3.out", delay: 0.35 },
+      { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "power3.out", delay: 0.2 },
     );
     gsap.to(portrait, {
       yPercent: -15,
@@ -76,7 +92,7 @@ export function initMotion() {
     });
   }
 
-  // Generic rise-in blocks
+  // Rise-in generic
   gsap.utils.toArray<HTMLElement>("[data-motion='rise']").forEach((el) => {
     gsap.from(el, {
       y: 24,
@@ -87,47 +103,135 @@ export function initMotion() {
     });
   });
 
-  // Section-head fade
-  gsap.utils.toArray<HTMLElement>(".section-head").forEach((el) => {
-    gsap.from(el, {
+  // Giant section titles — char-by-char rise
+  gsap.utils.toArray<HTMLElement>("[data-motion='title']").forEach((el) => {
+    const visibleSpan = Array.from(el.querySelectorAll<HTMLElement>("span[data-i18n]")).find(
+      (s) => getComputedStyle(s).display !== "none",
+    );
+    const source = visibleSpan ?? el;
+    const text = (source.textContent ?? "").trim();
+    if (!text) return;
+
+    // Rebuild both language spans with per-char structure
+    el.querySelectorAll<HTMLElement>("span[data-i18n]").forEach((span) => {
+      const raw = (span.textContent ?? "").trim();
+      span.innerHTML = "";
+      for (const ch of raw) {
+        const wrap = document.createElement("span");
+        wrap.className = "section-title__char";
+        wrap.style.display = "inline-block";
+        wrap.style.willChange = "transform, opacity";
+        if (ch === " ") {
+          wrap.innerHTML = "&nbsp;";
+          wrap.style.whiteSpace = "pre";
+        } else {
+          wrap.textContent = ch;
+        }
+        span.appendChild(wrap);
+      }
+    });
+
+    const chars = el.querySelectorAll<HTMLElement>(".section-title__char");
+    gsap.from(chars, {
+      yPercent: 110,
       opacity: 0,
-      y: 12,
-      duration: 0.6,
-      ease: "power2.out",
+      duration: 0.9,
+      stagger: 0.02,
+      ease: "power4.out",
       scrollTrigger: {
         trigger: el,
-        start: "top 95%",
+        start: "top 90%",
         once: true,
       },
     });
   });
 
-  // Summary — illuminate words on scroll (scrub)
+  // Summary — words appear from nothing AND illuminate as scroll progresses
   document
     .querySelectorAll<HTMLElement>("[data-motion='words']")
     .forEach((container) => {
       const words = container.querySelectorAll<HTMLElement>(".words__word");
       if (!words.length) return;
-      const tl = gsap.timeline({
+
+      // Phase 1: pop in from nothing, staggered by scroll position
+      const appearTl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
-          start: "top 78%",
-          end: "bottom 50%",
-          scrub: 0.5,
+          start: "top 85%",
+          end: "top 40%",
+          scrub: 0.6,
         },
       });
       words.forEach((word) => {
-        tl.to(
+        appearTl.to(
+          word,
+          {
+            onStart: () => word.classList.add("words__word--visible"),
+            onReverseComplete: () =>
+              word.classList.remove("words__word--visible", "words__word--lit"),
+            duration: 0.3,
+          },
+          "+=0.08",
+        );
+      });
+
+      // Phase 2: illuminate as scroll continues past the appear range
+      const litTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 45%",
+          end: "bottom 45%",
+          scrub: 0.4,
+        },
+      });
+      words.forEach((word) => {
+        litTl.to(
           word,
           {
             onStart: () => word.classList.add("words__word--lit"),
             onReverseComplete: () => word.classList.remove("words__word--lit"),
-            duration: 0.4,
+            duration: 0.3,
           },
-          "+=0.1",
+          "+=0.08",
         );
       });
     });
+
+  // Experience — cinematic pinned reveal: year → detail → next year → ...
+  const experience = document.querySelector<HTMLElement>("[data-motion='experience']");
+  if (experience) {
+    const pin = experience.querySelector<HTMLElement>(".experience__pin");
+    const slides = experience.querySelectorAll<HTMLElement>(".experience__slide");
+    if (pin && slides.length > 0) {
+      // Init: only first slide visible
+      gsap.set(slides, { opacity: 0, y: 40 });
+      gsap.set(slides[0], { opacity: 1, y: 0 });
+
+      const perSlide = 700; // px of scroll per transition
+      const total = (slides.length - 1) * perSlide;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: experience,
+          start: "top top",
+          end: `+=${total}`,
+          pin: pin,
+          pinSpacing: true,
+          scrub: 0.6,
+        },
+      });
+
+      for (let i = 0; i < slides.length - 1; i++) {
+        tl.to(slides[i], { opacity: 0, y: -40, duration: 1, ease: "power2.inOut" }, i)
+          .fromTo(
+            slides[i + 1],
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 1, ease: "power2.inOut" },
+            i,
+          );
+      }
+    }
+  }
 
   // Project cards — alternating entry/exit with scale + rotate + slide (scrub)
   gsap.utils.toArray<HTMLElement>("[data-motion='card']").forEach((card) => {
@@ -168,7 +272,7 @@ export function initMotion() {
       });
   });
 
-  // Stack cells — floating pills, independent motion per cell
+  // Stack cells — appear + independent float
   gsap.utils.toArray<HTMLElement>("[data-motion='float']").forEach((cell, i) => {
     gsap.fromTo(
       cell,
@@ -202,7 +306,7 @@ export function initMotion() {
     });
   });
 
-  // Experience rows
+  // Row lists
   gsap.utils.toArray<HTMLElement>("[data-motion='row']").forEach((el) => {
     gsap.from(el, {
       opacity: 0,

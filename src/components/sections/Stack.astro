@@ -43,12 +43,10 @@ const iconPaths: Record<string, string> = {
 
 <section id="stack" class="section stack">
   <div class="page-shell">
-    <div class="section-head">
-      <span class="eyebrow">
-        <span data-i18n="es">{es.stack.eyebrow}</span>
-        <span data-i18n="en">{en.stack.eyebrow}</span>
-      </span>
-    </div>
+    <h2 class="section-title" data-motion="title">
+      <span data-i18n="es">{es.stack.title}</span>
+      <span data-i18n="en">{en.stack.title}</span>
+    </h2>
 
     <div class="stack__grid">
       {allItems.map((name) => (
@@ -111,7 +109,7 @@ const iconPaths: Record<string, string> = {
 
   .stack__glyph {
     font-size: 1.9rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: -0.05em;
   }
 

@@ -6,12 +6,17 @@ const en = content.en;
 function splitWords(text: string) {
   return text.split(/\s+/).filter(Boolean);
 }
-const esWords = splitWords(es.summary.body);
-const enWords = splitWords(en.summary.body);
+const esWords = splitWords(es.about.body);
+const enWords = splitWords(en.about.body);
 ---
 
-<section id="summary" class="section summary">
+<section id="about" class="section summary">
   <div class="page-shell">
+    <h2 class="section-title" data-motion="title">
+      <span data-i18n="es">{es.about.title}</span>
+      <span data-i18n="en">{en.about.title}</span>
+    </h2>
+
     <p class="summary__body display" data-i18n="es" data-motion="words">
       <span class="words">
         {esWords.map((word) => (
@@ -35,11 +40,13 @@ const enWords = splitWords(en.summary.body);
   }
 
   .summary__body {
-    font-size: clamp(1.8rem, 1.2rem + 2.2vw, 3.6rem);
+    font-family: var(--font-body);
     font-weight: 500;
-    line-height: 1.18;
-    letter-spacing: -0.025em;
-    max-inline-size: 26ch;
+    font-size: clamp(1.5rem, 1rem + 1.8vw, 2.6rem);
+    line-height: 1.28;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    max-inline-size: 28ch;
     margin-inline: auto;
     text-align: start;
   }

@@ -35,7 +35,7 @@ const structuredData = [
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700&display=swap"
     />
     <script is:inline>
       (function () {
@@ -78,9 +78,11 @@ const structuredData = [
       import { initTheme } from "../scripts/theme";
       import { initLanguage } from "../scripts/i18n";
       import { initMotion } from "../scripts/motion";
+      import { initClock } from "../scripts/clock";
 
       initTheme();
       initLanguage();
+      initClock();
       initMotion();
     </script>
   </body>

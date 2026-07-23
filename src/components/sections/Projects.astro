@@ -7,12 +7,10 @@ const rows = es.projects.items.map((_, i) => i);
 
 <section id="projects" class="section projects">
   <div class="page-shell">
-    <div class="section-head">
-      <span class="eyebrow">
-        <span data-i18n="es">{es.projects.eyebrow}</span>
-        <span data-i18n="en">{en.projects.eyebrow}</span>
-      </span>
-    </div>
+    <h2 class="section-title" data-motion="title">
+      <span data-i18n="es">{es.projects.title}</span>
+      <span data-i18n="en">{en.projects.title}</span>
+    </h2>
 
     <div class="projects__stack">
       {rows.map((i) => {
@@ -50,7 +48,7 @@ const rows = es.projects.items.map((_, i) => i);
 
   .project-card {
     padding: clamp(1.5rem, 3vw, 2.75rem);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-xl) !important;
     max-inline-size: 38rem;
     display: flex;
     flex-direction: column;
@@ -80,14 +78,14 @@ const rows = es.projects.items.map((_, i) => i);
 
   .project-card__idx {
     font-size: var(--step-2);
-    font-weight: 700;
+    font-weight: 400;
     color: var(--ink-faint);
     letter-spacing: -0.04em;
   }
 
   .project-card__name {
     font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem);
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: -0.035em;
     line-height: 1;
     color: var(--ink);
