@@ -1,0 +1,120 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+---
+
+<section id="top" class="section header">
+  <div class="page-shell">
+    <div class="header__grid">
+      <div class="header__meta">
+        <span class="eyebrow" data-motion="rise" data-delay="0">
+          <span data-i18n="es">{es.header.eyebrow}</span>
+          <span data-i18n="en">{en.header.eyebrow}</span>
+        </span>
+      </div>
+
+      <h1 class="header__display serif" data-motion="display">Eric Mancebo</h1>
+
+      <div class="header__lower">
+        <div class="header__portrait" data-motion="portrait" aria-hidden="true">
+          <div class="header__portrait-frame">
+            <span class="header__portrait-placeholder" data-i18n="es">Retrato</span>
+            <span class="header__portrait-placeholder" data-i18n="en">Portrait</span>
+          </div>
+        </div>
+
+        <div class="header__details">
+          <p class="header__role" data-motion="rise" data-delay="0.35">
+            <span data-i18n="es">{es.header.role}</span>
+            <span data-i18n="en">{en.header.role}</span>
+          </p>
+          <p class="header__location mono" data-motion="rise" data-delay="0.45">
+            <span data-i18n="es">{es.header.location}</span>
+            <span data-i18n="en">{en.header.location}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .header {
+    padding-block-start: calc(var(--space-10) + var(--space-6));
+    padding-block-end: var(--space-9);
+    border-block-end: 1px solid var(--border);
+  }
+
+  .header__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .header__display {
+    font-size: var(--step-display);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .header__lower {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: var(--space-6);
+    margin-block-start: var(--space-4);
+  }
+
+  .header__portrait {
+    grid-column: 1;
+    max-inline-size: 14rem;
+    aspect-ratio: 3 / 4;
+  }
+
+  .header__portrait-frame {
+    inline-size: 100%;
+    block-size: 100%;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    display: grid;
+    place-items: center;
+    color: var(--ink-faint);
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header__details {
+    grid-column: 2;
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .header__role {
+    font-size: var(--step-1);
+    color: var(--ink);
+  }
+
+  .header__location {
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 640px) {
+    .header__lower {
+      grid-template-columns: 1fr;
+    }
+    .header__portrait {
+      grid-column: 1;
+      max-inline-size: 10rem;
+    }
+    .header__details {
+      grid-column: 1;
+      text-align: start;
+    }
+  }
+</style>

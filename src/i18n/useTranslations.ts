@@ -1,14 +1,8 @@
 import { defaultLanguage, isSupportedLanguage, type Language } from "./config";
-import { en } from "./dictionaries/en";
-import { es } from "./dictionaries/es";
-
-export const dictionaries = {
-  es,
-  en,
-} as const;
+import { content } from "../data/content";
 
 export function useTranslations(language: Language = defaultLanguage) {
-  return dictionaries[language];
+  return content[language];
 }
 
 export function getTranslations(language: string | undefined | null) {

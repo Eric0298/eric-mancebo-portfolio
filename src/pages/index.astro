@@ -1,5 +1,18 @@
 ---
-import HomePage from "../components/pages/HomePage.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/sections/Header.astro";
+import Summary from "../components/sections/Summary.astro";
+import Projects from "../components/sections/Projects.astro";
+import Experience from "../components/sections/Experience.astro";
+import Stack from "../components/sections/Stack.astro";
+import Links from "../components/sections/Links.astro";
 ---
 
-<HomePage language="es" />
+<BaseLayout>
+  <Header />
+  <Summary />
+  <Projects />
+  <Experience />
+  <Stack />
+  <Links />
+</BaseLayout>

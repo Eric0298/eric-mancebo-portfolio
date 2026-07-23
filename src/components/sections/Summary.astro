@@ -1,0 +1,29 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+---
+
+<section id="summary" class="section summary">
+  <div class="page-shell">
+    <div class="section-head reveal">
+      <span class="eyebrow">
+        <span data-i18n="es">{es.summary.eyebrow}</span>
+        <span data-i18n="en">{en.summary.eyebrow}</span>
+      </span>
+    </div>
+    <p class="summary__body serif reveal">
+      <span data-i18n="es">{es.summary.body}</span>
+      <span data-i18n="en">{en.summary.body}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .summary__body {
+    font-size: var(--step-3);
+    line-height: 1.25;
+    color: var(--ink);
+    max-inline-size: 42ch;
+  }
+</style>

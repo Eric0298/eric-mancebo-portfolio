@@ -1,73 +1,87 @@
 ---
-import MobileActionBar from "../components/mobile/MobileActionBar.astro";
-import CustomCursor from "../components/effects/CustomCursor.astro";
-import EntryLoader from "../components/effects/EntryLoader.astro";
 import SeoHead from "../components/seo/SeoHead.astro";
 import StructuredData from "../components/seo/StructuredData.astro";
-import SiteFooter from "../components/layout/SiteFooter.astro";
-import SiteHeader from "../components/layout/SiteHeader.astro";
-import { getPageKeyFromPath, type Language, type TranslationDictionary } from "../i18n/config";
-import { buildAlternateLanguageLinks, buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
+import LiquidGlassFilter from "../components/ui/LiquidGlassFilter.astro";
+import Nav from "../components/layout/Nav.astro";
+import { defaultLanguage, type Language } from "../i18n/config";
+import { content, type PortfolioContent } from "../data/content";
+import { buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
 import "../styles/global.css";
 
 interface Props {
-  language: Language;
-  translations: TranslationDictionary;
-  canonicalPath: string;
-  title?: string;
-  description?: string;
-  noindex?: boolean;
+  language?: Language;
 }
 
-const {
-  language,
-  translations,
-  canonicalPath,
-  title = translations.metadata.defaultTitle,
-  description = translations.metadata.defaultDescription,
-  noindex = false,
-} = Astro.props;
+const { language = defaultLanguage } = Astro.props;
+const translations: PortfolioContent = content[language];
 const siteUrl = Astro.site ?? Astro.url.origin;
-const alternates = buildAlternateLanguageLinks(canonicalPath, siteUrl);
 const structuredData = [
-  buildPersonJsonLd(translations, language, canonicalPath, siteUrl),
-  buildWebsiteJsonLd(translations, language, canonicalPath, siteUrl),
+  buildPersonJsonLd(translations, language, siteUrl),
+  buildWebsiteJsonLd(translations, language, siteUrl),
 ];
-const shouldShowFooter = getPageKeyFromPath(canonicalPath) !== "home";
 ---
 
 <!doctype html>
-<html lang={translations.metadata.htmlLang}>
+<html lang={language} data-lang={language} class="motion-loading">
   <head>
     <SeoHead
-      title={title}
-      description={description}
-      siteName={translations.metadata.siteName}
+      title={translations.meta.title}
+      description={translations.meta.description}
       language={language}
-      canonicalPath={canonicalPath}
-      alternates={alternates}
-      noindex={noindex}
-      ogLocale={translations.metadata.ogLocale}
+      ogLocale={translations.meta.ogLocale}
     />
     <StructuredData data={structuredData} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap"
+    />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("eric-mancebo-portfolio-theme");
+          var theme = stored === "light" || stored === "dark"
+            ? stored
+            : window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+
+          var storedLang = localStorage.getItem("eric-mancebo-portfolio-language");
+          var lang =
+            storedLang === "es" || storedLang === "en"
+              ? storedLang
+              : (navigator.language || "es").slice(0, 2).toLowerCase() === "en"
+                ? "en"
+                : "es";
+          document.documentElement.setAttribute("lang", lang);
+          document.documentElement.setAttribute("data-lang", lang);
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
   </head>
   <body>
-    <CustomCursor />
+    <a class="skip-link" href="#main-content" data-i18n="es">Saltar al contenido</a>
+    <a class="skip-link" href="#main-content" data-i18n="en">Skip to content</a>
+
+    <LiquidGlassFilter />
+    <Nav translations={translations} />
+
+    <main id="main-content" class="site-main">
+      <slot />
+    </main>
+
     <script>
-      import "../web-components/contact-intent";
-      import "../web-components/scroll-reveal";
+      import { initTheme } from "../scripts/theme";
+      import { initLanguage } from "../scripts/i18n";
+      import { initMotion } from "../scripts/motion";
+
+      initTheme();
+      initLanguage();
+      initMotion();
     </script>
-    <a class="skip-link" href="#main-content">{translations.accessibility.skipToContent}</a>
-    <EntryLoader translations={translations} />
-    <portfolio-contact-intent>
-      <SiteHeader language={language} translations={translations} currentPath={canonicalPath} />
-      <portfolio-motion-root>
-        <main id="main-content" class="site-main" data-page-transition="notebook">
-          <slot />
-        </main>
-      </portfolio-motion-root>
-      {shouldShowFooter ? <SiteFooter translations={translations} /> : null}
-      <MobileActionBar translations={translations} />
-    </portfolio-contact-intent>
   </body>
 </html>

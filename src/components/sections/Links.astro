@@ -1,0 +1,116 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+const items = es.links.items.map((_, i) => i);
+---
+
+<section id="links" class="section links">
+  <div class="page-shell">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-i18n="es">{es.links.eyebrow}</span>
+        <span data-i18n="en">{en.links.eyebrow}</span>
+      </span>
+    </div>
+
+    <div class="links__grid">
+      <a class="links__email serif" href={`mailto:${es.links.email}`}>{es.links.email}</a>
+
+      <ul class="links__list" role="list">
+        {items.map((i) => {
+          const esItem = es.links.items[i];
+          const enItem = en.links.items[i];
+          const external = esItem.href.startsWith("http");
+          return (
+            <li>
+              <a
+                class="links__row"
+                href={esItem.href}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                data-motion="row"
+              >
+                <span class="links__label">
+                  <span data-i18n="es">{esItem.label}</span>
+                  <span data-i18n="en">{enItem.label}</span>
+                </span>
+                <span class="links__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+
+    <p class="links__footer mono">
+      <span data-i18n="es">{es.links.footer}</span>
+      <span data-i18n="en">{en.links.footer}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .links__grid {
+    display: grid;
+    gap: var(--space-6);
+    margin-block-end: var(--space-8);
+  }
+
+  .links__email {
+    font-size: var(--step-3);
+    line-height: 1.15;
+    color: var(--ink);
+    text-decoration: none;
+    border-block-end: 1px solid var(--border);
+    padding-block-end: var(--space-2);
+    max-inline-size: max-content;
+    transition: color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .links__email:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .links__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+  }
+
+  .links__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--border);
+    font-size: var(--step-1);
+    color: var(--ink);
+    transition: padding-inline var(--dur-med) var(--ease-out);
+  }
+
+  .links__row:hover {
+    padding-inline-start: var(--space-2);
+  }
+
+  .links__list li:last-child .links__row {
+    border-block-end: none;
+  }
+
+  .links__arrow {
+    display: inline-block;
+    transition: transform var(--dur-med) var(--ease-out);
+  }
+
+  .links__row:hover .links__arrow {
+    transform: translateX(6px);
+  }
+
+  .links__footer {
+    color: var(--ink-faint);
+    padding-block-start: var(--space-6);
+    border-block-start: 1px solid var(--border);
+  }
+</style>

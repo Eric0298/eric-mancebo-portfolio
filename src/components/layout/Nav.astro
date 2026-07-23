@@ -1,0 +1,162 @@
+---
+import type { PortfolioContent } from "../../data/content";
+import { content } from "../../data/content";
+
+interface Props {
+  translations: PortfolioContent;
+}
+
+const { translations } = Astro.props;
+const es = content.es;
+const en = content.en;
+---
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav__inner liquid-glass">
+    <a href="#top" class="nav__brand" aria-label={translations.header.name}>
+      <span class="nav__mark serif">EM</span>
+    </a>
+
+    <div class="nav__actions">
+      <button
+        type="button"
+        class="nav__btn"
+        data-lang-toggle
+        aria-label={translations.nav.languageToggle}
+      >
+        <span data-i18n="es" aria-hidden="true">{en.nav.langLabel}</span>
+        <span data-i18n="en" aria-hidden="true">{es.nav.langLabel}</span>
+      </button>
+
+      <button
+        type="button"
+        class="nav__btn nav__btn--icon"
+        data-theme-toggle
+        aria-label={translations.nav.themeToggle}
+      >
+        <svg class="nav__icon nav__icon--sun" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.5" />
+          <path
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.7 4.3l-1.4 1.4M5.7 14.3l-1.4 1.4M15.7 15.7l-1.4-1.4M5.7 5.7l-1.4-1.4"
+          />
+        </svg>
+        <svg class="nav__icon nav__icon--moon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path
+            d="M17 12.5A7 7 0 017.5 3a7 7 0 109.5 9.5z"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    inset-block-start: var(--space-4);
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--page-gutter);
+    pointer-events: none;
+  }
+
+  .nav__inner {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    min-width: 220px;
+  }
+
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    width: 2.25rem;
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    font-size: 1.05rem;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .nav__brand:hover {
+    transform: scale(1.05);
+  }
+
+  .nav__mark {
+    font-family: var(--font-serif);
+    line-height: 1;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-inline-start: auto;
+  }
+
+  .nav__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.25rem;
+    min-width: 2.25rem;
+    padding-inline: var(--space-3);
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .nav__btn:hover {
+    background: var(--glass-highlight);
+  }
+
+  .nav__btn:active {
+    transform: scale(0.96);
+  }
+
+  .nav__btn--icon {
+    padding-inline: 0;
+  }
+
+  .nav__icon {
+    height: 1.1rem;
+    width: 1.1rem;
+    color: currentColor;
+  }
+
+  .nav__icon--moon {
+    display: none;
+  }
+
+  [data-theme="dark"] .nav__icon--sun {
+    display: none;
+  }
+
+  [data-theme="dark"] .nav__icon--moon {
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .nav {
+      inset-block-start: var(--space-3);
+    }
+  }
+</style>

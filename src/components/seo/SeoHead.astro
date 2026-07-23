@@ -1,58 +1,42 @@
 ---
 import { siteConfig } from "../../data/site";
-import type { AlternateLanguageLink, Language } from "../../i18n/config";
+import type { Language } from "../../i18n/config";
 import { buildCanonicalUrl } from "../../lib/seo";
 
 interface Props {
   title: string;
   description: string;
-  siteName: string;
   language: Language;
-  canonicalPath: string;
-  alternates?: AlternateLanguageLink[];
+  ogLocale: string;
   image?: string;
   noindex?: boolean;
-  ogLocale: string;
 }
 
-const {
-  title,
-  description,
-  siteName,
-  language,
-  canonicalPath,
-  alternates = [],
-  image,
-  noindex = false,
-  ogLocale,
-} = Astro.props;
-
-const fullTitle = title.includes(siteConfig.personName) ? title : `${title} | ${siteConfig.personName}`;
+const { title, description, language, ogLocale, image, noindex = false } = Astro.props;
 const siteUrl = Astro.site ?? (siteConfig.siteUrl || Astro.url.origin);
-const canonicalUrl = buildCanonicalUrl(canonicalPath, siteUrl);
+const canonicalUrl = buildCanonicalUrl("/", siteUrl);
 ---
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
-<title>{fullTitle}</title>
+<meta name="theme-color" content="#f4f1eb" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0d0c0a" media="(prefers-color-scheme: dark)" />
+<title>{title}</title>
 <meta name="description" content={description} />
 {canonicalUrl ? <link rel="canonical" href={canonicalUrl} /> : null}
-{alternates.map((alternate) => (
-  <link rel="alternate" hreflang={alternate.language} href={alternate.href} />
-))}
 {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content={ogLocale} />
-<meta property="og:site_name" content={siteName} />
-<meta property="og:title" content={fullTitle} />
+<meta property="og:site_name" content={siteConfig.personName} />
+<meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 {canonicalUrl ? <meta property="og:url" content={canonicalUrl} /> : null}
 {image ? <meta property="og:image" content={image} /> : null}
 <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
-<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="language" content={language} />
 {siteConfig.socialHandle ? <meta name="twitter:site" content={siteConfig.socialHandle} /> : null}

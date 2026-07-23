@@ -1,0 +1,68 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+const groups = es.stack.groups.map((_, i) => i);
+---
+
+<section id="stack" class="section stack">
+  <div class="page-shell">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-i18n="es">{es.stack.eyebrow}</span>
+        <span data-i18n="en">{en.stack.eyebrow}</span>
+      </span>
+    </div>
+
+    <div class="stack__grid">
+      {groups.map((i) => {
+        const esGroup = es.stack.groups[i];
+        const enGroup = en.stack.groups[i];
+        return (
+          <div class="stack__group" data-motion="row">
+            <h3 class="stack__label eyebrow">
+              <span data-i18n="es">{esGroup.label}</span>
+              <span data-i18n="en">{enGroup.label}</span>
+            </h3>
+            <ul class="stack__items" role="list">
+              {esGroup.items.map((item) => (
+                <li class="stack__item serif">{item}</li>
+              ))}
+            </ul>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-6);
+  }
+
+  .stack__group {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .stack__label {
+    color: var(--ink-muted);
+  }
+
+  .stack__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .stack__item {
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+</style>

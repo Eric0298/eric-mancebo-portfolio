@@ -1,0 +1,84 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+const rows = es.experience.items.map((_, i) => i);
+---
+
+<section id="experience" class="section experience">
+  <div class="page-shell">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-i18n="es">{es.experience.eyebrow}</span>
+        <span data-i18n="en">{en.experience.eyebrow}</span>
+      </span>
+    </div>
+
+    <ul class="experience__list" role="list">
+      {rows.map((i) => {
+        const esItem = es.experience.items[i];
+        const enItem = en.experience.items[i];
+        return (
+          <li class="experience__row" data-motion="row">
+            <span class="experience__period mono">
+              <span data-i18n="es">{esItem.period}</span>
+              <span data-i18n="en">{enItem.period}</span>
+            </span>
+            <span class="experience__role">
+              <span data-i18n="es">{esItem.role}</span>
+              <span data-i18n="en">{enItem.role}</span>
+            </span>
+            <span class="experience__place">
+              <span data-i18n="es">{esItem.place}</span>
+              <span data-i18n="en">{enItem.place}</span>
+            </span>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .experience__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+  }
+
+  .experience__row {
+    display: grid;
+    grid-template-columns: 10rem 1fr auto;
+    gap: var(--space-5);
+    padding-block: var(--space-4);
+    border-block-end: 1px solid var(--border);
+    align-items: baseline;
+  }
+
+  .experience__row:last-child {
+    border-block-end: none;
+  }
+
+  .experience__period {
+    color: var(--ink-muted);
+    font-size: var(--step--1);
+  }
+
+  .experience__role {
+    font-size: var(--step-1);
+    color: var(--ink);
+  }
+
+  .experience__place {
+    color: var(--ink-faint);
+    font-size: var(--step-0);
+  }
+
+  @media (max-width: 640px) {
+    .experience__row {
+      grid-template-columns: 1fr;
+      gap: var(--space-1);
+    }
+  }
+</style>

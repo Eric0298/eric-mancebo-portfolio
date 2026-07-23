@@ -1,0 +1,98 @@
+---
+import { content } from "../../data/content";
+const es = content.es;
+const en = content.en;
+const rows = es.projects.items.map((_, i) => i);
+---
+
+<section id="projects" class="section projects">
+  <div class="page-shell">
+    <div class="section-head">
+      <span class="eyebrow">
+        <span data-i18n="es">{es.projects.eyebrow}</span>
+        <span data-i18n="en">{en.projects.eyebrow}</span>
+      </span>
+    </div>
+
+    <ul class="projects__list" role="list">
+      {rows.map((i) => {
+        const esItem = es.projects.items[i];
+        const enItem = en.projects.items[i];
+        return (
+          <li class="projects__row" data-motion="row">
+            <div class="projects__year mono">{esItem.year}</div>
+            <div class="projects__body">
+              <h3 class="projects__name serif">
+                <span data-i18n="es">{esItem.name}</span>
+                <span data-i18n="en">{enItem.name}</span>
+              </h3>
+              <p class="projects__summary">
+                <span data-i18n="es">{esItem.summary}</span>
+                <span data-i18n="en">{enItem.summary}</span>
+              </p>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .projects__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+  }
+
+  .projects__row {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    border-block-end: 1px solid var(--border);
+    align-items: baseline;
+    transition: padding-inline var(--dur-med) var(--ease-out);
+  }
+
+  .projects__row:last-child {
+    border-block-end: none;
+  }
+
+  .projects__row:hover {
+    padding-inline-start: var(--space-2);
+  }
+
+  .projects__year {
+    color: var(--ink-faint);
+    font-size: var(--step--1);
+    letter-spacing: 0.05em;
+  }
+
+  .projects__body {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .projects__name {
+    font-size: var(--step-3);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .projects__summary {
+    color: var(--ink-muted);
+    max-inline-size: 52ch;
+  }
+
+  @media (max-width: 640px) {
+    .projects__row {
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+    }
+    .projects__name {
+      font-size: var(--step-2);
+    }
+  }
+</style>
