@@ -14,7 +14,7 @@ const en = content.en;
 <nav class="nav" aria-label="Primary">
   <div class="nav__inner liquid-glass">
     <a href="#top" class="nav__brand" aria-label={translations.header.name}>
-      <span class="nav__mark serif">EM</span>
+      <span class="nav__mark display">EM</span>
     </a>
 
     <div class="nav__actions">
@@ -95,10 +95,11 @@ const en = content.en;
   }
 
   .nav__mark {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
+    font-weight: 800;
     line-height: 1;
-    font-size: 1.15rem;
-    letter-spacing: -0.02em;
+    font-size: 1.05rem;
+    letter-spacing: -0.04em;
   }
 
   .nav__actions {

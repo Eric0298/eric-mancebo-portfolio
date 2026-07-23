@@ -24,7 +24,7 @@ const rows = es.experience.items.map((_, i) => i);
               <span data-i18n="es">{esItem.period}</span>
               <span data-i18n="en">{enItem.period}</span>
             </span>
-            <span class="experience__role">
+            <span class="experience__role display">
               <span data-i18n="es">{esItem.role}</span>
               <span data-i18n="en">{enItem.role}</span>
             </span>
@@ -45,29 +45,25 @@ const rows = es.experience.items.map((_, i) => i);
     padding: 0;
     margin: 0;
     display: grid;
+    gap: var(--space-5);
   }
 
   .experience__row {
     display: grid;
     grid-template-columns: 10rem 1fr auto;
     gap: var(--space-5);
-    padding-block: var(--space-4);
-    border-block-end: 1px solid var(--border);
     align-items: baseline;
-  }
-
-  .experience__row:last-child {
-    border-block-end: none;
   }
 
   .experience__period {
     color: var(--ink-muted);
-    font-size: var(--step--1);
   }
 
   .experience__role {
-    font-size: var(--step-1);
+    font-size: var(--step-2);
+    font-weight: 600;
     color: var(--ink);
+    letter-spacing: -0.02em;
   }
 
   .experience__place {

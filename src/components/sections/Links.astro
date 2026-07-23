@@ -15,7 +15,7 @@ const items = es.links.items.map((_, i) => i);
     </div>
 
     <div class="links__grid">
-      <a class="links__email serif" href={`mailto:${es.links.email}`}>{es.links.email}</a>
+      <a class="links__email display" href={`mailto:${es.links.email}`}>{es.links.email}</a>
 
       <ul class="links__list" role="list">
         {items.map((i) => {
@@ -30,7 +30,7 @@ const items = es.links.items.map((_, i) => i);
                 {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 data-motion="row"
               >
-                <span class="links__label">
+                <span class="links__label display">
                   <span data-i18n="es">{esItem.label}</span>
                   <span data-i18n="en">{enItem.label}</span>
                 </span>
@@ -52,25 +52,22 @@ const items = es.links.items.map((_, i) => i);
 <style>
   .links__grid {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
     margin-block-end: var(--space-8);
   }
 
   .links__email {
-    font-size: var(--step-3);
-    line-height: 1.15;
+    font-size: clamp(1.6rem, 1.2rem + 1.5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     color: var(--ink);
-    text-decoration: none;
-    border-block-end: 1px solid var(--border);
-    padding-block-end: var(--space-2);
     max-inline-size: max-content;
-    transition: color var(--dur-fast) var(--ease-out),
-      border-color var(--dur-fast) var(--ease-out);
+    transition: text-shadow var(--dur-med) var(--ease-out);
   }
 
   .links__email:hover {
-    color: var(--ink);
-    border-color: var(--ink);
+    text-shadow: 0 0 24px var(--glow), 0 0 60px var(--glow-soft);
   }
 
   .links__list {
@@ -78,39 +75,49 @@ const items = es.links.items.map((_, i) => i);
     padding: 0;
     margin: 0;
     display: grid;
+    gap: var(--space-3);
   }
 
   .links__row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: var(--space-4);
-    border-block-end: 1px solid var(--border);
-    font-size: var(--step-1);
+    padding-block: var(--space-3);
+    padding-inline: var(--space-4);
+    background: var(--card-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-pill);
     color: var(--ink);
-    transition: padding-inline var(--dur-med) var(--ease-out);
+    transition: transform var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
   }
 
   .links__row:hover {
-    padding-inline-start: var(--space-2);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(7, 27, 61, 0.14);
   }
 
-  .links__list li:last-child .links__row {
-    border-block-end: none;
+  .links__label {
+    font-size: var(--step-1);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .links__arrow {
     display: inline-block;
     transition: transform var(--dur-med) var(--ease-out);
+    color: var(--ink-muted);
   }
 
   .links__row:hover .links__arrow {
     transform: translateX(6px);
+    color: var(--ink);
   }
 
   .links__footer {
     color: var(--ink-faint);
     padding-block-start: var(--space-6);
-    border-block-start: 1px solid var(--border);
   }
 </style>

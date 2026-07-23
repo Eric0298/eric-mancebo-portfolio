@@ -2,28 +2,49 @@
 import { content } from "../../data/content";
 const es = content.es;
 const en = content.en;
+
+function splitWords(text: string) {
+  return text.split(/\s+/).filter(Boolean);
+}
+const esWords = splitWords(es.summary.body);
+const enWords = splitWords(en.summary.body);
 ---
 
 <section id="summary" class="section summary">
   <div class="page-shell">
-    <div class="section-head reveal">
-      <span class="eyebrow">
-        <span data-i18n="es">{es.summary.eyebrow}</span>
-        <span data-i18n="en">{en.summary.eyebrow}</span>
+    <p class="summary__body display" data-i18n="es" data-motion="words">
+      <span class="words">
+        {esWords.map((word) => (
+          <span class="words__word">{word}</span>
+        ))}
       </span>
-    </div>
-    <p class="summary__body serif reveal">
-      <span data-i18n="es">{es.summary.body}</span>
-      <span data-i18n="en">{en.summary.body}</span>
+    </p>
+    <p class="summary__body display" data-i18n="en" data-motion="words">
+      <span class="words">
+        {enWords.map((word) => (
+          <span class="words__word">{word}</span>
+        ))}
+      </span>
     </p>
   </div>
 </section>
 
 <style>
+  .summary {
+    padding-block: var(--space-10);
+  }
+
   .summary__body {
-    font-size: var(--step-3);
-    line-height: 1.25;
-    color: var(--ink);
-    max-inline-size: 42ch;
+    font-size: clamp(1.8rem, 1.2rem + 2.2vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    max-inline-size: 26ch;
+    margin-inline: auto;
+    text-align: start;
+  }
+
+  .summary__body .words__word {
+    margin-inline-end: 0.28em;
   }
 </style>

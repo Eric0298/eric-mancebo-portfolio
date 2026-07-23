@@ -4,117 +4,147 @@ const es = content.es;
 const en = content.en;
 ---
 
-<section id="top" class="section header">
-  <div class="page-shell">
-    <div class="header__grid">
-      <div class="header__meta">
-        <span class="eyebrow" data-motion="rise" data-delay="0">
-          <span data-i18n="es">{es.header.eyebrow}</span>
-          <span data-i18n="en">{en.header.eyebrow}</span>
-        </span>
-      </div>
+<section id="top" class="hero">
+  <div class="hero__stage">
+    <h1 class="hero__display display" aria-label={es.header.name} data-motion="display">
+      <span aria-hidden="true">E</span><span aria-hidden="true">R</span><span aria-hidden="true">I</span><span aria-hidden="true">C</span>
+    </h1>
 
-      <h1 class="header__display serif" data-motion="display">Eric Mancebo</h1>
-
-      <div class="header__lower">
-        <div class="header__portrait" data-motion="portrait" aria-hidden="true">
-          <div class="header__portrait-frame">
-            <span class="header__portrait-placeholder" data-i18n="es">Retrato</span>
-            <span class="header__portrait-placeholder" data-i18n="en">Portrait</span>
-          </div>
-        </div>
-
-        <div class="header__details">
-          <p class="header__role" data-motion="rise" data-delay="0.35">
-            <span data-i18n="es">{es.header.role}</span>
-            <span data-i18n="en">{en.header.role}</span>
-          </p>
-          <p class="header__location mono" data-motion="rise" data-delay="0.45">
-            <span data-i18n="es">{es.header.location}</span>
-            <span data-i18n="en">{en.header.location}</span>
-          </p>
-        </div>
+    <div class="hero__portrait" data-motion="portrait" aria-hidden="true">
+      <div class="hero__portrait-frame">
+        <span class="hero__portrait-label" data-i18n="es">Retrato</span>
+        <span class="hero__portrait-label" data-i18n="en">Portrait</span>
       </div>
     </div>
+  </div>
+
+  <div class="hero__caption">
+    <p class="hero__lead display" data-motion="rise" data-delay="0.5">
+      <span data-i18n="es">Desarrollo web con criterio y precisión.</span>
+      <span data-i18n="en">Web development with judgment and precision.</span>
+    </p>
+    <p class="hero__meta mono" data-motion="rise" data-delay="0.65">
+      <span data-i18n="es">{es.header.role} · {es.header.location}</span>
+      <span data-i18n="en">{en.header.role} · {en.header.location}</span>
+    </p>
+    <a class="cta hero__cta" href="#projects" data-motion="rise" data-delay="0.8">
+      <span class="cta__dot"></span>
+      <span data-i18n="es">Ver proyectos</span>
+      <span data-i18n="en">See projects</span>
+    </a>
   </div>
 </section>
 
 <style>
-  .header {
-    padding-block-start: calc(var(--space-10) + var(--space-6));
-    padding-block-end: var(--space-9);
-    border-block-end: 1px solid var(--border);
-  }
-
-  .header__grid {
-    display: grid;
-    gap: var(--space-6);
-  }
-
-  .header__display {
-    font-size: var(--step-display);
-    line-height: 0.94;
-    letter-spacing: -0.025em;
-    margin: 0;
+  .hero {
+    position: relative;
+    min-block-size: 100dvh;
+    padding-block-start: 6.5rem;
+    padding-block-end: var(--space-8);
+    padding-inline: var(--page-gutter);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     overflow: hidden;
   }
 
-  .header__lower {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: end;
-    gap: var(--space-6);
-    margin-block-start: var(--space-4);
+  .hero__stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    max-inline-size: 100rem;
+    isolation: isolate;
   }
 
-  .header__portrait {
-    grid-column: 1;
-    max-inline-size: 14rem;
+  .hero__display {
+    font-size: var(--step-display);
+    line-height: 0.82;
+    color: var(--ink-strong);
+    text-align: center;
+    letter-spacing: -0.06em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    inline-size: 100%;
+    gap: clamp(0.5rem, 2vw, 3rem);
+    user-select: none;
+    text-shadow: 0 0 80px var(--glow-soft);
+  }
+
+  .hero__display > span {
+    display: inline-block;
+    will-change: transform, opacity;
+  }
+
+  .hero__portrait {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
     aspect-ratio: 3 / 4;
+    inline-size: clamp(14rem, 24vw, 22rem);
+    will-change: transform;
   }
 
-  .header__portrait-frame {
+  .hero__portrait-frame {
     inline-size: 100%;
     block-size: 100%;
     background: var(--bg-subtle);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
     display: grid;
     place-items: center;
     color: var(--ink-faint);
     font-size: var(--step--1);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
+    box-shadow: 0 30px 80px rgba(7, 27, 61, 0.18);
   }
 
-  .header__details {
-    grid-column: 2;
-    text-align: end;
+  [data-theme="dark"] .hero__portrait-frame {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .hero__caption {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    align-items: center;
+    gap: var(--space-4);
+    padding-block-start: var(--space-6);
+    text-align: center;
+    max-inline-size: 34rem;
   }
 
-  .header__role {
-    font-size: var(--step-1);
+  .hero__lead {
+    font-size: clamp(1.2rem, 1rem + 1vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.15;
     color: var(--ink);
+    letter-spacing: -0.02em;
   }
 
-  .header__location {
+  .hero__meta {
     color: var(--ink-muted);
   }
 
+  .hero__cta {
+    margin-block-start: var(--space-3);
+  }
+
   @media (max-width: 640px) {
-    .header__lower {
-      grid-template-columns: 1fr;
+    .hero {
+      padding-block-start: 5rem;
     }
-    .header__portrait {
-      grid-column: 1;
-      max-inline-size: 10rem;
+    .hero__display {
+      gap: 0;
     }
-    .header__details {
-      grid-column: 1;
-      text-align: start;
+    .hero__portrait {
+      inline-size: clamp(11rem, 55vw, 18rem);
     }
   }
 </style>

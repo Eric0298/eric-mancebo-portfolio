@@ -8,9 +8,6 @@ export function initMotion() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (reduce) {
-    document.querySelectorAll<HTMLElement>(".reveal").forEach((el) => {
-      el.classList.add("reveal-ready");
-    });
     document.documentElement.classList.remove("motion-loading");
     document.documentElement.classList.add("motion-ready");
     return;
@@ -33,7 +30,7 @@ export function initMotion() {
   document.documentElement.classList.remove("motion-loading");
   document.documentElement.classList.add("motion-ready");
 
-  // Anchor links integrate with Lenis
+  // Anchor links via Lenis
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
     link.addEventListener("click", (event) => {
       const target = link.getAttribute("href");
@@ -45,47 +42,30 @@ export function initMotion() {
     });
   });
 
-  // Hero display: character-by-character reveal
+  // Hero display: letter-by-letter reveal + subtle float
   const displayEl = document.querySelector<HTMLElement>("[data-motion='display']");
   if (displayEl) {
-    const raw = displayEl.textContent ?? "";
-    displayEl.textContent = "";
-    const chars: HTMLSpanElement[] = [];
-    for (const ch of raw) {
-      const span = document.createElement("span");
-      span.textContent = ch;
-      span.style.display = "inline-block";
-      span.style.willChange = "transform, opacity";
-      if (ch === " ") span.style.whiteSpace = "pre";
-      displayEl.appendChild(span);
-      chars.push(span);
-    }
-    gsap.from(chars, {
-      yPercent: 110,
+    const letters = Array.from(displayEl.children) as HTMLElement[];
+    gsap.from(letters, {
+      yPercent: 120,
       opacity: 0,
-      duration: 1.1,
-      stagger: 0.025,
+      duration: 1.2,
+      stagger: 0.08,
       ease: "power4.out",
-      delay: 0.2,
+      delay: 0.15,
     });
   }
 
-  // Hero fade-in blocks
-  gsap.utils.toArray<HTMLElement>("[data-motion='rise']").forEach((el) => {
-    gsap.from(el, {
-      y: 24,
-      opacity: 0,
-      duration: 1,
-      delay: parseFloat(el.dataset.delay ?? "0"),
-      ease: "power3.out",
-    });
-  });
-
-  // Portrait parallax
+  // Hero portrait: gentle parallax + slight scale as scroll
   const portrait = document.querySelector<HTMLElement>("[data-motion='portrait']");
   if (portrait) {
+    gsap.fromTo(
+      portrait,
+      { y: 40, opacity: 0, scale: 0.94 },
+      { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "power3.out", delay: 0.35 },
+    );
     gsap.to(portrait, {
-      yPercent: -12,
+      yPercent: -15,
       ease: "none",
       scrollTrigger: {
         trigger: portrait,
@@ -96,27 +76,18 @@ export function initMotion() {
     });
   }
 
-  // Section reveal — fade + rise on enter (once, no reverse)
-  gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
-    gsap.fromTo(
-      el,
-      { y: 32, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.9,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: el,
-          start: "top 92%",
-          once: true,
-        },
-        onStart: () => el.classList.add("reveal-ready"),
-      },
-    );
+  // Generic rise-in blocks
+  gsap.utils.toArray<HTMLElement>("[data-motion='rise']").forEach((el) => {
+    gsap.from(el, {
+      y: 24,
+      opacity: 0,
+      duration: 1,
+      delay: parseFloat(el.dataset.delay ?? "0"),
+      ease: "power3.out",
+    });
   });
 
-  // Section-head eyebrow slide-in
+  // Section-head fade
   gsap.utils.toArray<HTMLElement>(".section-head").forEach((el) => {
     gsap.from(el, {
       opacity: 0,
@@ -131,11 +102,111 @@ export function initMotion() {
     });
   });
 
-  // Row-by-row lists
+  // Summary — illuminate words on scroll (scrub)
+  document
+    .querySelectorAll<HTMLElement>("[data-motion='words']")
+    .forEach((container) => {
+      const words = container.querySelectorAll<HTMLElement>(".words__word");
+      if (!words.length) return;
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 78%",
+          end: "bottom 50%",
+          scrub: 0.5,
+        },
+      });
+      words.forEach((word) => {
+        tl.to(
+          word,
+          {
+            onStart: () => word.classList.add("words__word--lit"),
+            onReverseComplete: () => word.classList.remove("words__word--lit"),
+            duration: 0.4,
+          },
+          "+=0.1",
+        );
+      });
+    });
+
+  // Project cards — alternating entry/exit with scale + rotate + slide (scrub)
+  gsap.utils.toArray<HTMLElement>("[data-motion='card']").forEach((card) => {
+    const side = card.dataset.side === "right" ? 1 : -1;
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    });
+    tl.fromTo(
+      card,
+      {
+        xPercent: side * 30,
+        opacity: 0,
+        scale: 0.78,
+        rotation: side * 6,
+      },
+      {
+        xPercent: 0,
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        ease: "power2.out",
+        duration: 1,
+      },
+    )
+      .to(card, { duration: 0.4 })
+      .to(card, {
+        xPercent: -side * 30,
+        opacity: 0,
+        scale: 0.78,
+        rotation: -side * 6,
+        ease: "power2.in",
+        duration: 1,
+      });
+  });
+
+  // Stack cells — floating pills, independent motion per cell
+  gsap.utils.toArray<HTMLElement>("[data-motion='float']").forEach((cell, i) => {
+    gsap.fromTo(
+      cell,
+      { y: 30, opacity: 0, scale: 0.9 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.7,
+        delay: i * 0.05,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: cell,
+          start: "top 95%",
+          once: true,
+        },
+      },
+    );
+
+    const floatY = 6 + Math.random() * 6;
+    const floatR = 0.8 + Math.random() * 1.2;
+    const floatDur = 2.6 + Math.random() * 1.8;
+    gsap.to(cell, {
+      y: `-=${floatY}`,
+      rotation: `+=${floatR}`,
+      duration: floatDur,
+      delay: 0.6 + i * 0.08,
+      yoyo: true,
+      repeat: -1,
+      ease: "sine.inOut",
+    });
+  });
+
+  // Experience rows
   gsap.utils.toArray<HTMLElement>("[data-motion='row']").forEach((el) => {
     gsap.from(el, {
       opacity: 0,
-      y: 24,
+      y: 20,
       duration: 0.7,
       ease: "power3.out",
       scrollTrigger: {
@@ -146,7 +217,6 @@ export function initMotion() {
     });
   });
 
-  // Refresh on font load (avoids offset drift)
   if (document.fonts?.ready) {
     document.fonts.ready.then(() => ScrollTrigger.refresh());
   }

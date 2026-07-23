@@ -1,8 +1,9 @@
-/* Design tokens — light default, dark via [data-theme="dark"] */
+/* Design tokens — sky light + navy dark, modern rounded typography */
 
 :root {
-  --font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text",
+  --font-display: "Bricolage Grotesque", "Space Grotesk", -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Manrope", -apple-system, BlinkMacSystemFont, "SF Pro Text",
     "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
 
@@ -12,7 +13,8 @@
   --step-2: clamp(1.35rem, 1.2rem + 0.5vw, 1.6rem);
   --step-3: clamp(1.8rem, 1.5rem + 1vw, 2.4rem);
   --step-4: clamp(2.4rem, 1.8rem + 2vw, 3.6rem);
-  --step-display: clamp(3.5rem, 2rem + 6vw, 8rem);
+  --step-display: clamp(4rem, 1rem + 18vw, 20rem);
+  --step-monster: clamp(3rem, 1rem + 12vw, 12rem);
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -25,12 +27,13 @@
   --space-9: 6rem;
   --space-10: 8rem;
 
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-xl: 40px;
   --radius-pill: 999px;
 
-  --page-max: 68rem;
+  --page-max: 72rem;
   --page-gutter: clamp(1.25rem, 4vw, 2.5rem);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -39,35 +42,50 @@
   --dur-med: 320ms;
   --dur-slow: 640ms;
 
+  /* Sky-blue light theme */
   color-scheme: light;
-  --bg: #f4f1eb;
-  --bg-subtle: #ece7de;
-  --ink: #17130f;
-  --ink-muted: #6a6259;
-  --ink-faint: #a49b8f;
-  --border: rgba(23, 19, 15, 0.12);
-  --border-strong: rgba(23, 19, 15, 0.22);
-  --glass-bg: rgba(255, 253, 248, 0.55);
-  --glass-border: rgba(255, 255, 255, 0.6);
+  --bg: #c9e2fb;
+  --bg-subtle: #b3d4f4;
+  --bg-deep: #a3c8ee;
+  --ink: #071b3d;
+  --ink-strong: #041028;
+  --ink-muted: #3f5c85;
+  --ink-faint: #8ba7cb;
+  --accent: #0b3d91;
+  --glow: rgba(11, 61, 145, 0.5);
+  --glow-soft: rgba(11, 61, 145, 0.2);
+  --border: rgba(7, 27, 61, 0.12);
+  --border-strong: rgba(7, 27, 61, 0.22);
+  --glass-bg: rgba(255, 255, 255, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.65);
   --glass-highlight: rgba(255, 255, 255, 0.85);
-  --glass-shadow: 0 8px 32px rgba(23, 19, 15, 0.08),
-    0 2px 8px rgba(23, 19, 15, 0.04);
-  --focus-ring: rgba(23, 19, 15, 0.4);
+  --glass-shadow: 0 10px 40px rgba(7, 27, 61, 0.12),
+    0 2px 8px rgba(7, 27, 61, 0.06);
+  --card-bg: rgba(255, 255, 255, 0.45);
+  --card-border: rgba(255, 255, 255, 0.6);
+  --focus-ring: rgba(11, 61, 145, 0.5);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0d0c0a;
-  --bg-subtle: #16130f;
-  --ink: #f4f1eb;
-  --ink-muted: #a09990;
-  --ink-faint: #6a6259;
-  --border: rgba(244, 241, 235, 0.12);
-  --border-strong: rgba(244, 241, 235, 0.22);
-  --glass-bg: rgba(30, 26, 22, 0.55);
-  --glass-border: rgba(244, 241, 235, 0.14);
-  --glass-highlight: rgba(244, 241, 235, 0.25);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+  --bg: #071834;
+  --bg-subtle: #0d234a;
+  --bg-deep: #030c1f;
+  --ink: #e8f0ff;
+  --ink-strong: #ffffff;
+  --ink-muted: #93aacb;
+  --ink-faint: #4d668d;
+  --accent: #7ba9f0;
+  --glow: rgba(123, 169, 240, 0.6);
+  --glow-soft: rgba(123, 169, 240, 0.25);
+  --border: rgba(232, 240, 255, 0.1);
+  --border-strong: rgba(232, 240, 255, 0.22);
+  --glass-bg: rgba(30, 55, 100, 0.35);
+  --glass-border: rgba(232, 240, 255, 0.16);
+  --glass-highlight: rgba(232, 240, 255, 0.3);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.4),
     0 2px 8px rgba(0, 0, 0, 0.25);
-  --focus-ring: rgba(244, 241, 235, 0.5);
+  --card-bg: rgba(15, 35, 74, 0.55);
+  --card-border: rgba(232, 240, 255, 0.14);
+  --focus-ring: rgba(123, 169, 240, 0.6);
 }

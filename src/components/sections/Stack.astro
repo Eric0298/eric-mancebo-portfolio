@@ -2,7 +2,43 @@
 import { content } from "../../data/content";
 const es = content.es;
 const en = content.en;
-const groups = es.stack.groups.map((_, i) => i);
+
+// Flatten all items into a single grid — icons floating together
+const allItems = es.stack.groups.flatMap((group) => group.items);
+
+// Simple SVG glyphs per tech. Fallback: initial letter.
+const iconPaths: Record<string, string> = {
+  Astro:
+    "M12 2.5c1.7 4.4 3.2 8.9 3 12.4-1-.6-2.1-.9-3-.9-.9 0-2 .3-3 .9-.2-3.5 1.3-8 3-12.4zM4.6 17.5c1.7 1.5 4.5 2.5 7.4 2.5s5.7-1 7.4-2.5c-.8 1.9-3.6 3.5-7.4 3.5s-6.6-1.6-7.4-3.5z",
+  React:
+    "M12 10.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM12 8c-4.4 0-8 1.8-8 4s3.6 4 8 4 8-1.8 8-4-3.6-4-8-4zm-6.9 4c0-1.1 3.1-2 6.9-2s6.9.9 6.9 2-3.1 2-6.9 2-6.9-.9-6.9-2zM12 4c-1.1 0-2.2 1-3 2.6-.8 1.6-1.2 3.8-1.2 5.4s.4 3.8 1.2 5.4c.8 1.6 1.9 2.6 3 2.6s2.2-1 3-2.6c.8-1.6 1.2-3.8 1.2-5.4s-.4-3.8-1.2-5.4C14.2 5 13.1 4 12 4z",
+  TypeScript:
+    "M3 3v18h18V3H3zm10.2 10.5h-2.4V19H9V13.5H6.6V12h6.6v1.5zm4.3 5.4c-1 0-1.8-.4-2.3-1.1l1-.9c.3.4.7.6 1.3.6.5 0 .8-.2.8-.6 0-.4-.3-.6-1.1-.9-1.3-.4-1.9-.9-1.9-1.9 0-1.1.9-1.8 2.1-1.8.9 0 1.5.3 2 .9l-1 .9c-.3-.3-.6-.5-1-.5-.4 0-.7.2-.7.5 0 .4.3.5 1.1.8 1.2.4 1.9.9 1.9 2 0 1.2-.9 2-2.2 2z",
+  GSAP:
+    "M12 4c4.4 0 8 3.6 8 8h-3a5 5 0 00-9-3c-.7.9-1 2-1 3.2C7 15 9.2 17 12 17c1.5 0 2.9-.7 3.8-1.9L18 17c-1.4 2-3.7 3-6 3-4.4 0-8-3.6-8-8s3.6-8 8-8z",
+  Lenis:
+    "M4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8-8-3.6-8-8zm3 0h10a5 5 0 00-10 0z",
+  Tailwind:
+    "M12 6c-2.7 0-4.3 1.3-5 4 1-1.3 2.2-1.8 3.5-1.5.8.2 1.3.7 1.9 1.3.9 1 2 2.2 4.6 2.2 2.7 0 4.3-1.3 5-4-1 1.3-2.2 1.8-3.5 1.5-.8-.2-1.3-.7-1.9-1.3-.9-1-2-2.2-4.6-2.2zM7 13c-2.7 0-4.3 1.3-5 4 1-1.3 2.2-1.8 3.5-1.5.8.2 1.3.7 1.9 1.3.9 1 2 2.2 4.6 2.2 2.7 0 4.3-1.3 5-4-1 1.3-2.2 1.8-3.5 1.5-.8-.2-1.3-.7-1.9-1.3-.9-1-2-2.2-4.6-2.2z",
+  "Node.js":
+    "M12 2L4 6.5v11L12 22l8-4.5v-11L12 2zm0 2.3l6 3.4v8.6l-6 3.4-6-3.4V7.7l6-3.4zm-1 4.7v6h2v-6h-2z",
+  Python:
+    "M12 3c-2.2 0-4 .8-4 3v2h4v.5H6c-2 0-3 1.5-3 4s1 4 3 4h2v-2c0-1.8 1.4-3 3-3h4c1.5 0 3-1 3-2.5V6c0-1.7-1.4-3-3-3h-3zm-1.5 1.5a.9.9 0 110 1.8.9.9 0 010-1.8zM18 10v2c0 1.7-1.4 3-3 3h-4c-1.5 0-3 1-3 2.5v3c0 2.2 1.9 3.5 4 3.5s4-1.3 4-3.5V19h-4v-.5h6c2 0 3-1.5 3-4s-1-4-3-4h-2zm-3.5 8.7a.9.9 0 110 1.8.9.9 0 010-1.8z",
+  PostgreSQL:
+    "M12 3c-1.4 0-2.5.4-3 1-.5-.3-1.2-.5-2-.5-2 0-3 1.2-3 3 0 1.5.5 3.5 1.5 5 1 1.5 1.5 3 1.5 4.5 0 2 1 3 3 3 1 0 1.5-.5 2-1.5.5 1 1 1.5 2 1.5 2 0 3-1 3-3 0-.5.3-1 1-1.5.7-.5 1.5-1.5 1.5-3 0-2.5-2-9-7.5-9zm-.5 2c1 0 2 .5 3 2-1 0-2 .5-2.5 1.5V6.5c-.5-1-1-1.5-.5-1.5zM8 6c.5 0 1 .5 1.5 1-1 .5-1.5 1.5-1.5 3 0 1 0 2-1 2-.5 0-1-1-1-2.5 0-2 1-3.5 2-3.5z",
+  REST:
+    "M4 6h16M4 12h16M4 18h10",
+  Cloudflare:
+    "M17 15h1a3 3 0 000-6 5 5 0 00-9-2 4 4 0 00-5 4c0 2.2 1.8 4 4 4h9zm-9 3l-1 2h10l-1-2H8z",
+  Git:
+    "M21.6 11l-8.6-8.6a1 1 0 00-1.5 0l-2 2 2.4 2.4a1.5 1.5 0 011.9 2l2.3 2.3a1.5 1.5 0 11-.9.9L13 9.8v5.9a1.5 1.5 0 11-1 0V9.7a1.5 1.5 0 01-.7-2L8.9 5.3l-6.5 6.5a1 1 0 000 1.5l8.6 8.6a1 1 0 001.5 0l9.1-9.1a1 1 0 000-1.5z",
+  Figma:
+    "M8.5 3h3v5h-3a2.5 2.5 0 010-5zm3 5h3a2.5 2.5 0 010 5h-3V8zm-3 5h3v5a2.5 2.5 0 01-3-5zm3-5a2.5 2.5 0 115 0 2.5 2.5 0 01-5 0zm-5.5 5a2.5 2.5 0 015 0h-3a2.5 2.5 0 01-2-0z",
+  Vite:
+    "M12 2L4 5l7 15c.4.8 1.4.8 1.8 0L20 5l-8-3zm0 3l5 1.8-5 10.5L7 6.8 12 5z",
+  Docker:
+    "M4 11h2v2H4v-2zm3 0h2v2H7v-2zm3 0h2v2h-2v-2zm3 0h2v2h-2v-2zm0-3h2v2h-2V8zm-3 0h2v2h-2V8zm-3 0h2v2H7V8zm3-3h2v2h-2V5zm11 6h-4v6c0 1-1 3-5 3-6 0-9-4-9-8h20c0 0-1-1-2-1z",
+};
 ---
 
 <section id="stack" class="section stack">
@@ -15,23 +51,20 @@ const groups = es.stack.groups.map((_, i) => i);
     </div>
 
     <div class="stack__grid">
-      {groups.map((i) => {
-        const esGroup = es.stack.groups[i];
-        const enGroup = en.stack.groups[i];
-        return (
-          <div class="stack__group" data-motion="row">
-            <h3 class="stack__label eyebrow">
-              <span data-i18n="es">{esGroup.label}</span>
-              <span data-i18n="en">{enGroup.label}</span>
-            </h3>
-            <ul class="stack__items" role="list">
-              {esGroup.items.map((item) => (
-                <li class="stack__item serif">{item}</li>
-              ))}
-            </ul>
+      {allItems.map((name) => (
+        <div class="stack__cell liquid-glass" data-motion="float">
+          <div class="stack__icon" aria-hidden="true">
+            {iconPaths[name] ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d={iconPaths[name]} />
+              </svg>
+            ) : (
+              <span class="stack__glyph display">{name[0]}</span>
+            )}
           </div>
-        );
-      })}
+          <span class="stack__name">{name}</span>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -39,30 +72,54 @@ const groups = es.stack.groups.map((_, i) => i);
 <style>
   .stack__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-    gap: var(--space-6);
-  }
-
-  .stack__group {
-    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
     gap: var(--space-4);
+    padding-block: var(--space-4);
   }
 
-  .stack__label {
-    color: var(--ink-muted);
-  }
-
-  .stack__items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    gap: var(--space-2);
-  }
-
-  .stack__item {
-    font-size: var(--step-2);
-    line-height: 1.2;
+  .stack__cell {
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg) !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
     color: var(--ink);
+    will-change: transform;
+    cursor: default;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .stack__cell:hover {
+    transform: translateY(-4px) scale(1.03);
+  }
+
+  .stack__icon {
+    inline-size: 2.4rem;
+    block-size: 2.4rem;
+    display: grid;
+    place-items: center;
+    color: var(--ink);
+  }
+
+  .stack__icon svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .stack__glyph {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+
+  .stack__name {
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink-muted);
+    text-align: center;
   }
 </style>
