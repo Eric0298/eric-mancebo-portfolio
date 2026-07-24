@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Editorial portrait placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3a3d"/>
+      <stop offset="1" stop-color="#1a1a1c"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a4a4e"/>
+      <stop offset="1" stop-color="#2b2b2d"/>
+    </linearGradient>
+    <radialGradient id="light" cx="0.35" cy="0.28" r="0.7">
+      <stop offset="0" stop-color="#eae7de" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#eae7de" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dcd7cc"/>
+      <stop offset="1" stop-color="#b6b2a8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="600" height="800" fill="url(#bg)"/>
+
+  <path d="M0 800 L0 640 C120 590 210 570 300 570 C390 570 480 590 600 640 L600 800 Z" fill="url(#shirt)"/>
+
+  <path d="M300 240
+           C395 240 445 320 445 400
+           C445 480 400 560 300 570
+           C200 560 155 480 155 400
+           C155 320 205 240 300 240 Z"
+        fill="url(#skin)"/>
+
+  <path d="M170 340
+           C185 260 240 220 300 220
+           C360 220 415 260 430 340
+           C430 300 390 200 300 200
+           C210 200 170 300 170 340 Z"
+        fill="#0f0f11"/>
+
+  <ellipse cx="248" cy="405" rx="26" ry="10" fill="none" stroke="#e5e2d9" stroke-width="3"/>
+  <ellipse cx="352" cy="405" rx="26" ry="10" fill="none" stroke="#e5e2d9" stroke-width="3"/>
+  <line x1="274" y1="405" x2="326" y2="405" stroke="#e5e2d9" stroke-width="2"/>
+
+  <rect width="600" height="800" fill="url(#light)"/>
+</svg>

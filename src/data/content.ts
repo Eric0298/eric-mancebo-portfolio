@@ -42,6 +42,7 @@ export interface PortfolioContent {
     locationLine: string;
     ctaLabel: string;
     marqueeTerms: string[];
+    marqueeRows: [string[], string[], string[]];
   };
   about: {
     title: string;
@@ -100,6 +101,11 @@ export const content: Record<Language, PortfolioContent> = {
       locationLine: "BASED IN VALENCIA",
       ctaLabel: "Abierto a trabajar",
       marqueeTerms: ["FULLSTACK", "DEVELOPER", "INTERFACES", "PRODUCTO"],
+      marqueeRows: [
+        ["FULLSTACK", "DEVELOPER", "ENGINEER"],
+        ["INTERFACES", "PRODUCTO", "SISTEMAS"],
+        ["EDITORIAL", "CREATIVE", "DETAIL"],
+      ],
     },
     about: {
       title: "Sobre mí",
@@ -199,6 +205,11 @@ export const content: Record<Language, PortfolioContent> = {
       locationLine: "BASED IN VALENCIA",
       ctaLabel: "Open to work",
       marqueeTerms: ["FULLSTACK", "DEVELOPER", "INTERFACES", "PRODUCT"],
+      marqueeRows: [
+        ["FULLSTACK", "DEVELOPER", "ENGINEER"],
+        ["INTERFACES", "PRODUCT", "SYSTEMS"],
+        ["EDITORIAL", "CREATIVE", "DETAIL"],
+      ],
     },
     about: {
       title: "About",

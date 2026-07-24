@@ -45,32 +45,9 @@ export function initMotion() {
     });
   });
 
-  // Hero marquee — infinite horizontal drift, subtle parallax on scroll
-  document
-    .querySelectorAll<HTMLElement>("[data-motion='marquee'] .hero__marquee-track")
-    .forEach((track, i) => {
-      gsap.set(track, { x: i === 0 ? "-5%" : "-5%" });
-      gsap.to(track, {
-        x: "-25%",
-        duration: 30,
-        ease: "none",
-        repeat: -1,
-      });
-    });
-
-  const marqueeRow = document.querySelector<HTMLElement>("[data-motion='marquee']");
-  if (marqueeRow) {
-    gsap.to(marqueeRow, {
-      yPercent: 8,
-      ease: "none",
-      scrollTrigger: {
-        trigger: marqueeRow,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
-  }
+  // Hero marquee is now driven entirely by CSS keyframes so that base and
+  // clip-clone tracks stay perfectly in sync and each row can be paused
+  // independently via :hover on its own hit area.
 
   // Portrait — appear + parallax
   const portrait = document.querySelector<HTMLElement>("[data-motion='portrait']");

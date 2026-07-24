@@ -3,28 +3,87 @@ import { content } from "../../data/content";
 const es = content.es;
 const en = content.en;
 
-// Long marquee sequence
-const esMarquee = [...es.header.marqueeTerms, ...es.header.marqueeTerms, ...es.header.marqueeTerms];
-const enMarquee = [...en.header.marqueeTerms, ...en.header.marqueeTerms, ...en.header.marqueeTerms];
+/**
+ * Row-level marquee content.
+ * Each row duplicates its word list once so the CSS animation can loop
+ * seamlessly by translating -50% of its own width.
+ */
+function buildRow(words: string[]) {
+  const base = [...words, ...words, ...words, ...words];
+  return [...base, ...base]; // duplicated for the -50% loop
+}
+
+const esRows = es.header.marqueeRows.map(buildRow);
+const enRows = en.header.marqueeRows.map(buildRow);
+
+const halfLen = (row: string[]) => row.length / 2;
 ---
 
 <section id="top" class="hero">
-  <div class="hero__marquee-row" data-motion="marquee" aria-hidden="true">
-    <div class="marquee hero__marquee-track" data-i18n="es">
-      {esMarquee.map((term) => <span class="hero__word display">{term}</span>)}
-    </div>
-    <div class="marquee hero__marquee-track" data-i18n="en">
-      {enMarquee.map((term) => <span class="hero__word display">{term}</span>)}
-    </div>
+  <div class="hero__marquees" aria-hidden="true">
+    {
+      [0, 1, 2].map((idx) => {
+        const rowClass = ["hero__row--top", "hero__row--mid", "hero__row--bot"][idx];
+        const trackAltClass = ["hero__row-track--top-alt", "", "hero__row-track--bot-alt"][idx];
+        const showClip = idx !== 1;
+
+        return (
+          <div class={`hero__row ${rowClass}`}>
+            <div class="hero__row-hit" />
+
+            <div class="hero__row-base">
+              <div class="hero__row-track" data-i18n="es">
+                {esRows[idx].map((w, i) => (
+                  <span class="hero__word display" aria-hidden={i >= halfLen(esRows[idx]) ? "true" : undefined}>
+                    {w}
+                  </span>
+                ))}
+              </div>
+              <div class="hero__row-track" data-i18n="en">
+                {enRows[idx].map((w, i) => (
+                  <span class="hero__word display" aria-hidden={i >= halfLen(enRows[idx]) ? "true" : undefined}>
+                    {w}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {showClip && (
+              <div class="hero__row-clip">
+                <div class={`hero__row-track ${trackAltClass}`} data-i18n="es">
+                  {esRows[idx].map((w) => (
+                    <span class="hero__word display">{w}</span>
+                  ))}
+                </div>
+                <div class={`hero__row-track ${trackAltClass}`} data-i18n="en">
+                  {enRows[idx].map((w) => (
+                    <span class="hero__word display">{w}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      })
+    }
   </div>
 
   <div class="hero__stage">
-    <div class="hero__portrait" data-motion="portrait" aria-hidden="true">
-      <div class="hero__portrait-frame">
-        <span class="hero__portrait-label" data-i18n="es">Retrato</span>
-        <span class="hero__portrait-label" data-i18n="en">Portrait</span>
+    <figure class="hero__photo" data-motion="portrait">
+      <div class="hero__photo-inner">
+        <img
+          class="hero__photo-img"
+          src="/hero-portrait.svg"
+          alt={es.portrait.alt}
+          width="600"
+          height="800"
+          loading="eager"
+          decoding="async"
+        />
+        <span class="hero__photo-glitch hero__photo-glitch--a" aria-hidden="true"></span>
+        <span class="hero__photo-glitch hero__photo-glitch--b" aria-hidden="true"></span>
       </div>
-    </div>
+    </figure>
   </div>
 
   <div class="hero__foot">
@@ -50,77 +109,366 @@ const enMarquee = [...en.header.marqueeTerms, ...en.header.marqueeTerms, ...en.h
 
 <style>
   .hero {
+    /* Photo bounding box — drives clip-path of overlays */
+    --photo-w: clamp(16rem, 28vw, 26rem);
+    --photo-h: calc(var(--photo-w) * 4 / 3);
+    --photo-cy: 52%;
+    --photo-inset-x: calc(50% - var(--photo-w) / 2);
+    --photo-inset-top: calc(var(--photo-cy) - var(--photo-h) / 2);
+    --photo-inset-bottom: calc(100% - var(--photo-cy) - var(--photo-h) / 2);
+
+    /* Row Y coords are tied to the photo box so rows 1 and 3
+     * always cross the top and bottom bands of the image, regardless
+     * of viewport size or aspect ratio. */
+    --row-top-y: calc(var(--photo-cy) - var(--photo-h) * 0.36);
+    --row-mid-y: var(--photo-cy);
+    --row-bot-y: calc(var(--photo-cy) + var(--photo-h) * 0.36);
+
+    --row-fs: clamp(3.25rem, 2rem + 8vw, 10rem);
+    --hit-h: calc(var(--row-fs) * 0.72);
+
+    --marquee-dur: 58s;
+
     position: relative;
     min-block-size: 100dvh;
     padding-block-start: 6rem;
     padding-block-end: var(--space-6);
     display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: var(--space-6);
-    overflow: hidden;
+    grid-template-rows: 1fr auto;
+    overflow: clip;
+    isolation: isolate;
   }
 
-  .hero__marquee-row {
+  /* ---------- Marquees layer ---------- */
+
+  .hero__marquees {
+    /*
+     * Intentionally no z-index here — that would create a stacking context
+     * and trap the top/bottom clip clones (z:3) below .hero__stage (z:2),
+     * breaking the "overlay above the photo" behaviour.
+     */
     position: absolute;
-    inset-block-start: 42%;
-    inset-inline-start: 0;
-    inset-inline-end: 0;
-    transform: translateY(-50%);
-    z-index: 0;
-    inline-size: 200%;
-    max-inline-size: none;
+    inset: 0;
     pointer-events: none;
   }
 
-  .hero__marquee-track {
-    font-size: clamp(4rem, 2rem + 12vw, 14rem);
-    line-height: 0.86;
-    letter-spacing: -0.045em;
+  .hero__row {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero__row-hit {
+    position: absolute;
+    inset-inline: 0;
+    block-size: var(--hit-h);
+    transform: translateY(-50%);
+    pointer-events: auto;
+    cursor: default;
+  }
+
+  .hero__row--top .hero__row-hit { inset-block-start: var(--row-top-y); }
+  .hero__row--mid .hero__row-hit { inset-block-start: var(--row-mid-y); }
+  .hero__row--bot .hero__row-hit { inset-block-start: var(--row-bot-y); }
+
+  .hero__row-base,
+  .hero__row-clip {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero__row-clip {
+    clip-path: inset(
+      var(--photo-inset-top)
+      var(--photo-inset-x)
+      var(--photo-inset-bottom)
+      var(--photo-inset-x)
+    );
+    -webkit-clip-path: inset(
+      var(--photo-inset-top)
+      var(--photo-inset-x)
+      var(--photo-inset-bottom)
+      var(--photo-inset-x)
+    );
+    z-index: 3;
+  }
+
+  /* Row 1 base BEHIND photo (z=1). Row 2 base BEHIND (z=1). Row 3 base BEHIND (z=1). */
+  .hero__row-base { z-index: 1; }
+
+  /* Row tracks */
+  .hero__row-track {
+    position: absolute;
+    inset-inline-start: 0;
+    inline-size: max-content;
+    display: flex;
+    gap: 3rem;
+    white-space: nowrap;
     color: var(--ink-strong);
+    font-size: var(--row-fs);
+    line-height: 0.86;
+    letter-spacing: -0.035em;
+    user-select: none;
+    transform: translate3d(0, -50%, 0);
+    will-change: transform;
+    animation: hero-marquee var(--marquee-dur) linear infinite;
+  }
+
+  .hero__row--top .hero__row-track { inset-block-start: var(--row-top-y); }
+  .hero__row--mid .hero__row-track {
+    inset-block-start: var(--row-mid-y);
+    animation-direction: reverse;
+    animation-duration: calc(var(--marquee-dur) + 10s);
+  }
+  .hero__row--bot .hero__row-track {
+    inset-block-start: var(--row-bot-y);
+    animation-duration: calc(var(--marquee-dur) - 6s);
   }
 
   .hero__word {
     display: inline-block;
-    padding-inline-end: 1.2rem;
+    padding-inline-end: 3rem;
+    /* Liquid-glass varnish on each letter: a very subtle vertical depth
+     * gradient + tiny chromatic aberration via layered drop-shadows.
+     * The idea is the letter surface itself reads as glass, not a
+     * highlight band moving across it. */
+    color: transparent;
+    background: linear-gradient(
+      180deg,
+      #1e1e22 0%,
+      #0a0a0d 32%,
+      #030305 55%,
+      #0a0a0d 78%,
+      #1c1c20 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter:
+      drop-shadow(0.6px 0 0 rgba(120, 170, 255, 0.16))
+      drop-shadow(-0.6px 0 0 rgba(255, 165, 195, 0.14))
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.18))
+      drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
   }
+
+  [data-theme="dark"] .hero__word {
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #e6e6ea 32%,
+      #f6f6f9 55%,
+      #dcdce0 78%,
+      #ffffff 100%
+    );
+    filter:
+      drop-shadow(0.6px 0 0 rgba(140, 190, 255, 0.28))
+      drop-shadow(-0.6px 0 0 rgba(255, 170, 200, 0.24))
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5))
+      drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+  }
+
+  /* Top overlay clone — translucent glass rendered inside the photo.
+   * Overrides the base word varnish so the letters read as pale glass
+   * against the darker portrait, keeping the "seen through frosted
+   * image" feeling. */
+  .hero__row-track--top-alt .hero__word {
+    background:
+      linear-gradient(
+        118deg,
+        transparent 38%,
+        rgba(255, 255, 255, 0.35) 50%,
+        transparent 62%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(230, 232, 236, 0.72) 0%,
+        rgba(190, 195, 205, 0.55) 40%,
+        rgba(200, 205, 215, 0.55) 60%,
+        rgba(230, 232, 236, 0.72) 100%
+      );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.25));
+  }
+
+  /* Bottom overlay clone — silver-predominant varnish with the faintest
+   * iridescent hints. The silver layer tiles horizontally so the letter
+   * is ALWAYS filled regardless of the animation phase — animating just
+   * the tile offset gives a slow shifting-highlight feel. The sheen
+   * sweep on top is a wider no-repeat band that fades in and out. */
+  .hero__row-track--bot-alt .hero__word {
+    background:
+      linear-gradient(
+        118deg,
+        transparent 34%,
+        rgba(255, 255, 255, 0.85) 47%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0.85) 53%,
+        transparent 66%
+      ),
+      linear-gradient(
+        110deg,
+        #d8dbe0 0%,
+        #eef1f4 12%,
+        #c4d0d8 25%,   /* very subtle cool */
+        #e6e2e6 40%,
+        #d8d2d6 55%,   /* very subtle warm */
+        #eef1f4 70%,
+        #c8ccd2 85%,
+        #d8dbe0 100%
+      );
+    background-size: 260% 100%, 300% 100%;
+    background-position: -130% 0, 0% 50%;
+    background-repeat: no-repeat, repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter:
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5))
+      drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+    animation: hero-silver 14s linear infinite;
+  }
+
+  @keyframes hero-silver {
+    0%   { background-position: -130% 0,    0% 50%; }
+    50%  { background-position:  230% 0, -100% 50%; }
+    100% { background-position:  230% 0, -200% 50%; }
+  }
+
+  /* Hover-pause synced base + clone via :has() on the row */
+  .hero__row:has(.hero__row-hit:hover) .hero__row-track {
+    animation-play-state: paused;
+  }
+  .hero__row-hit:focus-visible ~ .hero__row-base .hero__row-track,
+  .hero__row-hit:focus-visible ~ .hero__row-clip .hero__row-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes hero-marquee {
+    from { transform: translate3d(0, -50%, 0); }
+    to   { transform: translate3d(-50%, -50%, 0); }
+  }
+
+  /* ---------- Photo layer ---------- */
 
   .hero__stage {
     position: relative;
+    z-index: 2;
     display: grid;
     place-items: center;
-    z-index: 1;
+    align-content: center;
     padding-inline: var(--page-gutter);
+    pointer-events: none;
   }
 
-  .hero__portrait {
-    z-index: 2;
-    aspect-ratio: 3 / 4;
-    inline-size: clamp(14rem, 24vw, 22rem);
+  .hero__photo {
+    position: relative;
+    inline-size: var(--photo-w);
+    block-size: var(--photo-h);
+    margin-block-start: calc((var(--photo-cy) - 50%) * 2);
     will-change: transform;
+    pointer-events: auto;
   }
 
-  .hero__portrait-frame {
+  .hero__photo-inner {
+    position: relative;
     inline-size: 100%;
     block-size: 100%;
-    background: var(--bg-subtle);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-lg);
-    display: grid;
-    place-items: center;
-    color: var(--ink-faint);
-    font-size: var(--step--1);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    overflow: hidden;
+    background: var(--bg-deep);
     box-shadow: 0 30px 80px rgba(7, 27, 61, 0.18);
+    isolation: isolate;
   }
 
-  [data-theme="dark"] .hero__portrait-frame {
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  [data-theme="dark"] .hero__photo-inner {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
   }
+
+  .hero__photo-img {
+    position: absolute;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    filter: grayscale(1) contrast(1.02);
+    transform: translate3d(0, 0, 0);
+    z-index: 1;
+  }
+
+  .hero__photo-glitch {
+    position: absolute;
+    inset: 0;
+    background-image: url("/hero-portrait.svg");
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    filter: grayscale(1) contrast(1.02);
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: screen;
+    z-index: 2;
+  }
+
+  .hero__photo-glitch--a { z-index: 2; }
+  .hero__photo-glitch--b { z-index: 3; }
+
+  .hero__photo:hover .hero__photo-img,
+  .hero__photo:focus-within .hero__photo-img,
+  .hero__photo:active .hero__photo-img {
+    animation: glitch-base 0.9s steps(1, end) infinite;
+  }
+  .hero__photo:hover .hero__photo-glitch--a,
+  .hero__photo:focus-within .hero__photo-glitch--a,
+  .hero__photo:active .hero__photo-glitch--a {
+    animation: glitch-a 0.9s steps(1, end) infinite;
+  }
+  .hero__photo:hover .hero__photo-glitch--b,
+  .hero__photo:focus-within .hero__photo-glitch--b,
+  .hero__photo:active .hero__photo-glitch--b {
+    animation: glitch-b 0.9s steps(1, end) infinite;
+  }
+
+  @keyframes glitch-base {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    12%      { transform: translate3d(-3px, 0, 0); }
+    28%      { transform: translate3d(2px, 0, 0); }
+    54%      { transform: translate3d(-1px, 1px, 0); }
+    72%      { transform: translate3d(3px, -1px, 0); }
+    88%      { transform: translate3d(-2px, 0, 0); }
+  }
+
+  @keyframes glitch-a {
+    0%, 100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    10%      { opacity: 0.85; clip-path: inset(6% 0 80% 0); transform: translate3d(-6px, 0, 0); }
+    22%      { opacity: 0.7; clip-path: inset(28% 0 60% 0); transform: translate3d(4px, 0, 0); }
+    36%      { opacity: 0; }
+    52%      { opacity: 0.6; clip-path: inset(48% 0 42% 0); transform: translate3d(-3px, 0, 0); }
+    68%      { opacity: 0.8; clip-path: inset(64% 0 22% 0); transform: translate3d(5px, 0, 0); }
+    82%      { opacity: 0; }
+    92%      { opacity: 0.5; clip-path: inset(82% 0 8% 0); transform: translate3d(-2px, 0, 0); }
+  }
+
+  @keyframes glitch-b {
+    0%, 100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    14%      { opacity: 0.5; clip-path: inset(14% 0 72% 0); transform: translate3d(5px, 0, 0); }
+    30%      { opacity: 0; }
+    48%      { opacity: 0.7; clip-path: inset(38% 0 50% 0); transform: translate3d(-6px, 0, 0); }
+    64%      { opacity: 0.55; clip-path: inset(58% 0 32% 0); transform: translate3d(3px, 0, 0); }
+    78%      { opacity: 0; }
+    94%      { opacity: 0.6; clip-path: inset(72% 0 18% 0); transform: translate3d(-4px, 0, 0); }
+  }
+
+  /* ---------- Foot ---------- */
 
   .hero__foot {
     position: relative;
-    z-index: 3;
+    z-index: 4;
+    align-self: end;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -136,27 +484,57 @@ const enMarquee = [...en.header.marqueeTerms, ...en.header.marqueeTerms, ...en.h
 
   .hero__meta {
     color: var(--ink-muted);
+    display: inline-flex;
+    gap: 0.5em;
   }
 
   .hero__cta {
     margin-inline-start: auto;
   }
 
+  /* ---------- Responsive ---------- */
+
+  @media (max-width: 900px) {
+    .hero {
+      --photo-w: clamp(14rem, 40vw, 20rem);
+      --row-fs: clamp(2.75rem, 1.5rem + 9vw, 7rem);
+    }
+  }
+
   @media (max-width: 640px) {
     .hero {
+      --photo-w: clamp(13rem, 62vw, 20rem);
+      --row-fs: clamp(2.25rem, 1.5rem + 8vw, 5rem);
+      --marquee-dur: 44s;
       padding-block-start: 5rem;
-      gap: var(--space-4);
     }
     .hero__foot {
       flex-direction: column;
       align-items: flex-start;
-      gap: var(--space-5);
+      gap: var(--space-4);
     }
-    .hero__cta {
-      margin-inline-start: 0;
+    .hero__cta { margin-inline-start: 0; }
+  }
+
+  /* ---------- Reduced motion ---------- */
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__row-track {
+      animation: none !important;
+      transform: translate3d(-12%, -50%, 0);
     }
-    .hero__portrait {
-      inline-size: clamp(11rem, 55vw, 18rem);
+    .hero__word,
+    .hero__row-track--bot-alt .hero__word {
+      animation: none !important;
     }
+    .hero__photo:hover .hero__photo-img,
+    .hero__photo:hover .hero__photo-glitch--a,
+    .hero__photo:hover .hero__photo-glitch--b,
+    .hero__photo:focus-within .hero__photo-img,
+    .hero__photo:focus-within .hero__photo-glitch--a,
+    .hero__photo:focus-within .hero__photo-glitch--b {
+      animation: none !important;
+    }
+    .hero__photo-glitch { display: none; }
   }
 </style>
