@@ -60,6 +60,19 @@ const halfLen = (row: string[]) => row.length / 2;
                     <span class="hero__word display">{w}</span>
                   ))}
                 </div>
+
+                {idx === 0 && (
+                  <>
+                    <span
+                      class="hero__row-silhouette-glitch hero__row-silhouette-glitch--a"
+                      aria-hidden="true"
+                    />
+                    <span
+                      class="hero__row-silhouette-glitch hero__row-silhouette-glitch--b"
+                      aria-hidden="true"
+                    />
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -73,7 +86,7 @@ const halfLen = (row: string[]) => row.length / 2;
       <div class="hero__photo-inner">
         <img
           class="hero__photo-img"
-          src="/hero-portrait.svg"
+          src="/heroImagen.png"
           alt={es.portrait.alt}
           width="600"
           height="800"
@@ -82,6 +95,8 @@ const halfLen = (row: string[]) => row.length / 2;
         />
         <span class="hero__photo-glitch hero__photo-glitch--a" aria-hidden="true"></span>
         <span class="hero__photo-glitch hero__photo-glitch--b" aria-hidden="true"></span>
+        <span class="hero__photo-figure hero__photo-figure--a" aria-hidden="true"></span>
+        <span class="hero__photo-figure hero__photo-figure--b" aria-hidden="true"></span>
       </div>
     </figure>
   </div>
@@ -194,8 +209,114 @@ const halfLen = (row: string[]) => row.length / 2;
     z-index: 3;
   }
 
-  /* Row 1 base BEHIND photo (z=1). Row 2 base BEHIND (z=1). Row 3 base BEHIND (z=1). */
   .hero__row-base { z-index: 1; }
+
+  /* Silhouette pin for row 1 clip only — draws the HeroSinFondo cutout on
+   * top of the row 1 tracks so the letters visually pass BEHIND the body.
+   * Lives inside the row-clip's own stacking context, so it doesn't need
+   * to escape the photo's context. Photo body pixels underneath match
+   * the silhouette pixels here, so the transition is seamless. */
+  .hero__row--top .hero__row-clip::after {
+    content: "";
+    position: absolute;
+    inset-block-start: var(--photo-inset-top);
+    inset-inline-start: var(--photo-inset-x);
+    inline-size: var(--photo-w);
+    block-size: var(--photo-h);
+    background-image: url("/HeroSinFondo.png");
+    background-size: cover;
+    background-position: center 25%;
+    background-repeat: no-repeat;
+    filter: grayscale(1) contrast(1.04);
+    pointer-events: none;
+  }
+
+  /* When the photo is hovered, the pin itself wobbles just like the
+   * base image — that way the intermediate silhouette layer inherits the
+   * bg-photo micro-shake instead of standing still. */
+  .hero:has(.hero__photo:hover) .hero__row--top .hero__row-clip::after,
+  .hero:has(.hero__photo:focus-within) .hero__row--top .hero__row-clip::after {
+    animation: glitch-base 1.4s steps(1, end) infinite;
+  }
+
+  /* Silhouette-shaped glitch bands, above the pin. Same clip-path pattern
+   * as the bg-photo glitch and slightly tinted so the flashes read as
+   * chromatic ghost cuts on top of the body, matching what happens on
+   * the background at the same instant. */
+  /* Silhouette glitch bands use mask-image so we can paint an explicit
+   * colored gradient onto the body shape. Grayscale sources ignore
+   * hue-rotate — this way each band carries a real tint. */
+  .hero__row-silhouette-glitch {
+    position: absolute;
+    inset-block-start: var(--photo-inset-top);
+    inset-inline-start: var(--photo-inset-x);
+    inline-size: var(--photo-w);
+    block-size: var(--photo-h);
+    -webkit-mask-image: url("/HeroSinFondo.png");
+            mask-image: url("/HeroSinFondo.png");
+    -webkit-mask-size: cover;
+            mask-size: cover;
+    -webkit-mask-position: center 25%;
+            mask-position: center 25%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero__row-silhouette-glitch--a {
+    background: linear-gradient(
+      180deg,
+      #f4f5f8 0%,
+      #cfd3da 45%,
+      #ebedf1 100%
+    );
+  }
+  .hero__row-silhouette-glitch--b {
+    background: linear-gradient(
+      180deg,
+      #b498e0 0%,
+      #7a58c8 40%,
+      #a888d8 70%,
+      #6d4fb3 100%
+    );
+  }
+
+  .hero:has(.hero__photo:hover) .hero__row-silhouette-glitch--a,
+  .hero:has(.hero__photo:focus-within) .hero__row-silhouette-glitch--a {
+    animation: silhouette-glitch-a 0.72s steps(1, end) infinite;
+  }
+  .hero:has(.hero__photo:hover) .hero__row-silhouette-glitch--b,
+  .hero:has(.hero__photo:focus-within) .hero__row-silhouette-glitch--b {
+    animation: silhouette-glitch-b 0.94s steps(1, end) infinite;
+  }
+
+  /* Higher opacity peaks than the bg version — the silhouette needs
+   * clearly visible cuts because it's a static grayscale surface. */
+  @keyframes silhouette-glitch-a {
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    6%, 9%     { opacity: 0.95; clip-path: inset(10% 0 82% 0); transform: translate3d(-3px, 0, 0); }
+    18%, 20%   { opacity: 0.8; clip-path: inset(32% 0 60% 0); transform: translate3d(2px, 0, 0); }
+    30%        { opacity: 0; }
+    44%, 47%   { opacity: 0.9; clip-path: inset(48% 0 46% 0); transform: translate3d(-2px, 0, 0); }
+    58%, 61%   { opacity: 0.75; clip-path: inset(62% 0 32% 0); transform: translate3d(3px, 0, 0); }
+    72%        { opacity: 0; }
+    84%, 87%   { opacity: 0.85; clip-path: inset(80% 0 14% 0); transform: translate3d(-2px, 0, 0); }
+    94%        { opacity: 0; }
+  }
+
+  @keyframes silhouette-glitch-b {
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    12%, 15%   { opacity: 0.75; clip-path: inset(20% 0 74% 0); transform: translate3d(3px, 0, 0); }
+    28%        { opacity: 0; }
+    40%, 43%   { opacity: 0.85; clip-path: inset(44% 0 50% 0); transform: translate3d(-3px, 0, 0); }
+    56%, 59%   { opacity: 0.7; clip-path: inset(58% 0 36% 0); transform: translate3d(2px, 0, 0); }
+    70%        { opacity: 0; }
+    82%, 85%   { opacity: 0.8; clip-path: inset(74% 0 20% 0); transform: translate3d(-2px, 0, 0); }
+    96%        { opacity: 0; }
+  }
 
   /* Row tracks */
   .hero__row-track {
@@ -252,7 +373,7 @@ const halfLen = (row: string[]) => row.length / 2;
       drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
   }
 
-  [data-theme="dark"] .hero__word {
+  :global([data-theme="dark"]) .hero__word {
     background: linear-gradient(
       180deg,
       #ffffff 0%,
@@ -261,11 +382,37 @@ const halfLen = (row: string[]) => row.length / 2;
       #dcdce0 78%,
       #ffffff 100%
     );
+    background-clip: text;
+    -webkit-background-clip: text;
     filter:
       drop-shadow(0.6px 0 0 rgba(140, 190, 255, 0.28))
       drop-shadow(-0.6px 0 0 rgba(255, 170, 200, 0.24))
       drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5))
       drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+  }
+
+  /* Dark mode — alternate every other word in the BASE tracks with the
+   * silhouette's silver+purple palette so the marquee reads as a rhythm
+   * of white vs chromed lavender. Only base tracks are targeted: the
+   * top-alt / bot-alt clones keep their dedicated fills. */
+  :global([data-theme="dark"])
+    .hero__row-track:not(.hero__row-track--top-alt):not(.hero__row-track--bot-alt)
+    > .hero__word:nth-child(even) {
+    background: linear-gradient(
+      180deg,
+      #dcd0f0 0%,
+      #a888d8 30%,
+      #7a58c8 55%,
+      #a888d8 78%,
+      #dcd0f0 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    filter:
+      drop-shadow(0.6px 0 0 rgba(200, 170, 255, 0.35))
+      drop-shadow(-0.6px 0 0 rgba(255, 180, 220, 0.28))
+      drop-shadow(0 1px 0 rgba(230, 210, 255, 0.5))
+      drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
   }
 
   /* Top overlay clone — translucent glass rendered inside the photo.
@@ -356,20 +503,21 @@ const halfLen = (row: string[]) => row.length / 2;
   /* ---------- Photo layer ---------- */
 
   .hero__stage {
-    position: relative;
+    /* Stage fills the whole hero so the photo can be positioned in the
+     * same coord system used by the row-clip pseudo-elements (silhouette
+     * pin), keeping them in perfect register. */
+    position: absolute;
+    inset: 0;
     z-index: 2;
-    display: grid;
-    place-items: center;
-    align-content: center;
-    padding-inline: var(--page-gutter);
     pointer-events: none;
   }
 
   .hero__photo {
-    position: relative;
+    position: absolute;
+    inset-block-start: calc(var(--photo-cy) - var(--photo-h) / 2);
+    inset-inline-start: calc(50% - var(--photo-w) / 2);
     inline-size: var(--photo-w);
     block-size: var(--photo-h);
-    margin-block-start: calc((var(--photo-cy) - 50%) * 2);
     will-change: transform;
     pointer-events: auto;
   }
@@ -384,7 +532,7 @@ const halfLen = (row: string[]) => row.length / 2;
     isolation: isolate;
   }
 
-  [data-theme="dark"] .hero__photo-inner {
+  :global([data-theme="dark"]) .hero__photo-inner {
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
   }
 
@@ -394,80 +542,169 @@ const halfLen = (row: string[]) => row.length / 2;
     inline-size: 100%;
     block-size: 100%;
     object-fit: cover;
-    object-position: center 30%;
-    filter: grayscale(1) contrast(1.02);
+    object-position: center 25%;
+    filter: grayscale(1) contrast(1.04);
     transform: translate3d(0, 0, 0);
     z-index: 1;
   }
 
+  /* Background glitch — full B/W portrait shifted in bands */
   .hero__photo-glitch {
     position: absolute;
     inset: 0;
-    background-image: url("/hero-portrait.svg");
+    background-image: url("/heroImagen.png");
     background-size: cover;
-    background-position: center 30%;
+    background-position: center 25%;
     background-repeat: no-repeat;
-    filter: grayscale(1) contrast(1.02);
+    filter: grayscale(1) contrast(1.04);
     pointer-events: none;
     opacity: 0;
     mix-blend-mode: screen;
     z-index: 2;
   }
-
   .hero__photo-glitch--a { z-index: 2; }
   .hero__photo-glitch--b { z-index: 3; }
+
+  /* Silhouette glitch — silver/violet chrome, masked to the cutout PNG.
+   * Same silver ramp used by the marquee bot-alt with extra magenta/purple
+   * so it reads as "chromed figure" independent from the background glitch. */
+  .hero__photo-figure {
+    position: absolute;
+    inset: 0;
+    -webkit-mask-image: url("/HeroSinFondo.png");
+            mask-image: url("/HeroSinFondo.png");
+    -webkit-mask-size: cover;
+            mask-size: cover;
+    -webkit-mask-position: center 25%;
+            mask-position: center 25%;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    background: linear-gradient(
+      110deg,
+      #dcd7e6 0%,
+      #b39ee6 10%,   /* lavender */
+      #eef1f4 22%,
+      #8c6ad4 34%,   /* purple */
+      #dcd0e6 46%,
+      #a988e0 58%,   /* violet */
+      #eef1f4 70%,
+      #7a58c8 82%,   /* deep purple */
+      #d0d3e2 92%,
+      #dcd7e6 100%
+    );
+    background-size: 240% 100%;
+    background-position: 0% 50%;
+    background-repeat: repeat;
+    filter:
+      drop-shadow(0 0 6px rgba(140, 106, 212, 0.35))
+      drop-shadow(0 0 2px rgba(255, 255, 255, 0.45));
+    mix-blend-mode: screen;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .hero__photo-figure--a { z-index: 4; }
+  .hero__photo-figure--b { z-index: 5; }
 
   .hero__photo:hover .hero__photo-img,
   .hero__photo:focus-within .hero__photo-img,
   .hero__photo:active .hero__photo-img {
-    animation: glitch-base 0.9s steps(1, end) infinite;
+    animation: glitch-base 1.4s steps(1, end) infinite;
   }
   .hero__photo:hover .hero__photo-glitch--a,
   .hero__photo:focus-within .hero__photo-glitch--a,
   .hero__photo:active .hero__photo-glitch--a {
-    animation: glitch-a 0.9s steps(1, end) infinite;
+    animation: glitch-a 0.72s steps(1, end) infinite;
   }
   .hero__photo:hover .hero__photo-glitch--b,
   .hero__photo:focus-within .hero__photo-glitch--b,
   .hero__photo:active .hero__photo-glitch--b {
-    animation: glitch-b 0.9s steps(1, end) infinite;
+    animation: glitch-b 0.94s steps(1, end) infinite;
   }
 
+  .hero__photo:hover .hero__photo-figure--a,
+  .hero__photo:focus-within .hero__photo-figure--a,
+  .hero__photo:active .hero__photo-figure--a {
+    animation:
+      figure-a 0.66s steps(1, end) infinite,
+      figure-chroma 6s linear infinite;
+  }
+  .hero__photo:hover .hero__photo-figure--b,
+  .hero__photo:focus-within .hero__photo-figure--b,
+  .hero__photo:active .hero__photo-figure--b {
+    animation:
+      figure-b 0.88s steps(1, end) infinite,
+      figure-chroma 7.5s linear infinite reverse;
+  }
+
+  @keyframes figure-chroma {
+    from { background-position:    0% 50%; }
+    to   { background-position: -240% 50%; }
+  }
+
+  /* Sparkle-style glitch: many thin bands, tiny shifts, mostly-off frames.
+   * Amplitude is 1-2px so the image barely wobbles — the feeling comes
+   * from short bright flickers rather than a coarse shake. */
   @keyframes glitch-base {
-    0%, 100% { transform: translate3d(0, 0, 0); }
-    12%      { transform: translate3d(-3px, 0, 0); }
-    28%      { transform: translate3d(2px, 0, 0); }
-    54%      { transform: translate3d(-1px, 1px, 0); }
-    72%      { transform: translate3d(3px, -1px, 0); }
-    88%      { transform: translate3d(-2px, 0, 0); }
+    0%, 100%      { transform: translate3d(0, 0, 0); }
+    22%, 24%      { transform: translate3d(-1px, 0, 0); }
+    46%, 47%      { transform: translate3d(1px, 0, 0); }
+    72%, 73%      { transform: translate3d(-1px, 0, 0); }
   }
 
   @keyframes glitch-a {
-    0%, 100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
-    10%      { opacity: 0.85; clip-path: inset(6% 0 80% 0); transform: translate3d(-6px, 0, 0); }
-    22%      { opacity: 0.7; clip-path: inset(28% 0 60% 0); transform: translate3d(4px, 0, 0); }
-    36%      { opacity: 0; }
-    52%      { opacity: 0.6; clip-path: inset(48% 0 42% 0); transform: translate3d(-3px, 0, 0); }
-    68%      { opacity: 0.8; clip-path: inset(64% 0 22% 0); transform: translate3d(5px, 0, 0); }
-    82%      { opacity: 0; }
-    92%      { opacity: 0.5; clip-path: inset(82% 0 8% 0); transform: translate3d(-2px, 0, 0); }
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    6%, 8%     { opacity: 0.55; clip-path: inset(10% 0 86% 0); transform: translate3d(-2px, 0, 0); }
+    18%, 19%   { opacity: 0.45; clip-path: inset(32% 0 64% 0); transform: translate3d(1px, 0, 0); }
+    30%        { opacity: 0; }
+    44%, 46%   { opacity: 0.5; clip-path: inset(48% 0 48% 0); transform: translate3d(-1px, 0, 0); }
+    58%, 60%   { opacity: 0.4; clip-path: inset(62% 0 34% 0); transform: translate3d(2px, 0, 0); }
+    72%        { opacity: 0; }
+    84%, 86%   { opacity: 0.5; clip-path: inset(80% 0 16% 0); transform: translate3d(-1px, 0, 0); }
+    94%        { opacity: 0; }
   }
 
   @keyframes glitch-b {
-    0%, 100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
-    14%      { opacity: 0.5; clip-path: inset(14% 0 72% 0); transform: translate3d(5px, 0, 0); }
-    30%      { opacity: 0; }
-    48%      { opacity: 0.7; clip-path: inset(38% 0 50% 0); transform: translate3d(-6px, 0, 0); }
-    64%      { opacity: 0.55; clip-path: inset(58% 0 32% 0); transform: translate3d(3px, 0, 0); }
-    78%      { opacity: 0; }
-    94%      { opacity: 0.6; clip-path: inset(72% 0 18% 0); transform: translate3d(-4px, 0, 0); }
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    12%, 14%   { opacity: 0.35; clip-path: inset(20% 0 76% 0); transform: translate3d(2px, 0, 0); }
+    28%        { opacity: 0; }
+    40%, 42%   { opacity: 0.4; clip-path: inset(44% 0 52% 0); transform: translate3d(-2px, 0, 0); }
+    56%, 58%   { opacity: 0.35; clip-path: inset(58% 0 38% 0); transform: translate3d(1px, 0, 0); }
+    70%        { opacity: 0; }
+    82%, 84%   { opacity: 0.4; clip-path: inset(74% 0 22% 0); transform: translate3d(-1px, 0, 0); }
+    96%        { opacity: 0; }
+  }
+
+  /* Silhouette flickers — a bit more visible than the background bands
+   * because the silver+violet ramp is what carries the "chispeante" feel. */
+  @keyframes figure-a {
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    4%, 6%     { opacity: 0.8; clip-path: inset(12% 0 82% 0); transform: translate3d(-2px, 0, 0); }
+    16%, 17%   { opacity: 0.6; clip-path: inset(28% 0 66% 0); transform: translate3d(1px, 0, 0); }
+    26%        { opacity: 0; }
+    38%, 40%   { opacity: 0.75; clip-path: inset(46% 0 48% 0); transform: translate3d(-1px, 0, 0); }
+    52%, 54%   { opacity: 0.55; clip-path: inset(60% 0 34% 0); transform: translate3d(2px, 0, 0); }
+    66%        { opacity: 0; }
+    76%, 78%   { opacity: 0.7; clip-path: inset(72% 0 22% 0); transform: translate3d(-1px, 0, 0); }
+    90%, 91%   { opacity: 0.5; clip-path: inset(84% 0 12% 0); transform: translate3d(1px, 0, 0); }
+  }
+
+  @keyframes figure-b {
+    0%, 100%   { opacity: 0; clip-path: inset(0 0 100% 0); transform: translate3d(0, 0, 0); }
+    10%, 11%   { opacity: 0.55; clip-path: inset(22% 0 72% 0); transform: translate3d(1px, 0, 0); }
+    22%        { opacity: 0; }
+    34%, 36%   { opacity: 0.65; clip-path: inset(40% 0 54% 0); transform: translate3d(-2px, 0, 0); }
+    48%, 50%   { opacity: 0.5; clip-path: inset(54% 0 40% 0); transform: translate3d(1px, 0, 0); }
+    62%        { opacity: 0; }
+    74%, 76%   { opacity: 0.6; clip-path: inset(68% 0 26% 0); transform: translate3d(-1px, 0, 0); }
+    88%, 89%   { opacity: 0.45; clip-path: inset(82% 0 14% 0); transform: translate3d(1px, 0, 0); }
   }
 
   /* ---------- Foot ---------- */
 
   .hero__foot {
     position: relative;
-    z-index: 4;
+    z-index: 6;
     align-self: end;
     display: flex;
     justify-content: space-between;
@@ -530,11 +767,17 @@ const halfLen = (row: string[]) => row.length / 2;
     .hero__photo:hover .hero__photo-img,
     .hero__photo:hover .hero__photo-glitch--a,
     .hero__photo:hover .hero__photo-glitch--b,
+    .hero__photo:hover .hero__photo-figure--a,
+    .hero__photo:hover .hero__photo-figure--b,
     .hero__photo:focus-within .hero__photo-img,
     .hero__photo:focus-within .hero__photo-glitch--a,
-    .hero__photo:focus-within .hero__photo-glitch--b {
+    .hero__photo:focus-within .hero__photo-glitch--b,
+    .hero__photo:focus-within .hero__photo-figure--a,
+    .hero__photo:focus-within .hero__photo-figure--b {
       animation: none !important;
     }
-    .hero__photo-glitch { display: none; }
+    .hero__photo-glitch,
+    .hero__photo-figure,
+    .hero__row-silhouette-glitch { display: none; }
   }
 </style>

@@ -57,16 +57,9 @@ export function initMotion() {
       { y: 40, opacity: 0, scale: 0.94 },
       { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "power3.out", delay: 0.2 },
     );
-    gsap.to(portrait, {
-      yPercent: -15,
-      ease: "none",
-      scrollTrigger: {
-        trigger: portrait,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
+    // Parallax removed: it shifts the photo while the row 1 silhouette pin
+    // (a ::after pseudo-element outside .hero__stage) stays put, causing
+    // the silhouette overlay to fall out of register with the actual body.
   }
 
   // Rise-in generic
