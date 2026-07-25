@@ -3,6 +3,7 @@ import SeoHead from "../components/seo/SeoHead.astro";
 import StructuredData from "../components/seo/StructuredData.astro";
 import LiquidGlassFilter from "../components/ui/LiquidGlassFilter.astro";
 import Nav from "../components/layout/Nav.astro";
+import NextSectionButton from "../components/NextSectionButton.astro";
 import { defaultLanguage, type Language } from "../i18n/config";
 import { content, type PortfolioContent } from "../data/content";
 import { buildPersonJsonLd, buildWebsiteJsonLd } from "../lib/seo";
@@ -73,6 +74,8 @@ const structuredData = [
     <main id="main-content" class="site-main">
       <slot />
     </main>
+
+    <NextSectionButton />
 
     <script>
       import { initTheme } from "../scripts/theme";

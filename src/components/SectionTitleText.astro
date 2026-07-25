@@ -1,0 +1,17 @@
+---
+export interface Props {
+  text: string;
+  lang: "es" | "en";
+}
+const { text, lang } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+
+<span data-i18n={lang}>
+  {words.map((word, i) => (
+    <>
+      {i > 0 ? " " : null}
+      <span class="section-title__word">{word}</span>
+    </>
+  ))}
+</span>

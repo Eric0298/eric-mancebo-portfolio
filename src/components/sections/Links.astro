@@ -1,5 +1,6 @@
 ---
 import { content } from "../../data/content";
+import SectionTitleText from "../SectionTitleText.astro";
 const es = content.es;
 const en = content.en;
 const items = es.links.items.map((_, i) => i);
@@ -8,8 +9,8 @@ const items = es.links.items.map((_, i) => i);
 <section id="links" class="section links">
   <div class="page-shell">
     <h2 class="section-title" data-motion="title">
-      <span data-i18n="es">{es.links.title}</span>
-      <span data-i18n="en">{en.links.title}</span>
+      <SectionTitleText text={es.links.title} lang="es" />
+      <SectionTitleText text={en.links.title} lang="en" />
     </h2>
 
     <div class="links__grid">

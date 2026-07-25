@@ -7,11 +7,18 @@ export interface Project {
   href?: string;
 }
 
+export type ExperienceSegment =
+  | string
+  | { accent: string }
+  | { link: string; href: string };
+
 export interface ExperienceItem {
   period: string;
+  periodLabel?: string;
   role: string;
   place: string;
-  summary: string;
+  placeHref?: string;
+  summary: ExperienceSegment[];
 }
 
 export interface StackGroup {
@@ -23,6 +30,9 @@ export interface LinkItem {
   label: string;
   href: string;
 }
+
+export type AboutSegment = string | { accent: string };
+export type AboutBlock = AboutSegment[];
 
 export interface PortfolioContent {
   meta: {
@@ -46,7 +56,8 @@ export interface PortfolioContent {
   };
   about: {
     title: string;
-    body: string;
+    blocks: AboutBlock[];
+    scrollHint: string;
   };
   projects: {
     title: string;
@@ -109,7 +120,44 @@ export const content: Record<Language, PortfolioContent> = {
     },
     about: {
       title: "Sobre mí",
-      body: "Construyo productos web con criterio de ingeniero y ojo de diseñador. Me interesa la precisión, el ritmo del scroll y las interfaces que no sobran.",
+      scrollHint: "Desliza para continuar",
+      blocks: [
+        [
+          "Hola, soy Eric Mancebo Muminhodzic, ",
+          { accent: "desarrollador full stack" },
+          " especializado en transformar ideas y necesidades reales en ",
+          { accent: "soluciones digitales funcionales" },
+          ".",
+        ],
+        [
+          "Creo aplicaciones, herramientas y experiencias web orientadas a ",
+          { accent: "resolver problemas" },
+          ", ",
+          { accent: "automatizar procesos" },
+          " y mejorar la forma en que personas y empresas trabajan y se relacionan con su entorno digital.",
+        ],
+        [
+          "Soy técnico superior en Desarrollo de Aplicaciones Web por el IES L'Estació de Ontinyent. Durante mi formación he trabajado tanto en ",
+          { accent: "frontend y backend" },
+          ", desarrollando proyectos completos y aprendiendo a entender el ",
+          { accent: "producto más allá del código" },
+          ".",
+        ],
+        [
+          "Actualmente continúo ampliando mis conocimientos en ",
+          { accent: "arquitectura de software" },
+          ", automatización, ",
+          { accent: "inteligencia artificial aplicada" },
+          " y desarrollo de productos digitales, compaginando el Grado en Ingeniería en Inteligencia Artificial en la UNED con mi desarrollo profesional.",
+        ],
+        [
+          "Me interesa construir ",
+          { accent: "tecnología útil" },
+          ": productos mantenibles, intuitivos y pensados para generar un ",
+          { accent: "impacto real" },
+          " en los usuarios y en los negocios.",
+        ],
+      ],
     },
     projects: {
       title: "Trabajo destacado",
@@ -136,25 +184,70 @@ export const content: Record<Language, PortfolioContent> = {
       scrollHint: "Desliza para avanzar",
       items: [
         {
-          period: "2024",
-          role: "Desarrollador freelance",
-          place: "Independiente",
-          summary:
-            "Trabajos por encargo end-to-end: producto web, automatización y arquitectura.",
+          period: "2026",
+          periodLabel: "— actualidad",
+          role: "Desarrollo freelance",
+          place: "Independiente · Valencia",
+          summary: [
+            "Trabajo como ",
+            { accent: "desarrollador freelance" },
+            " creando ",
+            { accent: "soluciones digitales" },
+            " para profesionales y pequeñas empresas —como la web de ",
+            { link: "PG Peritaciones", href: "https://www.pgperitaciones.com/" },
+            "—. En paralelo desarrollo una ",
+            { accent: "plataforma SaaS" },
+            " para centros deportivos, entrenadores y profesionales del fitness.",
+          ],
         },
         {
-          period: "2022",
-          role: "Full-stack",
-          place: "Empresa",
-          summary:
-            "Diseño e implementación de interfaces y APIs para producto en producción.",
+          period: "2026",
+          role: "Desarrollo web · Prácticas",
+          place: "Ontinyent",
+          summary: [
+            "Prácticas en ",
+            { link: "Beply", href: "https://beply.es/" },
+            ", empresa tecnológica especializada en soluciones ",
+            { accent: "CRM y ERP" },
+            ". Participé en la migración de su web corporativa desde WordPress hacia una arquitectura moderna con ",
+            { accent: "Astro" },
+            ", trabajando en componentes, ",
+            { accent: "rendimiento y optimización web" },
+            ", accesibilidad y SEO, y en ",
+            { accent: "inteligencia artificial aplicada al desarrollo" },
+            " con Claude Code, MCP y BMAD.",
+          ],
         },
         {
-          period: "2020",
-          role: "Frontend Junior",
-          place: "Empresa",
-          summary:
-            "Primeros pasos profesionales: HTML/CSS/JS, componentes y buenas prácticas.",
+          period: "2020–2025",
+          role: "Operaciones y logística digital",
+          place: "Bluebags · Ontinyent",
+          placeHref: "https://bluebags.es/",
+          summary: [
+            "Más de cuatro años en la ",
+            { accent: "operativa logística y digital" },
+            " de una empresa dedicada al ",
+            { accent: "comercio electrónico" },
+            " y a la venta en ",
+            { accent: "marketplaces" },
+            " nacionales e internacionales. En paralelo obtuve el nivel B2 de inglés y completé el Grado Superior en ",
+            { accent: "Desarrollo de Aplicaciones Web" },
+            ", y descubrí mi interés por la ",
+            { accent: "automatización de procesos" },
+            ".",
+          ],
+        },
+        {
+          period: "2019",
+          role: "Atención al cliente",
+          place: "Hostelería · Alicante",
+          summary: [
+            "Interrumpí mis estudios de ADE en la Universidad de Alicante para priorizar la estabilidad económica de mi familia. Empecé en hostelería, donde desarrollé habilidades de ",
+            { accent: "atención al cliente" },
+            ", comunicación y ",
+            { accent: "resolución de problemas" },
+            ", y tuve mi primer contacto real con la operativa diaria de un negocio.",
+          ],
         },
       ],
     },
@@ -213,7 +306,44 @@ export const content: Record<Language, PortfolioContent> = {
     },
     about: {
       title: "About",
-      body: "I build web products with an engineer's judgment and a designer's eye. I care about precision, scroll cadence, and interfaces that leave nothing extra.",
+      scrollHint: "Scroll to continue",
+      blocks: [
+        [
+          "Hi, I'm Eric Mancebo Muminhodzic, a ",
+          { accent: "full-stack developer" },
+          " focused on turning ideas and real-world needs into ",
+          { accent: "functional digital solutions" },
+          ".",
+        ],
+        [
+          "I build applications, tools and web experiences aimed at ",
+          { accent: "solving problems" },
+          ", ",
+          { accent: "automating processes" },
+          " and improving the way people and companies work and relate to their digital environment.",
+        ],
+        [
+          "I'm a Higher Technician in Web Application Development from IES L'Estació in Ontinyent. Throughout my training I've worked on both ",
+          { accent: "frontend and backend" },
+          ", delivering complete projects and learning to understand ",
+          { accent: "the product beyond the code" },
+          ".",
+        ],
+        [
+          "I'm currently expanding my knowledge in ",
+          { accent: "software architecture" },
+          ", automation, ",
+          { accent: "applied artificial intelligence" },
+          " and digital product development, combining a Degree in Artificial Intelligence Engineering at UNED with my professional work.",
+        ],
+        [
+          "I care about building ",
+          { accent: "useful technology" },
+          ": maintainable, intuitive products designed to have a ",
+          { accent: "real impact" },
+          " on users and businesses.",
+        ],
+      ],
     },
     projects: {
       title: "Featured work",
@@ -240,25 +370,70 @@ export const content: Record<Language, PortfolioContent> = {
       scrollHint: "Scroll to advance",
       items: [
         {
-          period: "2024",
+          period: "2026",
+          periodLabel: "— present",
           role: "Freelance developer",
-          place: "Independent",
-          summary:
-            "End-to-end commissioned work: web product, automation, and architecture.",
+          place: "Independent · Valencia",
+          summary: [
+            "I work as a ",
+            { accent: "freelance developer" },
+            " building ",
+            { accent: "digital solutions" },
+            " for professionals and small companies — such as the website for ",
+            { link: "PG Peritaciones", href: "https://www.pgperitaciones.com/" },
+            ". In parallel I'm building a ",
+            { accent: "SaaS platform" },
+            " to connect and streamline the operations of sports centres, coaches and fitness professionals.",
+          ],
         },
         {
-          period: "2022",
-          role: "Full-stack",
-          place: "Company",
-          summary:
-            "Design and implementation of interfaces and APIs for a live product.",
+          period: "2026",
+          role: "Web development · Internship",
+          place: "Ontinyent",
+          summary: [
+            "Internship at ",
+            { link: "Beply", href: "https://beply.es/" },
+            ", a technology company specialising in ",
+            { accent: "CRM and ERP" },
+            " solutions. I took part in the migration of their corporate website from WordPress to a modern architecture built with ",
+            { accent: "Astro" },
+            ", working on components, ",
+            { accent: "web performance" },
+            ", accessibility and SEO, and on ",
+            { accent: "AI-assisted development" },
+            " with Claude Code, MCP and BMAD.",
+          ],
         },
         {
-          period: "2020",
-          role: "Junior frontend",
-          place: "Company",
-          summary:
-            "First professional steps: HTML/CSS/JS, components and good practices.",
+          period: "2020–2025",
+          role: "Operations and digital logistics",
+          place: "Bluebags · Ontinyent",
+          placeHref: "https://bluebags.es/",
+          summary: [
+            "More than four years inside the ",
+            { accent: "logistics and digital operations" },
+            " of a fashion company running ",
+            { accent: "ecommerce" },
+            " and selling on international ",
+            { accent: "marketplaces" },
+            ". In parallel I earned a B2 in English and finished the Higher Vocational Degree in ",
+            { accent: "Web Application Development" },
+            ", and discovered my interest in ",
+            { accent: "process automation" },
+            ".",
+          ],
+        },
+        {
+          period: "2019",
+          role: "Customer service",
+          place: "Hospitality · Alicante",
+          summary: [
+            "I paused my Business Administration degree at the University of Alicante to prioritise my family's stability. I started out in hospitality, where I built ",
+            { accent: "customer service" },
+            ", communication and ",
+            { accent: "problem-solving" },
+            " skills, and got my first real exposure to how a business runs day to day.",
+          ],
         },
       ],
     },

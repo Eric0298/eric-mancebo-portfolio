@@ -1,5 +1,6 @@
 ---
 import { content } from "../../data/content";
+import SectionTitleText from "../SectionTitleText.astro";
 const es = content.es;
 const en = content.en;
 const items = es.experience.items.map((_, i) => i);
@@ -7,36 +8,134 @@ const items = es.experience.items.map((_, i) => i);
 
 <section id="experience" class="experience" data-motion="experience">
   <div class="experience__pin">
-    <div class="page-shell page-shell--wide">
+    <div class="page-shell page-shell--wide experience__shell">
       <h2 class="section-title experience__title" data-motion="title">
-        <span data-i18n="es">{es.experience.title}</span>
-        <span data-i18n="en">{en.experience.title}</span>
+        <SectionTitleText text={es.experience.title} lang="es" />
+        <SectionTitleText text={en.experience.title} lang="en" />
       </h2>
 
       <div class="experience__viewport">
         {items.map((i) => {
           const esItem = es.experience.items[i];
           const enItem = en.experience.items[i];
+          const hasPeriodLabel = !!(esItem.periodLabel || enItem.periodLabel);
           return (
-            <>
-              <div class="experience__slide experience__slide--year" data-slide-index={i * 2}>
-                <span class="experience__year display">{esItem.period}</span>
+            <article class="experience__slide" data-slide-index={i}>
+              <div class="experience__year-block">
+                <div class="experience__year-cluster">
+                  <span class="experience__year display">{esItem.period}</span>
+                  {hasPeriodLabel && (
+                    <span class="experience__year-label mono">
+                      {esItem.periodLabel && (
+                        <span data-i18n="es">{esItem.periodLabel}</span>
+                      )}
+                      {enItem.periodLabel && (
+                        <span data-i18n="en">{enItem.periodLabel}</span>
+                      )}
+                    </span>
+                  )}
+                </div>
+                <span class="experience__place mono">
+                  {esItem.placeHref ? (
+                    <a
+                      class="experience__place-link"
+                      href={esItem.placeHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span data-i18n="es">{esItem.place}</span>
+                      <span data-i18n="en">{enItem.place}</span>
+                      <svg
+                        class="experience__external"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 17L17 7M8 7h9v9" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <>
+                      <span data-i18n="es">{esItem.place}</span>
+                      <span data-i18n="en">{enItem.place}</span>
+                    </>
+                  )}
+                </span>
               </div>
-              <div class="experience__slide experience__slide--detail" data-slide-index={i * 2 + 1}>
+
+              <div class="experience__detail-block">
                 <span class="experience__role display">
                   <span data-i18n="es">{esItem.role}</span>
                   <span data-i18n="en">{enItem.role}</span>
                 </span>
-                <span class="experience__summary">
-                  <span data-i18n="es">{esItem.summary}</span>
-                  <span data-i18n="en">{enItem.summary}</span>
-                </span>
-                <span class="experience__place mono">
-                  <span data-i18n="es">{esItem.place}</span>
-                  <span data-i18n="en">{enItem.place}</span>
-                </span>
+                <p class="experience__summary">
+                  <span data-i18n="es">
+                    {esItem.summary.map((seg) =>
+                      typeof seg === "string" ? (
+                        seg
+                      ) : "accent" in seg ? (
+                        <em class="experience__accent">{seg.accent}</em>
+                      ) : (
+                        <a
+                          class="experience__link"
+                          href={seg.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {seg.link}
+                          <svg
+                            class="experience__external"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M7 17L17 7M8 7h9v9" />
+                          </svg>
+                        </a>
+                      ),
+                    )}
+                  </span>
+                  <span data-i18n="en">
+                    {enItem.summary.map((seg) =>
+                      typeof seg === "string" ? (
+                        seg
+                      ) : "accent" in seg ? (
+                        <em class="experience__accent">{seg.accent}</em>
+                      ) : (
+                        <a
+                          class="experience__link"
+                          href={seg.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {seg.link}
+                          <svg
+                            class="experience__external"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="M7 17L17 7M8 7h9v9" />
+                          </svg>
+                        </a>
+                      ),
+                    )}
+                  </span>
+                </p>
               </div>
-            </>
+            </article>
           );
         })}
       </div>
@@ -60,6 +159,13 @@ const items = es.experience.items.map((_, i) => i);
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
+  }
+
+  .experience__shell {
+    inline-size: 100%;
+    max-inline-size: min(120rem, 100%);
+    padding-inline: clamp(1rem, 3vw, 3rem);
   }
 
   .experience__title {
@@ -69,27 +175,44 @@ const items = es.experience.items.map((_, i) => i);
   .experience__viewport {
     position: relative;
     inline-size: 100%;
-    block-size: min(46dvh, 32rem);
+    block-size: min(62dvh, 40rem);
+    overflow: hidden;
   }
 
   .experience__slide {
     position: absolute;
     inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--space-4);
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr);
+    align-items: center;
+    gap: clamp(var(--space-6), 5vw, var(--space-9));
     opacity: 0;
-    will-change: opacity, transform;
+    pointer-events: none;
+    will-change: opacity;
   }
 
-  .experience__slide--year {
-    justify-content: center;
+  .experience__slide.is-active {
+    pointer-events: auto;
+  }
+
+  .experience__year-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
     align-items: flex-start;
+    align-self: center;
+    will-change: transform;
+  }
+
+  .experience__year-cluster {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35em;
   }
 
   .experience__year {
-    font-size: clamp(5rem, 3rem + 12vw, 18rem);
+    font-size: clamp(4.5rem, 2rem + 10vw, 13rem);
     font-weight: 400;
     line-height: 0.86;
     letter-spacing: -0.06em;
@@ -97,23 +220,102 @@ const items = es.experience.items.map((_, i) => i);
     text-shadow: 0 0 60px var(--glow-soft);
   }
 
+  .experience__year-label {
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: clamp(0.8rem, 0.7rem + 0.3vw, 1rem);
+  }
+
+  .experience__detail-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    align-self: center;
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
   .experience__role {
-    font-size: clamp(2rem, 1rem + 3.5vw, 5rem);
+    font-size: clamp(1.8rem, 1rem + 2.6vw, 4rem);
     font-weight: 400;
     line-height: 1;
     letter-spacing: -0.035em;
     color: var(--ink);
+    text-wrap: balance;
   }
 
   .experience__summary {
-    font-size: clamp(1.05rem, 0.9rem + 0.6vw, 1.4rem);
-    line-height: 1.4;
-    max-inline-size: 42ch;
+    font-size: clamp(1.05rem, 0.85rem + 0.7vw, 1.45rem);
+    line-height: 1.5;
+    max-inline-size: 60ch;
     color: var(--ink-muted);
+    text-wrap: pretty;
+  }
+
+  .experience__accent {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink-strong);
+    letter-spacing: -0.005em;
+  }
+
+  .experience__link {
+    color: var(--ink-strong);
+    font-weight: 600;
+    border-block-end: 1px solid var(--border-strong);
+    padding-block-end: 1px;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .experience__link:hover,
+  .experience__link:focus-visible {
+    color: var(--ink);
+    border-block-end-color: currentColor;
   }
 
   .experience__place {
     color: var(--ink-faint);
+  }
+
+  .experience__place-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    color: inherit;
+    border-block-end: 1px solid transparent;
+    padding-block-end: 1px;
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .experience__place-link:hover,
+  .experience__place-link:focus-visible {
+    color: var(--ink);
+    border-block-end-color: currentColor;
+  }
+
+  .experience__external {
+    inline-size: 0.72em;
+    block-size: 0.72em;
+    display: inline-block;
+    vertical-align: -0.05em;
+    margin-inline-start: 0.28em;
+    opacity: 0.65;
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .experience__link:hover .experience__external,
+  .experience__link:focus-visible .experience__external,
+  .experience__place-link:hover .experience__external,
+  .experience__place-link:focus-visible .experience__external {
+    transform: translate(2px, -2px);
+    opacity: 1;
   }
 
   .experience__hint {
@@ -123,9 +325,28 @@ const items = es.experience.items.map((_, i) => i);
     letter-spacing: 0.18em;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 900px) {
     .experience__viewport {
-      block-size: min(56dvh, 30rem);
+      block-size: min(72dvh, 34rem);
+    }
+
+    .experience__slide {
+      grid-template-columns: 1fr;
+      align-content: center;
+      gap: var(--space-5);
+    }
+
+    .experience__year-block {
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .experience__year {
+      font-size: clamp(3.5rem, 2rem + 8vw, 7rem);
+    }
+
+    .experience__summary {
+      max-inline-size: none;
     }
   }
 </style>

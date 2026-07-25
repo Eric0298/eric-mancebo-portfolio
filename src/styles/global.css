@@ -133,12 +133,20 @@ section.section {
 .section-title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(4rem, 2rem + 10vw, 12rem);
+  font-size: clamp(3rem, 1.5rem + 7vw, 9rem);
   line-height: 0.86;
   letter-spacing: -0.015em;
   color: var(--ink);
   text-transform: uppercase;
   margin-block-end: var(--space-8);
+}
+
+/* Words stay inline so multiple words share a row when they fit, but
+   white-space: nowrap keeps each word's per-char inline-block wrappers
+   from breaking mid-word. Wrapping happens at word boundaries only. */
+.section-title__word {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 /* i18n visibility */
@@ -197,32 +205,6 @@ section.section {
     rgba(232, 240, 255, 0) 60%,
     rgba(232, 240, 255, 0.03) 100%
   );
-}
-
-/* Word appear + illuminate */
-.words {
-  display: block;
-}
-
-.words__word {
-  display: inline-block;
-  opacity: 0;
-  color: var(--ink-faint);
-  transform: translateY(0.35em);
-  will-change: opacity, transform, color, text-shadow;
-}
-
-.words__word--visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity 0.7s var(--ease-out),
-    transform 0.7s var(--ease-out);
-}
-
-.words__word--lit {
-  color: var(--ink);
-  text-shadow: 0 0 24px var(--glow), 0 0 60px var(--glow-soft);
 }
 
 /* Link CTA (no background) */

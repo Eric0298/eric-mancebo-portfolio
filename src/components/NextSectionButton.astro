@@ -1,0 +1,164 @@
+---
+---
+
+<button
+  type="button"
+  class="next-section liquid-glass"
+  data-next-section
+>
+  <span class="next-section__label next-section__label--next">
+    <span data-i18n="es">Salta a la siguiente sección</span>
+    <span data-i18n="en">Skip to next section</span>
+  </span>
+  <span class="next-section__label next-section__label--top">
+    <span data-i18n="es">Volver arriba</span>
+    <span data-i18n="en">Back to top</span>
+  </span>
+  <span class="next-section__arrow" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none">
+      <path
+        d="M10 4v12M4 10l6 6 6-6"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </span>
+</button>
+
+<style>
+  .next-section {
+    position: fixed;
+    inset-block-end: var(--space-6);
+    inset-inline-start: 50%;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.7rem 1rem 0.7rem 1.25rem;
+    border-radius: var(--radius-pill) !important;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transform: translateX(-50%);
+    transition:
+      transform var(--dur-med) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+    animation: next-section-glow 2.6s var(--ease-in-out) infinite;
+  }
+
+  .next-section:hover {
+    transform: translateX(-50%) translateY(-4px);
+    animation-play-state: paused;
+    background: var(--glass-highlight);
+  }
+
+  .next-section:active {
+    transform: translateX(-50%) translateY(-1px) scale(0.98);
+  }
+
+  .next-section__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .next-section__label--top {
+    display: none;
+  }
+
+  .next-section--at-end .next-section__label--next {
+    display: none;
+  }
+
+  .next-section--at-end .next-section__label--top {
+    display: inline-flex;
+  }
+
+  .next-section__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 1.1rem;
+    block-size: 1.1rem;
+    color: var(--ink-strong);
+    animation: next-section-bounce 1.8s var(--ease-in-out) infinite;
+    transition: transform var(--dur-med) var(--ease-out);
+  }
+
+  .next-section__arrow svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .next-section--at-end .next-section__arrow {
+    animation: next-section-bounce-up 1.8s var(--ease-in-out) infinite;
+  }
+
+  .next-section:hover .next-section__arrow {
+    animation-play-state: paused;
+  }
+
+  @keyframes next-section-glow {
+    0%,
+    100% {
+      box-shadow:
+        var(--glass-shadow),
+        inset 0 1px 0 var(--glass-highlight);
+    }
+    50% {
+      box-shadow:
+        0 14px 40px var(--glow),
+        0 4px 14px var(--glow-soft),
+        inset 0 1px 0 var(--glass-highlight);
+    }
+  }
+
+  @keyframes next-section-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  @keyframes next-section-bounce-up {
+    0%,
+    100% {
+      transform: rotate(180deg) translateY(0);
+    }
+    50% {
+      transform: rotate(180deg) translateY(4px);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .next-section {
+      inset-block-end: var(--space-4);
+      padding: 0.6rem 0.85rem 0.6rem 1rem;
+      gap: var(--space-2);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+    }
+
+    .next-section__arrow {
+      inline-size: 0.95rem;
+      block-size: 0.95rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .next-section,
+    .next-section__arrow {
+      animation: none !important;
+    }
+  }
+</style>

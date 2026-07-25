@@ -10,9 +10,7 @@ export function initMotion() {
   if (reduce) {
     document.documentElement.classList.remove("motion-loading");
     document.documentElement.classList.add("motion-ready");
-    document.querySelectorAll<HTMLElement>(".words__word").forEach((el) => {
-      el.classList.add("words__word--visible", "words__word--lit");
-    });
+    initNextSectionButton(null);
     return;
   }
 
@@ -22,6 +20,8 @@ export function initMotion() {
     smoothWheel: true,
     wheelMultiplier: 1,
   });
+
+  initNextSectionButton(lenis);
 
   lenis.on("scroll", ScrollTrigger.update);
 
@@ -73,35 +73,27 @@ export function initMotion() {
     });
   });
 
-  // Giant section titles — char-by-char rise
+  // Giant section titles — char-by-char rise (per word, so words don't decompose)
   gsap.utils.toArray<HTMLElement>("[data-motion='title']").forEach((el) => {
-    const visibleSpan = Array.from(el.querySelectorAll<HTMLElement>("span[data-i18n]")).find(
-      (s) => getComputedStyle(s).display !== "none",
-    );
-    const source = visibleSpan ?? el;
-    const text = (source.textContent ?? "").trim();
-    if (!text) return;
-
-    // Rebuild both language spans with per-char structure
-    el.querySelectorAll<HTMLElement>("span[data-i18n]").forEach((span) => {
-      const raw = (span.textContent ?? "").trim();
-      span.innerHTML = "";
+    // Split chars *inside* each pre-rendered word wrapper. Keeping words as
+    // block-level containers prevents the browser from breaking a word across
+    // lines at the inline-block char boundaries.
+    el.querySelectorAll<HTMLElement>(".section-title__word").forEach((wordSpan) => {
+      const raw = (wordSpan.textContent ?? "").trim();
+      if (!raw) return;
+      wordSpan.innerHTML = "";
       for (const ch of raw) {
         const wrap = document.createElement("span");
         wrap.className = "section-title__char";
         wrap.style.display = "inline-block";
         wrap.style.willChange = "transform, opacity";
-        if (ch === " ") {
-          wrap.innerHTML = "&nbsp;";
-          wrap.style.whiteSpace = "pre";
-        } else {
-          wrap.textContent = ch;
-        }
-        span.appendChild(wrap);
+        wrap.textContent = ch;
+        wordSpan.appendChild(wrap);
       }
     });
 
     const chars = el.querySelectorAll<HTMLElement>(".section-title__char");
+    if (chars.length === 0) return;
     gsap.from(chars, {
       yPercent: 110,
       opacity: 0,
@@ -116,69 +108,112 @@ export function initMotion() {
     });
   });
 
-  // Summary — words appear from nothing AND illuminate as scroll progresses
-  document
-    .querySelectorAll<HTMLElement>("[data-motion='words']")
-    .forEach((container) => {
-      const words = container.querySelectorAll<HTMLElement>(".words__word");
-      if (!words.length) return;
+  // About — narrative pinned reveal: current block fades out completely,
+  // brief hold, next block fades in. No two paragraphs are legible at once.
+  const about = document.querySelector<HTMLElement>("[data-motion='about']");
+  if (about) {
+    const pin = about.querySelector<HTMLElement>(".about__pin");
+    const blocks = about.querySelectorAll<HTMLElement>(".about__block");
+    const dots = about.querySelectorAll<HTMLElement>(".about__dot");
+    if (pin && blocks.length > 0) {
+      about.classList.add("about--enhanced");
 
-      // Phase 1: pop in from nothing, staggered by scroll position
-      const appearTl = gsap.timeline({
+      gsap.set(blocks, { opacity: 0, y: 10 });
+      gsap.set(blocks[0], { opacity: 1, y: 0 });
+      dots[0]?.classList.add("about__dot--active");
+
+      const setActiveDot = (index: number) => {
+        dots.forEach((dot, i) => {
+          dot.classList.toggle("about__dot--active", i === index);
+        });
+      };
+
+      // Each transition = fade-out (0.9) + hold (0.4) + fade-in (0.9)
+      // = 2.2 timeline units. Scale total scroll accordingly.
+      const perBlock = 820;
+      const total = (blocks.length - 1) * perBlock;
+
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: container,
-          start: "top 85%",
-          end: "top 40%",
-          scrub: 0.6,
+          trigger: about,
+          start: "top top",
+          end: `+=${total}`,
+          pin: pin,
+          pinSpacing: true,
+          scrub: 0.8,
         },
       });
-      words.forEach((word) => {
-        appearTl.to(
-          word,
-          {
-            onStart: () => word.classList.add("words__word--visible"),
-            onReverseComplete: () =>
-              word.classList.remove("words__word--visible", "words__word--lit"),
-            duration: 0.3,
-          },
-          "+=0.08",
-        );
-      });
 
-      // Phase 2: illuminate as scroll continues past the appear range
-      const litTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: container,
-          start: "top 45%",
-          end: "bottom 45%",
-          scrub: 0.4,
-        },
-      });
-      words.forEach((word) => {
-        litTl.to(
-          word,
-          {
-            onStart: () => word.classList.add("words__word--lit"),
-            onReverseComplete: () => word.classList.remove("words__word--lit"),
-            duration: 0.3,
-          },
-          "+=0.08",
-        );
-      });
-    });
+      for (let i = 0; i < blocks.length - 1; i++) {
+        tl.to(blocks[i], {
+          opacity: 0,
+          y: -10,
+          duration: 0.9,
+          ease: "power2.in",
+        })
+          .to({}, { duration: 0.4 }) // clean hold: both blocks fully hidden
+          .fromTo(
+            blocks[i + 1],
+            { opacity: 0, y: 10 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.9,
+              ease: "power2.out",
+              onStart: () => setActiveDot(i + 1),
+              onReverseComplete: () => setActiveDot(i),
+            },
+          );
+      }
+    }
+  }
 
-  // Experience — cinematic pinned reveal: year → detail → next year → ...
+  // Experience — cinematic pinned reveal: for each stage the year enters
+  // centered, then slides to its column while the detail fades in.
   const experience = document.querySelector<HTMLElement>("[data-motion='experience']");
   if (experience) {
     const pin = experience.querySelector<HTMLElement>(".experience__pin");
-    const slides = experience.querySelectorAll<HTMLElement>(".experience__slide");
+    const slides = Array.from(
+      experience.querySelectorAll<HTMLElement>(".experience__slide"),
+    );
     if (pin && slides.length > 0) {
-      // Init: only first slide visible
-      gsap.set(slides, { opacity: 0, y: 40 });
-      gsap.set(slides[0], { opacity: 1, y: 0 });
+      const yearBlocks = slides.map(
+        (s) => s.querySelector<HTMLElement>(".experience__year-block")!,
+      );
+      const detailBlocks = slides.map(
+        (s) => s.querySelector<HTMLElement>(".experience__detail-block")!,
+      );
 
-      const perSlide = 700; // px of scroll per transition
-      const total = (slides.length - 1) * perSlide;
+      const desktopQuery = window.matchMedia("(min-width: 901px)");
+
+      const computeCenterOffset = (index: number) => {
+        if (!desktopQuery.matches) return 0;
+        const slide = slides[index];
+        const yb = yearBlocks[index];
+        // How far right must the year-block travel so its center matches the
+        // slide's center. Guard against sub-pixel negatives.
+        return Math.max(0, (slide.offsetWidth - yb.offsetWidth) / 2);
+      };
+
+      const setActive = (index: number) => {
+        slides.forEach((s, i) => s.classList.toggle("is-active", i === index));
+      };
+
+      // Initial state: only slide 0 visible, its year sitting in the visual
+      // center, its detail hidden. Other slides are fully hidden with their
+      // years already pre-positioned so they enter centered too.
+      gsap.set(slides, { opacity: 0 });
+      gsap.set(detailBlocks, { opacity: 0, x: desktopQuery.matches ? 30 : 0, y: desktopQuery.matches ? 0 : 20 });
+      yearBlocks.forEach((yb, i) => {
+        gsap.set(yb, { x: computeCenterOffset(i), y: 0, opacity: 1 });
+      });
+      gsap.set(slides[0], { opacity: 1 });
+      setActive(0);
+
+      const stageDur = 1;
+      const perStage = 620; // scroll px per timeline unit
+      const totalStages = slides.length * 2 - 1;
+      const total = totalStages * perStage;
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -191,15 +226,76 @@ export function initMotion() {
         },
       });
 
-      for (let i = 0; i < slides.length - 1; i++) {
-        tl.to(slides[i], { opacity: 0, y: -40, duration: 1, ease: "power2.inOut" }, i)
-          .fromTo(
-            slides[i + 1],
-            { opacity: 0, y: 40 },
-            { opacity: 1, y: 0, duration: 1, ease: "power2.inOut" },
-            i,
-          );
+      let t = 0;
+
+      // Stage: expand slide 0 (year center → left, detail in)
+      tl.to(yearBlocks[0], {
+        x: 0,
+        duration: stageDur,
+        ease: "power2.inOut",
+      }, t);
+      tl.to(detailBlocks[0], {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: stageDur,
+        ease: "power2.inOut",
+      }, t);
+      t += stageDur;
+
+      for (let i = 1; i < slides.length; i++) {
+        const prev = slides[i - 1];
+        const next = slides[i];
+
+        // Stage: cross-fade — previous slide out, next slide in (year already
+        // pre-positioned at center so it enters centered).
+        tl.to(prev, {
+          opacity: 0,
+          duration: stageDur,
+          ease: "power2.inOut",
+        }, t);
+        tl.to(next, {
+          opacity: 1,
+          duration: stageDur,
+          ease: "power2.inOut",
+          onStart: () => setActive(i),
+          onReverseComplete: () => setActive(i - 1),
+        }, t);
+        t += stageDur;
+
+        // Stage: expand next slide.
+        tl.to(yearBlocks[i], {
+          x: 0,
+          duration: stageDur,
+          ease: "power2.inOut",
+        }, t);
+        tl.to(detailBlocks[i], {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          duration: stageDur,
+          ease: "power2.inOut",
+        }, t);
+        t += stageDur;
       }
+
+      // Recompute centering offsets when the viewport width crosses the
+      // desktop/mobile breakpoint or resizes materially.
+      let resizeRaf = 0;
+      const handleResize = () => {
+        if (resizeRaf) cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => {
+          yearBlocks.forEach((yb, i) => {
+            const offset = computeCenterOffset(i);
+            // Only reset year-block position for slides that haven't been
+            // "expanded" yet in the current scroll position. Simpler: refresh
+            // ScrollTrigger which re-runs all sets from init.
+            gsap.set(yb, { x: offset });
+          });
+          ScrollTrigger.refresh();
+        });
+      };
+      window.addEventListener("resize", handleResize);
     }
   }
 
@@ -294,4 +390,46 @@ export function initMotion() {
   if (document.fonts?.ready) {
     document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
+}
+
+const NEXT_SECTION_SELECTORS = "#top, #about, #projects, #experience, #stack, #links";
+
+function initNextSectionButton(lenis: Lenis | null) {
+  const btn = document.querySelector<HTMLButtonElement>("[data-next-section]");
+  if (!btn) return;
+  const sections = Array.from(
+    document.querySelectorAll<HTMLElement>(NEXT_SECTION_SELECTORS),
+  );
+  if (sections.length === 0) return;
+
+  const getCurrentIndex = () => {
+    const viewportMid = window.scrollY + window.innerHeight / 2;
+    let idx = 0;
+    for (let i = 0; i < sections.length; i++) {
+      const top = sections[i].getBoundingClientRect().top + window.scrollY;
+      if (top <= viewportMid) idx = i;
+    }
+    return idx;
+  };
+
+  const updateState = () => {
+    const isLast = getCurrentIndex() === sections.length - 1;
+    btn.classList.toggle("next-section--at-end", isLast);
+  };
+
+  updateState();
+  window.addEventListener("scroll", updateState, { passive: true });
+  window.addEventListener("resize", updateState);
+
+  btn.addEventListener("click", () => {
+    const idx = getCurrentIndex();
+    const target =
+      idx === sections.length - 1 ? sections[0] : sections[idx + 1];
+    if (!target) return;
+    if (lenis) {
+      lenis.scrollTo(target, { offset: 0 });
+    } else {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
 }

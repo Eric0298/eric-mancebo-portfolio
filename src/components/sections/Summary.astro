@@ -1,57 +1,200 @@
 ---
 import { content } from "../../data/content";
+import SectionTitleText from "../SectionTitleText.astro";
 const es = content.es;
 const en = content.en;
-
-function splitWords(text: string) {
-  return text.split(/\s+/).filter(Boolean);
-}
-const esWords = splitWords(es.about.body);
-const enWords = splitWords(en.about.body);
+const blockCount = Math.min(es.about.blocks.length, en.about.blocks.length);
+const indexes = Array.from({ length: blockCount }, (_, i) => i);
 ---
 
-<section id="about" class="section summary">
-  <div class="page-shell">
-    <h2 class="section-title" data-motion="title">
-      <span data-i18n="es">{es.about.title}</span>
-      <span data-i18n="en">{en.about.title}</span>
-    </h2>
+<section id="about" class="about" data-motion="about" data-block-count={blockCount}>
+  <div class="about__pin">
+    <div class="page-shell about__shell">
+      <h2 class="section-title about__title" data-motion="title">
+        <SectionTitleText text={es.about.title} lang="es" />
+        <SectionTitleText text={en.about.title} lang="en" />
+      </h2>
 
-    <p class="summary__body display" data-i18n="es" data-motion="words">
-      <span class="words">
-        {esWords.map((word) => (
-          <span class="words__word">{word}</span>
+      <div class="about__viewport" role="list">
+        {indexes.map((i) => (
+          <article class="about__block" data-about-index={i} role="listitem">
+            <p class="about__paragraph" data-i18n="es">
+              {es.about.blocks[i].map((seg) =>
+                typeof seg === "string" ? (
+                  seg
+                ) : (
+                  <em class="about__accent">{seg.accent}</em>
+                ),
+              )}
+            </p>
+            <p class="about__paragraph" data-i18n="en">
+              {en.about.blocks[i].map((seg) =>
+                typeof seg === "string" ? (
+                  seg
+                ) : (
+                  <em class="about__accent">{seg.accent}</em>
+                ),
+              )}
+            </p>
+          </article>
         ))}
-      </span>
-    </p>
-    <p class="summary__body display" data-i18n="en" data-motion="words">
-      <span class="words">
-        {enWords.map((word) => (
-          <span class="words__word">{word}</span>
+      </div>
+
+      <div class="about__progress" aria-hidden="true">
+        {indexes.map((i) => (
+          <span class="about__dot" data-dot-index={i}></span>
         ))}
-      </span>
-    </p>
+      </div>
+
+      <p class="about__hint mono" aria-hidden="true">
+        <span data-i18n="es">{es.about.scrollHint}</span>
+        <span data-i18n="en">{en.about.scrollHint}</span>
+      </p>
+    </div>
   </div>
 </section>
 
 <style>
-  .summary {
-    padding-block: var(--space-10);
+  .about {
+    position: relative;
+    padding-block: 0;
   }
 
-  .summary__body {
+  .about__pin {
+    min-block-size: 100dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-8);
+  }
+
+  .about__shell {
+    inline-size: 100%;
+  }
+
+  .about__title {
+    margin-block-end: var(--space-6);
+  }
+
+  .about__viewport {
+    position: relative;
+    inline-size: 100%;
+  }
+
+  .about__block {
+    inline-size: 100%;
+  }
+
+  .about__paragraph {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: clamp(1.5rem, 1rem + 1.8vw, 2.6rem);
-    line-height: 1.28;
-    letter-spacing: -0.02em;
-    text-transform: none;
-    max-inline-size: 28ch;
+    font-size: clamp(1.4rem, 0.95rem + 1.6vw, 2.4rem);
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    max-inline-size: 44ch;
     margin-inline: auto;
     text-align: start;
+    text-wrap: pretty;
   }
 
-  .summary__body .words__word {
-    margin-inline-end: 0.28em;
+  .about__accent {
+    font-style: normal;
+    font-weight: 700;
+    color: var(--ink-strong);
+    letter-spacing: -0.02em;
+  }
+
+  .about__progress {
+    display: none;
+  }
+
+  .about__hint {
+    color: var(--ink-faint);
+    margin-block-start: var(--space-6);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    text-align: center;
+  }
+
+  /* -----------------------------------------------------------------
+   * Fallback (no JS OR prefers-reduced-motion): blocks stack vertically
+   * and every paragraph stays readable.
+   * ----------------------------------------------------------------- */
+  .about:not(.about--enhanced) .about__block + .about__block {
+    margin-block-start: var(--space-6);
+  }
+
+  .about:not(.about--enhanced) .about__hint,
+  .about:not(.about--enhanced) .about__progress {
+    display: none;
+  }
+
+  /* -----------------------------------------------------------------
+   * Enhanced (JS + motion allowed): blocks stack on top of each other
+   * inside a fixed-height viewport; JS scrubs opacity between them
+   * with a full fade-out → hold → fade-in cadence so no two blocks are
+   * legible at the same time.
+   * ----------------------------------------------------------------- */
+  .about.about--enhanced .about__viewport {
+    block-size: min(54dvh, 32rem);
+  }
+
+  .about.about--enhanced .about__block {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .about.about--enhanced .about__block[data-about-index="0"] {
+    opacity: 1;
+  }
+
+  .about.about--enhanced .about__progress {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-block-start: var(--space-6);
+  }
+
+  .about__dot {
+    display: block;
+    inline-size: 1.75rem;
+    block-size: 2px;
+    background: var(--border-strong);
+    border-radius: 999px;
+    transition:
+      background-color var(--dur-med) var(--ease-out),
+      inline-size var(--dur-med) var(--ease-out);
+  }
+
+  .about__dot--active {
+    background: var(--ink);
+    inline-size: 2.75rem;
+  }
+
+  @media (max-width: 640px) {
+    .about.about--enhanced .about__viewport {
+      block-size: min(62dvh, 28rem);
+    }
+
+    .about__paragraph {
+      max-inline-size: 32ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* If reduced motion is preferred we do NOT enter enhanced mode via JS,
+       so blocks fall back to the natural stacked layout defined above. */
+    .about__hint,
+    .about__progress {
+      display: none;
+    }
   }
 </style>

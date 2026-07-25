@@ -1,5 +1,6 @@
 ---
 import { content } from "../../data/content";
+import SectionTitleText from "../SectionTitleText.astro";
 const es = content.es;
 const en = content.en;
 
@@ -44,8 +45,8 @@ const iconPaths: Record<string, string> = {
 <section id="stack" class="section stack">
   <div class="page-shell">
     <h2 class="section-title" data-motion="title">
-      <span data-i18n="es">{es.stack.title}</span>
-      <span data-i18n="en">{en.stack.title}</span>
+      <SectionTitleText text={es.stack.title} lang="es" />
+      <SectionTitleText text={en.stack.title} lang="en" />
     </h2>
 
     <div class="stack__grid">
