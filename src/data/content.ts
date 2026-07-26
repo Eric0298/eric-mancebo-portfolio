@@ -12,12 +12,19 @@ export type ExperienceSegment =
   | { accent: string }
   | { link: string; href: string };
 
+export interface ExperienceLogo {
+  src: string;
+  srcDark?: string;
+  alt: string;
+}
+
 export interface ExperienceItem {
   period: string;
   periodLabel?: string;
   role: string;
   place: string;
   placeHref?: string;
+  logo?: ExperienceLogo;
   summary: ExperienceSegment[];
 }
 
@@ -204,6 +211,11 @@ export const content: Record<Language, PortfolioContent> = {
           period: "2026",
           role: "Desarrollo web · Prácticas",
           place: "Ontinyent",
+          logo: {
+            src: "/logo-beply.png",
+            srcDark: "/logo-beply-white.png",
+            alt: "Beply",
+          },
           summary: [
             "Prácticas en ",
             { link: "Beply", href: "https://beply.es/" },
@@ -223,6 +235,10 @@ export const content: Record<Language, PortfolioContent> = {
           role: "Operaciones y logística digital",
           place: "Bluebags · Ontinyent",
           placeHref: "https://bluebags.es/",
+          logo: {
+            src: "/bluebagsLogo.png",
+            alt: "Bluebags",
+          },
           summary: [
             "Más de cuatro años en la ",
             { accent: "operativa logística y digital" },
@@ -390,6 +406,11 @@ export const content: Record<Language, PortfolioContent> = {
           period: "2026",
           role: "Web development · Internship",
           place: "Ontinyent",
+          logo: {
+            src: "/logo-beply.png",
+            srcDark: "/logo-beply-white.png",
+            alt: "Beply",
+          },
           summary: [
             "Internship at ",
             { link: "Beply", href: "https://beply.es/" },
@@ -409,6 +430,10 @@ export const content: Record<Language, PortfolioContent> = {
           role: "Operations and digital logistics",
           place: "Bluebags · Ontinyent",
           placeHref: "https://bluebags.es/",
+          logo: {
+            src: "/bluebagsLogo.png",
+            alt: "Bluebags",
+          },
           summary: [
             "More than four years inside the ",
             { accent: "logistics and digital operations" },

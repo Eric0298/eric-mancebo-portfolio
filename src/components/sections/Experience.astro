@@ -68,10 +68,36 @@ const items = es.experience.items.map((_, i) => i);
               </div>
 
               <div class="experience__detail-block">
-                <span class="experience__role display">
-                  <span data-i18n="es">{esItem.role}</span>
-                  <span data-i18n="en">{enItem.role}</span>
-                </span>
+                <div class="experience__role-row">
+                  <span class="experience__role display">
+                    <span data-i18n="es">{esItem.role}</span>
+                    <span data-i18n="en">{enItem.role}</span>
+                  </span>
+                  {esItem.logo && (
+                    <div
+                      class="experience__brand"
+                      data-has-dark={esItem.logo.srcDark ? "true" : undefined}
+                      aria-hidden="true"
+                    >
+                      <img
+                        class="experience__brand-mark experience__brand-mark--light"
+                        src={esItem.logo.src}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      {esItem.logo.srcDark && (
+                        <img
+                          class="experience__brand-mark experience__brand-mark--dark"
+                          src={esItem.logo.srcDark}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
                 <p class="experience__summary">
                   <span data-i18n="es">
                     {esItem.summary.map((seg) =>
@@ -278,6 +304,42 @@ const items = es.experience.items.map((_, i) => i);
 
   .experience__place {
     color: var(--ink-faint);
+  }
+
+  .experience__role-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(var(--space-3), 1.5vw, var(--space-5));
+    flex-wrap: wrap;
+  }
+
+  .experience__brand {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .experience__brand-mark {
+    display: block;
+    block-size: clamp(1.8rem, 1.2rem + 1.4vw, 3rem);
+    inline-size: auto;
+    max-inline-size: 12rem;
+    object-fit: contain;
+  }
+
+  .experience__brand-mark--dark {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .experience__brand[data-has-dark]
+    .experience__brand-mark--light {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .experience__brand[data-has-dark]
+    .experience__brand-mark--dark {
+    display: block;
   }
 
   .experience__place-link {
