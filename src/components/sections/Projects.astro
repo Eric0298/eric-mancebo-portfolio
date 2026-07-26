@@ -18,8 +18,18 @@ const rows = es.projects.items.map((_, i) => i);
         const esItem = es.projects.items[i];
         const enItem = en.projects.items[i];
         const side = i % 2 === 0 ? "left" : "right";
+        const href = esItem.href ?? enItem.href;
+        const Tag = href ? "a" : "article";
+        const linkProps = href
+          ? { href, target: "_blank", rel: "noopener noreferrer" }
+          : {};
         return (
-          <article class="project-card liquid-glass" data-side={side} data-motion="card">
+          <Tag
+            class="project-card liquid-glass"
+            data-side={side}
+            data-motion="card"
+            {...linkProps}
+          >
             <div class="project-card__row">
               <span class="project-card__year mono">{esItem.year}</span>
               <span class="project-card__idx display">0{i + 1}</span>
@@ -32,7 +42,7 @@ const rows = es.projects.items.map((_, i) => i);
               <span data-i18n="es">{esItem.summary}</span>
               <span data-i18n="en">{enItem.summary}</span>
             </p>
-          </article>
+          </Tag>
         );
       })}
     </div>
@@ -56,6 +66,16 @@ const rows = es.projects.items.map((_, i) => i);
     gap: var(--space-4);
     will-change: transform, opacity;
     transform-origin: center center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a.project-card {
+    transition: transform 0.3s ease;
+  }
+
+  a.project-card:hover {
+    transform: translateY(-4px);
   }
 
   .project-card[data-side="left"] {

@@ -170,19 +170,25 @@ export const content: Record<Language, PortfolioContent> = {
       title: "Trabajo destacado",
       items: [
         {
-          name: "Proyecto uno",
-          year: "2025",
-          summary: "Aplicación web full-stack con foco en rendimiento y detalle visual.",
+          name: "JustWriteIt",
+          year: "2026",
+          summary:
+            "Aplicación web de transcripción de audio con IA. Segmentación clara, historial y modo estudio con reproducción en bucle.",
+          href: "https://www.justwriteit.app/",
         },
         {
-          name: "Proyecto dos",
-          year: "2024",
-          summary: "Automatización de flujos internos con integraciones a medida.",
+          name: "PG Peritaciones",
+          year: "2026",
+          summary:
+            "Web corporativa para gabinete pericial judicial. Presentación de servicios técnicos y captación de clientes.",
+          href: "https://www.pgperitaciones.com/",
         },
         {
-          name: "Proyecto tres",
-          year: "2024",
-          summary: "Rediseño y reescritura de una plataforma legacy.",
+          name: "Beply",
+          year: "2026",
+          summary:
+            "Migración de la web corporativa desde WordPress a Astro. Componentes, rendimiento, accesibilidad y SEO.",
+          href: "https://beply.es/",
         },
       ],
     },
@@ -270,9 +276,9 @@ export const content: Record<Language, PortfolioContent> = {
     stack: {
       title: "Stack",
       groups: [
-        { label: "Frontend", items: ["Astro", "React", "TypeScript", "GSAP", "Lenis", "Tailwind"] },
-        { label: "Backend", items: ["Node.js", "Python", "PostgreSQL", "REST", "Cloudflare"] },
-        { label: "Herramientas", items: ["Git", "Figma", "Vite", "Docker"] },
+        { label: "Frontend", items: ["Astro", "React", "Next.js", "JavaScript", "TypeScript", "Tailwind"] },
+        { label: "Backend", items: ["Node.js", "Python", "Java", "PHP", "PostgreSQL", "MySQL", "MongoDB", "Cloudflare"] },
+        { label: "Herramientas", items: ["Git", "GitHub", "Vite", "Docker"] },
       ],
     },
     links: {
@@ -284,8 +290,7 @@ export const content: Record<Language, PortfolioContent> = {
       items: [
         { label: "Email", href: `mailto:${email}` },
         { label: "WhatsApp", href: whatsappHref },
-        { label: "Teléfono", href: phoneHref },
-        { label: "GitHub", href: "https://github.com/" },
+        { label: "GitHub", href: "https://github.com/Eric0298" },
         { label: "LinkedIn", href: "https://linkedin.com/" },
       ],
       footer: "© 2026 Eric Mancebo",
@@ -365,19 +370,25 @@ export const content: Record<Language, PortfolioContent> = {
       title: "Featured work",
       items: [
         {
-          name: "Project one",
-          year: "2025",
-          summary: "Full-stack web app focused on performance and visual detail.",
+          name: "JustWriteIt",
+          year: "2026",
+          summary:
+            "AI-powered audio transcription web app. Clear segmentation, history and study mode with loop playback.",
+          href: "https://www.justwriteit.app/",
         },
         {
-          name: "Project two",
-          year: "2024",
-          summary: "Internal workflow automation with tailored integrations.",
+          name: "PG Peritaciones",
+          year: "2026",
+          summary:
+            "Corporate website for a judicial expert firm. Technical services showcase and client acquisition.",
+          href: "https://www.pgperitaciones.com/",
         },
         {
-          name: "Project three",
-          year: "2024",
-          summary: "Redesign and rewrite of a legacy platform.",
+          name: "Beply",
+          year: "2026",
+          summary:
+            "Migration of the corporate website from WordPress to Astro. Components, performance, accessibility and SEO.",
+          href: "https://beply.es/",
         },
       ],
     },
@@ -465,9 +476,9 @@ export const content: Record<Language, PortfolioContent> = {
     stack: {
       title: "Stack",
       groups: [
-        { label: "Frontend", items: ["Astro", "React", "TypeScript", "GSAP", "Lenis", "Tailwind"] },
-        { label: "Backend", items: ["Node.js", "Python", "PostgreSQL", "REST", "Cloudflare"] },
-        { label: "Tools", items: ["Git", "Figma", "Vite", "Docker"] },
+        { label: "Frontend", items: ["Astro", "React", "Next.js", "JavaScript", "TypeScript", "Tailwind"] },
+        { label: "Backend", items: ["Node.js", "Python", "Java", "PHP", "PostgreSQL", "MySQL", "MongoDB", "Cloudflare"] },
+        { label: "Tools", items: ["Git", "GitHub", "Vite", "Docker"] },
       ],
     },
     links: {
@@ -479,8 +490,7 @@ export const content: Record<Language, PortfolioContent> = {
       items: [
         { label: "Email", href: `mailto:${email}` },
         { label: "WhatsApp", href: whatsappHref },
-        { label: "Phone", href: phoneHref },
-        { label: "GitHub", href: "https://github.com/" },
+        { label: "GitHub", href: "https://github.com/Eric0298" },
         { label: "LinkedIn", href: "https://linkedin.com/" },
       ],
       footer: "© 2026 Eric Mancebo",
