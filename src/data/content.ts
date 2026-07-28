@@ -5,6 +5,12 @@ export interface Project {
   year: string;
   summary: string;
   href?: string;
+  asset?: {
+    src: string;
+    srcDark?: string;
+    alt: string;
+    variant?: "mark" | "wordmark" | "monogram";
+  };
 }
 
 export type ExperienceSegment =
@@ -175,6 +181,11 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "Aplicación web de transcripción de audio con IA. Segmentación clara, historial y modo estudio con reproducción en bucle.",
           href: "https://www.justwriteit.app/",
+          asset: {
+            src: "/mark-jwi.svg",
+            alt: "JustWriteIt",
+            variant: "mark",
+          },
         },
         {
           name: "PG Peritaciones",
@@ -182,6 +193,11 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "Web corporativa para gabinete pericial judicial. Presentación de servicios técnicos y captación de clientes.",
           href: "https://www.pgperitaciones.com/",
+          asset: {
+            src: "/logo-mark.png",
+            alt: "PG Peritaciones",
+            variant: "monogram",
+          },
         },
         {
           name: "Beply",
@@ -189,6 +205,12 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "Migración de la web corporativa desde WordPress a Astro. Componentes, rendimiento, accesibilidad y SEO.",
           href: "https://beply.es/",
+          asset: {
+            src: "/logo-beply.png",
+            srcDark: "/logo-beply-white.png",
+            alt: "Beply",
+            variant: "wordmark",
+          },
         },
       ],
     },
@@ -375,6 +397,11 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "AI-powered audio transcription web app. Clear segmentation, history and study mode with loop playback.",
           href: "https://www.justwriteit.app/",
+          asset: {
+            src: "/mark-jwi.svg",
+            alt: "JustWriteIt",
+            variant: "mark",
+          },
         },
         {
           name: "PG Peritaciones",
@@ -382,6 +409,11 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "Corporate website for a judicial expert firm. Technical services showcase and client acquisition.",
           href: "https://www.pgperitaciones.com/",
+          asset: {
+            src: "/logo-mark.png",
+            alt: "PG Peritaciones",
+            variant: "monogram",
+          },
         },
         {
           name: "Beply",
@@ -389,6 +421,12 @@ export const content: Record<Language, PortfolioContent> = {
           summary:
             "Migration of the corporate website from WordPress to Astro. Components, performance, accessibility and SEO.",
           href: "https://beply.es/",
+          asset: {
+            src: "/logo-beply.png",
+            srcDark: "/logo-beply-white.png",
+            alt: "Beply",
+            variant: "wordmark",
+          },
         },
       ],
     },

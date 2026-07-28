@@ -19,6 +19,7 @@ const rows = es.projects.items.map((_, i) => i);
         const enItem = en.projects.items[i];
         const side = i % 2 === 0 ? "left" : "right";
         const href = esItem.href ?? enItem.href;
+        const asset = esItem.asset ?? enItem.asset;
         const Tag = href ? "a" : "article";
         const linkProps = href
           ? { href, target: "_blank", rel: "noopener noreferrer" }
@@ -30,18 +31,45 @@ const rows = es.projects.items.map((_, i) => i);
             data-motion="card"
             {...linkProps}
           >
-            <div class="project-card__row">
-              <span class="project-card__year mono">{esItem.year}</span>
-              <span class="project-card__idx display">0{i + 1}</span>
+            {asset && (
+              <div
+                class="project-card__asset"
+                data-variant={asset.variant ?? "mark"}
+                data-has-dark={asset.srcDark ? "true" : undefined}
+                aria-hidden="true"
+              >
+                <img
+                  class="project-card__asset-img project-card__asset-img--light"
+                  src={asset.src}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+                {asset.srcDark && (
+                  <img
+                    class="project-card__asset-img project-card__asset-img--dark"
+                    src={asset.srcDark}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </div>
+            )}
+            <div class="project-card__content">
+              <div class="project-card__row">
+                <span class="project-card__year mono">{esItem.year}</span>
+                <span class="project-card__idx display">0{i + 1}</span>
+              </div>
+              <h3 class="project-card__name display">
+                <span data-i18n="es">{esItem.name}</span>
+                <span data-i18n="en">{enItem.name}</span>
+              </h3>
+              <p class="project-card__summary">
+                <span data-i18n="es">{esItem.summary}</span>
+                <span data-i18n="en">{enItem.summary}</span>
+              </p>
             </div>
-            <h3 class="project-card__name display">
-              <span data-i18n="es">{esItem.name}</span>
-              <span data-i18n="en">{enItem.name}</span>
-            </h3>
-            <p class="project-card__summary">
-              <span data-i18n="es">{esItem.summary}</span>
-              <span data-i18n="en">{enItem.summary}</span>
-            </p>
           </Tag>
         );
       })}
@@ -58,6 +86,8 @@ const rows = es.projects.items.map((_, i) => i);
   }
 
   .project-card {
+    position: relative;
+    overflow: hidden;
     padding: clamp(1.5rem, 3vw, 2.75rem);
     border-radius: var(--radius-xl) !important;
     max-inline-size: 38rem;
@@ -68,6 +98,7 @@ const rows = es.projects.items.map((_, i) => i);
     transform-origin: center center;
     text-decoration: none;
     color: inherit;
+    isolation: isolate;
   }
 
   a.project-card {
@@ -84,6 +115,14 @@ const rows = es.projects.items.map((_, i) => i);
 
   .project-card[data-side="right"] {
     align-self: flex-end;
+  }
+
+  .project-card__content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
   .project-card__row {
@@ -119,10 +158,170 @@ const rows = es.projects.items.map((_, i) => i);
     max-inline-size: 32ch;
   }
 
+  /* Decorative asset — bleeds off the edge, blends with theme */
+  .project-card__asset {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s var(--ease-out), opacity 0.4s var(--ease-out);
+  }
+
+  .project-card__asset-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .project-card__asset-img--dark {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .project-card__asset[data-has-dark]
+    .project-card__asset-img--light {
+    display: none;
+  }
+
+  :global([data-theme="dark"]) .project-card__asset[data-has-dark]
+    .project-card__asset-img--dark {
+    display: block;
+  }
+
+  /* Anchor bleed off the inner edge — the mark peeks toward the page centre.
+     Vertically anchored slightly below middle so it sits behind the summary
+     rather than the title, staying out of the reading path. */
+  .project-card[data-side="left"] .project-card__asset {
+    right: -22%;
+    top: 55%;
+    transform: translateY(-50%);
+  }
+
+  .project-card[data-side="right"] .project-card__asset {
+    left: -22%;
+    top: 55%;
+    transform: translateY(-50%);
+  }
+
+  /* --- Variants ------------------------------------------------------- */
+
+  /* JWI: clean vector mark, keep a hint of colour but very subdued */
+  .project-card__asset[data-variant="mark"] {
+    width: clamp(12rem, 28vw, 18rem);
+    height: clamp(7rem, 16vw, 11rem);
+    opacity: 0.16;
+    filter: saturate(0.55);
+  }
+
+  /* PG: navy monogram on white — kill the white background via blend */
+  .project-card__asset[data-variant="monogram"] {
+    width: clamp(11rem, 26vw, 16rem);
+    height: clamp(11rem, 26vw, 16rem);
+    opacity: 0.1;
+    mix-blend-mode: multiply;
+    filter: grayscale(1) contrast(1.1);
+  }
+
+  /* Beply wordmark — horizontal logo, treat as a subtle brand watermark.
+     Dark asset is already white, so it doesn't need blend/inversion. */
+  .project-card__asset[data-variant="wordmark"] {
+    width: clamp(14rem, 30vw, 20rem);
+    height: clamp(4.5rem, 10vw, 7rem);
+    opacity: 0.2;
+    mix-blend-mode: multiply;
+    filter: grayscale(1) contrast(1);
+  }
+
+  /* Hover: lift the mark slightly with the card */
+  a.project-card:hover .project-card__asset[data-variant="mark"] {
+    opacity: 0.32;
+  }
+
+  a.project-card:hover .project-card__asset[data-variant="monogram"] {
+    opacity: 0.22;
+  }
+
+  a.project-card:hover .project-card__asset[data-variant="wordmark"] {
+    opacity: 0.38;
+  }
+
+  /* --- Dark theme adjustments ---------------------------------------- */
+
+  :global([data-theme="dark"]) .project-card__asset[data-variant="mark"] {
+    opacity: 0.28;
+  }
+
+  :global([data-theme="dark"]) .project-card__asset[data-variant="monogram"] {
+    mix-blend-mode: screen;
+    filter: grayscale(1) invert(1) contrast(1.05);
+    opacity: 0.14;
+  }
+
+  /* Wordmark in dark: the -white asset is already light, blend with screen */
+  :global([data-theme="dark"]) .project-card__asset[data-variant="wordmark"] {
+    mix-blend-mode: screen;
+    filter: grayscale(1) contrast(1);
+    opacity: 0.28;
+  }
+
+  :global([data-theme="dark"]) a.project-card:hover .project-card__asset[data-variant="wordmark"] {
+    opacity: 0.48;
+  }
+
+  :global([data-theme="dark"]) a.project-card:hover .project-card__asset[data-variant="monogram"] {
+    opacity: 0.24;
+  }
+
+  :global([data-theme="dark"]) a.project-card:hover .project-card__asset[data-variant="mark"] {
+    opacity: 0.42;
+  }
+
   @media (max-width: 720px) {
     .project-card {
       align-self: stretch !important;
       max-inline-size: none;
+    }
+
+    /* On mobile, tuck the mark into a corner so it doesn't crowd the text */
+    .project-card__asset {
+      top: auto !important;
+      bottom: -8% !important;
+      transform: none !important;
+    }
+
+    .project-card[data-side="left"] .project-card__asset {
+      right: -10%;
+      left: auto;
+    }
+
+    .project-card[data-side="right"] .project-card__asset {
+      left: -10%;
+      right: auto;
+    }
+
+    .project-card__asset[data-variant="mark"],
+    .project-card__asset[data-variant="monogram"],
+    .project-card__asset[data-variant="wordmark"] {
+      width: clamp(8rem, 42vw, 12rem);
+      height: clamp(6rem, 32vw, 9rem);
+    }
+
+    .project-card__asset[data-variant="wordmark"] {
+      height: clamp(3rem, 15vw, 5rem);
+    }
+
+    .project-card__summary {
+      max-inline-size: 26ch;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card__asset {
+      transition: none;
     }
   }
 </style>
