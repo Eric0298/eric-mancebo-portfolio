@@ -226,8 +226,8 @@ const rows = es.projects.items.map((_, i) => i);
     filter: grayscale(1) contrast(1.1);
   }
 
-  /* Beply wordmark — horizontal logo, treat as a subtle brand watermark.
-     Dark asset is already white, so it doesn't need blend/inversion. */
+  /* Wordmark variant — horizontal logo treated as a subtle brand watermark.
+     Dark assets are expected to be light already, so no blend/inversion. */
   .project-card__asset[data-variant="wordmark"] {
     width: clamp(14rem, 30vw, 20rem);
     height: clamp(4.5rem, 10vw, 7rem);

@@ -1,94 +1,122 @@
-# Eric Mancebo Portfolio
+# Eric Mancebo — Portfolio
 
-Initial Astro architecture for Eric Mancebo's professional portfolio.
+Portfolio personal y CV interactivo de Eric Mancebo, desarrollador full-stack centrado en producto, automatización e IA aplicada. La web funciona como carta de presentación técnica para reclutadores, clientes y colaboradores, y como demostración pública del propio trabajo.
 
-This is a scaffold, not a final art direction. The project is prepared for a premium portfolio, interactive CV, project evidence, automation workflows, SEO, performance, accessibility, security, future contact automation, and future chatbot support.
+## Stack real
 
-## Stack
+- **Astro 6** — sitio estático, generación por rutas.
+- **TypeScript** — datos y contenido tipados en `src/data/`.
+- **Tailwind CSS 4** — vía `@tailwindcss/vite`.
+- **GSAP + ScrollTrigger** — animaciones cinemáticas (hero, about pinned, experience pinned, tarjetas de proyecto).
+- **Lenis** — scroll suave y transiciones entre secciones.
+- **Motion One** — animaciones auxiliares.
+- **Zod** — validación de configuración del sitio.
+- **astro-icon + @iconify-json/simple-icons** — iconografía oficial del stack técnico.
 
-- Astro
-- React
-- TypeScript
-- Tailwind CSS
-- Native Web Components
-- Motion One
-- Zod
+## Arquitectura
 
-## Structure
+Sitio estático de una sola página con una navegación scroll-driven entre secciones. El copy en español e inglés vive en un único archivo tipado (`src/data/content.ts`) y se cambia en cliente sin recargar la página.
 
 ```text
 src/
   components/
-    cards/          Project, skill, and contact cards
-    effects/        Scroll reveal, parallax, and device motion wrappers
-    forms/          Future-safe contact form placeholder
-    layout/         Header and footer
-    mobile/         Mobile navigation, contact sheet, and action bar
-    sections/       Portfolio sections
-    seo/            Metadata and structured data components
-    ui/             Reusable shell, button, badge, and placeholder components
-  data/             Zod-validated portfolio data
-  hooks/            React hooks for device, motion, scroll, and parallax
-  layouts/          Base page layout
-  lib/              SEO, responsive, motion, contact, and link utilities
-  pages/            Astro routes and SEO endpoints
-  styles/           Tokens, responsive utilities, motion, and global CSS
-  types/            Shared TypeScript types
-  web-components/   Native browser behavior
+    layout/         Nav flotante (idioma + tema)
+    sections/       Header, Summary, Projects, Experience, Stack, Links
+    seo/            SeoHead, StructuredData
+    ui/             Container, LiquidGlassFilter
+    NextSectionButton.astro
+    SectionTitleText.astro
+  data/
+    content.ts      Copy ES + EN, proyectos, experiencia, stack, links
+    site.ts         Config del sitio (Zod)
+    schemas.ts      Schemas Zod
+  i18n/
+    config.ts       Idiomas soportados y clave de localStorage
+    useTranslations.ts
+  layouts/
+    BaseLayout.astro
+  lib/
+    seo.ts          Canonical + JSON-LD (Person, WebSite)
+  pages/
+    index.astro
+    robots.txt.ts
+    sitemap.xml.ts
+  scripts/
+    theme.ts        Toggle claro/oscuro con localStorage
+    i18n.ts         Toggle ES/EN con localStorage
+    motion.ts       GSAP + Lenis + ScrollTrigger
+    clock.ts        Reloj en vivo del hero
+  styles/
+    global.css
+    tokens.css      Design tokens
+  types/
+    content.ts
+public/             Imágenes, logos, hero, favicon
 ```
 
-## Current Scope
+## Internacionalización (ES / EN)
 
-- Neutral design tokens and CSS variables
-- Base layout with semantic landmarks
-- Spanish-first multilingual architecture
-- English secondary route at `/en/`
-- Typed translation dictionaries in `src/i18n/dictionaries/`
-- ES / EN language switcher with localStorage-backed manual preference
-- Non-invasive browser language preference detection through `navigator.language`
-- SEO metadata component
-- Person and WebSite JSON-LD
-- Canonical, hreflang, robots, and sitemap foundations
-- Typed data for sections, projects, skills, contact channels, CV, quality pillars, automation, and chatbot settings
-- Desktop, tablet, and mobile layout foundations
-- Mobile-specific navigation and sticky action bar
-- Reduced-motion-aware reveal utility
-- Contact automation placeholders with honeypot planning
-- Chatbot mount point reserved but disabled
+- Español es el idioma por defecto (`defaultLanguage = "es"`).
+- Ambos idiomas se renderizan en el mismo documento; el script cliente (`src/scripts/i18n.ts`) alterna la visibilidad de los nodos con `data-i18n="es"` / `data-i18n="en"`.
+- La preferencia se persiste en `localStorage` (`eric-mancebo-portfolio-language`).
+- La detección inicial usa `navigator.language` de forma no invasiva.
+- No hay geolocalización, IP tracking ni analítica invasiva.
 
-## Environment
+## Accesibilidad
 
-Copy `.env.example` when real deployment and contact values are ready.
+- Landmarks semánticos (`<main>`, `<nav>`, `<section>`, `<article>`, `<figure>`).
+- Skip link al contenido principal.
+- Contraste alto en ambos temas.
+- `aria-label` en botones de tema e idioma.
+- Enlaces externos con `rel="noopener noreferrer"`.
+- Todas las animaciones respetan `prefers-reduced-motion` (fallback estático en `motion.ts` y CSS).
+- Focus visible y navegación por teclado en tarjetas de proyecto y filas de contacto.
+
+## SEO
+
+- `<title>` y meta description por idioma.
+- Open Graph y Twitter Card.
+- Canonical y `og:url` construidos desde `PUBLIC_SITE_URL`.
+- JSON-LD `Person` y `WebSite` (`src/lib/seo.ts`).
+- `robots.txt` y `sitemap.xml` generados dinámicamente (`src/pages/robots.txt.ts`, `src/pages/sitemap.xml.ts`).
+- HTML semántico y tipografía optimizada.
+
+## Rendimiento
+
+- Sitio 100% estático (Astro).
+- Zero-JS en secciones que no lo necesitan; solo `theme`, `i18n`, `clock`, `motion` se hidratan globalmente.
+- Marquee del hero puramente en CSS keyframes.
+- Imágenes con `loading="lazy"` y `decoding="async"` donde corresponde.
+- Fuentes vía `preconnect` a Google Fonts.
+
+## Scripts disponibles
+
+```sh
+npm run dev       # servidor de desarrollo (astro dev)
+npm run build     # build de producción (astro build)
+npm run preview   # servir el build local
+npm run astro     # CLI de Astro (--help para opciones)
+```
+
+## Instalación local
+
+Requiere **Node ≥ 22.12.0** (declarado en `package.json`).
+
+```sh
+npm install
+npm run dev
+```
+
+## Variables de entorno
+
+Copia `.env.example` a `.env` si necesitas fijar la URL de producción:
 
 ```sh
 PUBLIC_SITE_URL=
-CONTACT_RECIPIENT_EMAIL=
-CONTACT_WEBHOOK_URL=
-CHATBOT_API_ROUTE=
-CHATBOT_PROVIDER=
 ```
 
-Do not expose secrets in frontend code. Future contact and chatbot features should validate server-side and read sensitive values from environment variables.
+`PUBLIC_SITE_URL` se utiliza para construir la URL canónica, `og:url`, el sitemap y `robots.txt`. Las demás variables presentes en `.env.example` (`CONTACT_RECIPIENT_EMAIL`, `CONTACT_WEBHOOK_URL`, `CHATBOT_API_ROUTE`, `CHATBOT_PROVIDER`) están reservadas para funcionalidades futuras y hoy no son requeridas para desplegar.
 
-Set `PUBLIC_SITE_URL` in production so canonical URLs, hreflang links, sitemap URLs, robots output, and JSON-LD use the deployed domain.
+## Estado actual
 
-## Internationalization
-
-Spanish is the primary/default language for Spanish recruiters, Spanish companies, and Spanish LinkedIn visitors.
-
-- `/` renders Spanish.
-- `/en/` renders English.
-- All visible UI copy should live in typed dictionaries under `src/i18n/dictionaries/`.
-- Components receive translated copy through `HomePage` and `BaseLayout`.
-- Manual language selection is stored in `localStorage`.
-- Browser language is read only as a non-invasive preference.
-- No geolocation, IP tracking, or invasive user analysis is used.
-
-## Commands
-
-```sh
-npm run dev
-npm run build
-npm run preview
-npm run astro -- --help
-```
+Portfolio publicado. Cambios de copy y proyectos se realizan editando `src/data/content.ts`. El diseño, las animaciones y el comportamiento responsive están estables.
