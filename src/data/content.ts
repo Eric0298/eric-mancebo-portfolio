@@ -178,6 +178,18 @@ export const content: Record<Language, PortfolioContent> = {
       title: "Trabajo destacado",
       items: [
         {
+          name: "MIGA",
+          year: "2026",
+          summary:
+            "PWA mobile-first para gestionar metas, sesiones de estudio, materiales, notas y simulacros. Full-stack con React 19 y .NET, foco en seguridad y privacidad.",
+          href: "https://miga-indol.vercel.app/",
+          asset: {
+            src: "/05_miga_alt_logo_stacked_transparent.png",
+            alt: "MIGA",
+            variant: "mark",
+          },
+        },
+        {
           name: "JustWriteIt",
           year: "2026",
           summary:
@@ -384,6 +396,18 @@ export const content: Record<Language, PortfolioContent> = {
     projects: {
       title: "Featured work",
       items: [
+        {
+          name: "MIGA",
+          year: "2026",
+          summary:
+            "Mobile-first PWA to manage study goals, sessions, materials, notes and mock exams. Full-stack with React 19 and .NET, focused on security and privacy.",
+          href: "https://miga-indol.vercel.app/",
+          asset: {
+            src: "/05_miga_alt_logo_stacked_transparent.png",
+            alt: "MIGA",
+            variant: "mark",
+          },
+        },
         {
           name: "JustWriteIt",
           year: "2026",
