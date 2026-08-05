@@ -39,6 +39,12 @@ export interface StackGroup {
   items: string[];
 }
 
+export interface StackAiAssisted {
+  title: string;
+  note: string;
+  items: string[];
+}
+
 export interface LinkItem {
   label: string;
   href: string;
@@ -83,7 +89,10 @@ export interface PortfolioContent {
   };
   stack: {
     title: string;
-    groups: StackGroup[];
+    primary: {
+      groups: StackGroup[];
+    };
+    aiAssisted: StackAiAssisted;
   };
   links: {
     title: string;
@@ -104,14 +113,16 @@ const email = "ericmancebo6950@gmail.com";
 const phoneDisplay = "+34 610 27 11 91";
 const phoneHref = "tel:+34610271191";
 const whatsappHref = "https://wa.me/34610271191";
+const linkedinHref =
+  "https://www.linkedin.com/in/eric-mancebo-muminhodzic-a50361330/";
 
 export const content: Record<Language, PortfolioContent> = {
   es: {
     meta: {
-      title: "Eric Mancebo — Desarrollador Full-Stack",
+      title: "Eric Mancebo — Desarrollador de Software · Full Stack",
       description:
-        "Portfolio de Eric Mancebo. Desarrollador full-stack centrado en producto, automatización e IA aplicada.",
-      role: "Desarrollador Full-Stack",
+        "Portfolio de Eric Mancebo. Desarrollador de software junior con perfil full stack, orientado a producto, calidad y automatización.",
+      role: "Desarrollador de Software · Full Stack",
       ogLocale: "es_ES",
     },
     nav: {
@@ -120,15 +131,22 @@ export const content: Record<Language, PortfolioContent> = {
       langLabel: "ES",
     },
     header: {
-      displayLine: "DESARROLLADOR FULL-STACK",
-      role: "Desarrollador Full-Stack",
+      displayLine: "DESARROLLADOR DE SOFTWARE · FULL STACK",
+      role: "Desarrollador de software junior con perfil full stack",
       locationLine: "BASED IN VALENCIA",
       ctaLabel: "Abierto a trabajar",
-      marqueeTerms: ["FULL-STACK", "DEVELOPER", "PRODUCTO", "AUTOMATIZACIÓN", "IA APLICADA"],
+      marqueeTerms: [
+        "SOFTWARE",
+        "FULL STACK",
+        "PRODUCTO",
+        "AUTOMATIZACIÓN",
+        "SAAS",
+        "CALIDAD",
+      ],
       marqueeRows: [
-        ["FULL-STACK", "DEVELOPER"],
-        ["PRODUCTO", "AUTOMATIZACIÓN", "IA APLICADA"],
-        ["EDITORIAL", "CREATIVE", "DETAIL"],
+        ["SOFTWARE", "FULL STACK"],
+        ["PRODUCTO", "AUTOMATIZACIÓN", "SAAS"],
+        ["CALIDAD", "SOFTWARE", "FULL STACK"],
       ],
     },
     about: {
@@ -136,41 +154,51 @@ export const content: Record<Language, PortfolioContent> = {
       scrollHint: "Desliza para continuar",
       blocks: [
         [
-          "Hola, soy Eric Mancebo Muminhodzic, ",
-          { accent: "desarrollador full-stack" },
-          " especializado en transformar ideas y necesidades reales en ",
-          { accent: "soluciones digitales funcionales" },
+          "Soy ",
+          { accent: "Eric Mancebo Muminhodzic" },
+          ", Técnico Superior en ",
+          { accent: "Desarrollo de Aplicaciones Web" },
+          " con perfil ",
+          { accent: "full stack" },
           ".",
         ],
         [
-          "Creo aplicaciones, herramientas y experiencias web orientadas a ",
-          { accent: "resolver problemas" },
+          "Tengo experiencia práctica en ",
+          { accent: "Beply Technologies" },
+          ", dentro de un entorno ",
+          { accent: "SaaS/ERP" },
+          ", desarrollando aplicaciones full stack y ",
+          { accent: "productos digitales" },
+          ".",
+        ],
+        [
+          "Mi trabajo anterior en ",
+          { accent: "ecommerce" },
           ", ",
-          { accent: "automatizar procesos" },
-          " y mejorar la forma en que personas y empresas trabajan y se relacionan con su entorno digital.",
+          { accent: "marketplaces" },
+          " y ",
+          { accent: "logística digital" },
+          " me ayuda a comprender ",
+          { accent: "procesos empresariales" },
+          " reales.",
         ],
         [
-          "Soy técnico superior en Desarrollo de Aplicaciones Web por el IES L'Estació de Ontinyent. Durante mi formación he trabajado tanto en ",
-          { accent: "frontend y backend" },
-          ", desarrollando proyectos completos y aprendiendo a entender el ",
-          { accent: "producto más allá del código" },
-          ".",
-        ],
-        [
-          "Actualmente continúo ampliando mis conocimientos en ",
-          { accent: "arquitectura de software" },
-          ", automatización, ",
-          { accent: "inteligencia artificial aplicada" },
-          " y desarrollo de productos digitales mientras curso ",
+          "Me interesan el ",
+          { accent: "software empresarial" },
+          ", el producto y la ",
+          { accent: "automatización" },
+          ". Actualmente curso ",
           { accent: "Ingeniería de Inteligencia Artificial" },
+          " y tengo un nivel ",
+          { accent: "B2 de inglés" },
           ".",
         ],
         [
-          "Me interesa construir ",
-          { accent: "tecnología útil" },
-          ": productos mantenibles, intuitivos y pensados para generar un ",
-          { accent: "impacto real" },
-          " en los usuarios y en los negocios.",
+          "Busco una ",
+          { accent: "oportunidad junior" },
+          " donde seguir aprendiendo y aportar dentro de un ",
+          { accent: "equipo profesional" },
+          ".",
         ],
       ],
     },
@@ -181,7 +209,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "MIGA",
           year: "2026",
           summary:
-            "PWA mobile-first para gestionar metas, sesiones de estudio, materiales, notas y simulacros. Full-stack con React 19 y .NET, foco en seguridad y privacidad.",
+            "PWA mobile-first finalizada para gestionar objetivos, sesiones de estudio, materiales, notas y simulacros. Desarrollada con React, TypeScript, ASP.NET Core y PostgreSQL, con especial atención a la experiencia de usuario, la privacidad y la calidad técnica.",
           href: "https://miga-indol.vercel.app/",
           asset: {
             src: "/05_miga_alt_logo_stacked_transparent.png",
@@ -193,7 +221,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "JustWriteIt",
           year: "2026",
           summary:
-            "Aplicación web de transcripción de audio con IA. Segmentación clara, historial y modo estudio con reproducción en bucle.",
+            "Aplicación de transcripción de audio con historial por usuario y modo estudio. Construida con Next.js, TypeScript, PostgreSQL y Python/Whisper.",
           href: "https://www.justwriteit.app/",
           asset: {
             src: "/mark-jwi.svg",
@@ -205,7 +233,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "PG Peritaciones",
           year: "2026",
           summary:
-            "Web corporativa para gabinete pericial judicial. Presentación de servicios técnicos y captación de clientes.",
+            "Web profesional creada para un cliente real. Toma de requisitos, diseño responsive, organización de contenidos, SEO local, accesibilidad y captación de contactos.",
           href: "https://www.pgperitaciones.com/",
           asset: {
             src: "/logo-mark.png",
@@ -238,26 +266,29 @@ export const content: Record<Language, PortfolioContent> = {
         },
         {
           period: "2026",
-          role: "Desarrollo web · Prácticas",
-          place: "Ontinyent",
+          role: "Desarrollo web · SaaS/ERP",
+          place: "Beply Technologies · Ontinyent",
+          placeHref: "https://beply.es/",
           logo: {
             src: "/logo-beply.png",
             srcDark: "/logo-beply-white.png",
-            alt: "Beply",
+            alt: "Beply Technologies",
           },
           summary: [
-            "Durante mis ",
-            { accent: "prácticas" },
-            " en ",
-            { link: "Beply", href: "https://beply.es/" },
-            " participé en la evolución de su web corporativa a través de diferentes ",
-            { accent: "etapas tecnológicas" },
-            ": desde WordPress a Vue/Nuxt y, posteriormente, a Astro. Trabajé en el desarrollo y adaptación de ",
+            "Experiencia profesional en ",
+            { link: "Beply Technologies", href: "https://beply.es/" },
+            ", dentro de un entorno ",
+            { accent: "SaaS/ERP" },
+            ". Participé en la evolución de su web corporativa de WordPress a ",
+            { accent: "Vue/Nuxt" },
+            " y posteriormente a ",
+            { accent: "Astro" },
+            ", desarrollando y adaptando ",
             { accent: "componentes" },
             ", diseño responsive, ",
-            { accent: "rendimiento" },
-            ", accesibilidad y SEO dentro de un ",
-            { accent: "entorno profesional y colaborativo" },
+            { accent: "accesibilidad" },
+            ", rendimiento y SEO, trabajando de forma colaborativa con ",
+            { accent: "GitHub" },
             ".",
           ],
         },
@@ -300,11 +331,57 @@ export const content: Record<Language, PortfolioContent> = {
     },
     stack: {
       title: "Stack",
-      groups: [
-        { label: "Frontend", items: ["Astro", "React", "Next.js", "JavaScript", "TypeScript", "Tailwind"] },
-        { label: "Backend", items: ["Node.js", "Python", "Java", "PHP", "PostgreSQL", "MySQL", "MongoDB", "Cloudflare"] },
-        { label: "Herramientas", items: ["Git", "GitHub", "Vite", "Docker"] },
-      ],
+      primary: {
+        groups: [
+          {
+            label: "Frontend",
+            items: [
+              "JavaScript",
+              "TypeScript",
+              "HTML",
+              "CSS",
+              "Bootstrap",
+              "Tailwind CSS",
+            ],
+          },
+          {
+            label: "Backend",
+            items: ["Java", "PHP", "Laravel", "Node.js"],
+          },
+          {
+            label: "Bases de datos",
+            items: ["MySQL", "PostgreSQL", "MongoDB"],
+          },
+          {
+            label: "DevOps y herramientas",
+            items: [
+              "Git",
+              "GitHub",
+              "Docker",
+              "Jenkins",
+              "GitHub Actions",
+              "Vercel",
+              "Railway",
+              "Cloudflare",
+            ],
+          },
+        ],
+      },
+      aiAssisted: {
+        title: "Tecnologías utilizadas en proyectos asistidos por IA",
+        note: "He utilizado estas tecnologías en proyectos desarrollados mediante flujos asistidos por IA, revisando, integrando y validando las soluciones generadas.",
+        items: [
+          "C#",
+          "ASP.NET Core",
+          ".NET",
+          "Python",
+          "Vitest",
+          "Testing Library",
+          "xUnit",
+          "FluentAssertions",
+          "Moq",
+        ],
+      },
     },
     links: {
       title: "Contacto",
@@ -316,7 +393,7 @@ export const content: Record<Language, PortfolioContent> = {
         { label: "Email", href: `mailto:${email}` },
         { label: "WhatsApp", href: whatsappHref },
         { label: "GitHub", href: "https://github.com/Eric0298" },
-        { label: "LinkedIn", href: "https://linkedin.com/" },
+        { label: "LinkedIn", href: linkedinHref },
       ],
       footer: "© 2026 Eric Mancebo",
     },
@@ -327,10 +404,10 @@ export const content: Record<Language, PortfolioContent> = {
   },
   en: {
     meta: {
-      title: "Eric Mancebo — Full-Stack Developer",
+      title: "Eric Mancebo — Software Developer · Full Stack",
       description:
-        "Portfolio of Eric Mancebo. Full-stack developer focused on product, automation and applied AI.",
-      role: "Full-Stack Developer",
+        "Portfolio of Eric Mancebo. Junior software developer with a full-stack profile, focused on product, quality and automation.",
+      role: "Software Developer · Full Stack",
       ogLocale: "en_US",
     },
     nav: {
@@ -339,15 +416,22 @@ export const content: Record<Language, PortfolioContent> = {
       langLabel: "EN",
     },
     header: {
-      displayLine: "FULL-STACK DEVELOPER",
-      role: "Full-Stack Developer",
+      displayLine: "SOFTWARE DEVELOPER · FULL STACK",
+      role: "Junior Software Developer with a full-stack profile",
       locationLine: "BASED IN VALENCIA",
       ctaLabel: "Open to work",
-      marqueeTerms: ["FULL-STACK", "DEVELOPER", "PRODUCT", "AUTOMATION", "APPLIED AI"],
+      marqueeTerms: [
+        "SOFTWARE",
+        "FULL STACK",
+        "PRODUCT",
+        "AUTOMATION",
+        "SAAS",
+        "QUALITY",
+      ],
       marqueeRows: [
-        ["FULL-STACK", "DEVELOPER"],
-        ["PRODUCT", "AUTOMATION", "APPLIED AI"],
-        ["EDITORIAL", "CREATIVE", "DETAIL"],
+        ["SOFTWARE", "FULL STACK"],
+        ["PRODUCT", "AUTOMATION", "SAAS"],
+        ["QUALITY", "SOFTWARE", "FULL STACK"],
       ],
     },
     about: {
@@ -355,41 +439,51 @@ export const content: Record<Language, PortfolioContent> = {
       scrollHint: "Scroll to continue",
       blocks: [
         [
-          "Hi, I'm Eric Mancebo Muminhodzic, a ",
-          { accent: "full-stack developer" },
-          " focused on turning ideas and real-world needs into ",
-          { accent: "functional digital solutions" },
+          "I'm ",
+          { accent: "Eric Mancebo Muminhodzic" },
+          ", a Higher Technician in ",
+          { accent: "Web Application Development" },
+          " with a ",
+          { accent: "full-stack profile" },
           ".",
         ],
         [
-          "I build applications, tools and web experiences aimed at ",
-          { accent: "solving problems" },
+          "I have hands-on experience at ",
+          { accent: "Beply Technologies" },
+          ", within a ",
+          { accent: "SaaS/ERP environment" },
+          ", building full-stack applications and ",
+          { accent: "digital products" },
+          ".",
+        ],
+        [
+          "My previous work in ",
+          { accent: "ecommerce" },
           ", ",
-          { accent: "automating processes" },
-          " and improving the way people and companies work and relate to their digital environment.",
-        ],
-        [
-          "I'm a Higher Technician in Web Application Development from IES L'Estació in Ontinyent. Throughout my training I've worked on both ",
-          { accent: "frontend and backend" },
-          ", delivering complete projects and learning to understand ",
-          { accent: "the product beyond the code" },
+          { accent: "marketplaces" },
+          " and ",
+          { accent: "digital logistics" },
+          " helps me understand real ",
+          { accent: "business processes" },
           ".",
         ],
         [
-          "I am currently expanding my knowledge of ",
-          { accent: "software architecture" },
-          ", automation, ",
-          { accent: "applied artificial intelligence" },
-          " and digital product development while studying ",
+          "I'm interested in ",
+          { accent: "enterprise software" },
+          ", product and ",
+          { accent: "automation" },
+          ". I'm currently studying ",
           { accent: "Artificial Intelligence Engineering" },
+          " and hold a ",
+          { accent: "B2 English level" },
           ".",
         ],
         [
-          "I care about building ",
-          { accent: "useful technology" },
-          ": maintainable, intuitive products designed to have a ",
-          { accent: "real impact" },
-          " on users and businesses.",
+          "I'm looking for a ",
+          { accent: "junior opportunity" },
+          " where I can keep learning and contribute within a ",
+          { accent: "professional team" },
+          ".",
         ],
       ],
     },
@@ -400,7 +494,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "MIGA",
           year: "2026",
           summary:
-            "Mobile-first PWA to manage study goals, sessions, materials, notes and mock exams. Full-stack with React 19 and .NET, focused on security and privacy.",
+            "Completed mobile-first PWA to manage goals, study sessions, materials, notes and mock exams. Built with React, TypeScript, ASP.NET Core and PostgreSQL, with special focus on user experience, privacy and technical quality.",
           href: "https://miga-indol.vercel.app/",
           asset: {
             src: "/05_miga_alt_logo_stacked_transparent.png",
@@ -412,7 +506,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "JustWriteIt",
           year: "2026",
           summary:
-            "AI-powered audio transcription web app. Clear segmentation, history and study mode with loop playback.",
+            "Audio transcription app with per-user history and study mode. Built with Next.js, TypeScript, PostgreSQL and Python/Whisper.",
           href: "https://www.justwriteit.app/",
           asset: {
             src: "/mark-jwi.svg",
@@ -424,7 +518,7 @@ export const content: Record<Language, PortfolioContent> = {
           name: "PG Peritaciones",
           year: "2026",
           summary:
-            "Corporate website for a judicial expert firm. Technical services showcase and client acquisition.",
+            "Professional website built for a real client. Requirements gathering, responsive design, content organisation, local SEO, accessibility and lead capture.",
           href: "https://www.pgperitaciones.com/",
           asset: {
             src: "/logo-mark.png",
@@ -457,26 +551,29 @@ export const content: Record<Language, PortfolioContent> = {
         },
         {
           period: "2026",
-          role: "Web development · Internship",
-          place: "Ontinyent",
+          role: "Web development · SaaS/ERP",
+          place: "Beply Technologies · Ontinyent",
+          placeHref: "https://beply.es/",
           logo: {
             src: "/logo-beply.png",
             srcDark: "/logo-beply-white.png",
-            alt: "Beply",
+            alt: "Beply Technologies",
           },
           summary: [
-            "During my ",
-            { accent: "internship" },
-            " at ",
-            { link: "Beply", href: "https://beply.es/" },
-            ", I contributed to the evolution of its corporate website through different ",
-            { accent: "technology stages" },
-            ": from WordPress to Vue/Nuxt and later to Astro. I worked on developing and adapting ",
+            "Professional experience at ",
+            { link: "Beply Technologies", href: "https://beply.es/" },
+            ", within a ",
+            { accent: "SaaS/ERP environment" },
+            ". I contributed to the evolution of the corporate website from WordPress to ",
+            { accent: "Vue/Nuxt" },
+            " and later to ",
+            { accent: "Astro" },
+            ", developing and adapting ",
             { accent: "components" },
             ", responsive design, ",
-            { accent: "performance" },
-            ", accessibility and SEO within a ",
-            { accent: "professional and collaborative environment" },
+            { accent: "accessibility" },
+            ", performance and SEO, working collaboratively with ",
+            { accent: "GitHub" },
             ".",
           ],
         },
@@ -519,11 +616,57 @@ export const content: Record<Language, PortfolioContent> = {
     },
     stack: {
       title: "Stack",
-      groups: [
-        { label: "Frontend", items: ["Astro", "React", "Next.js", "JavaScript", "TypeScript", "Tailwind"] },
-        { label: "Backend", items: ["Node.js", "Python", "Java", "PHP", "PostgreSQL", "MySQL", "MongoDB", "Cloudflare"] },
-        { label: "Tools", items: ["Git", "GitHub", "Vite", "Docker"] },
-      ],
+      primary: {
+        groups: [
+          {
+            label: "Frontend",
+            items: [
+              "JavaScript",
+              "TypeScript",
+              "HTML",
+              "CSS",
+              "Bootstrap",
+              "Tailwind CSS",
+            ],
+          },
+          {
+            label: "Backend",
+            items: ["Java", "PHP", "Laravel", "Node.js"],
+          },
+          {
+            label: "Databases",
+            items: ["MySQL", "PostgreSQL", "MongoDB"],
+          },
+          {
+            label: "DevOps & tools",
+            items: [
+              "Git",
+              "GitHub",
+              "Docker",
+              "Jenkins",
+              "GitHub Actions",
+              "Vercel",
+              "Railway",
+              "Cloudflare",
+            ],
+          },
+        ],
+      },
+      aiAssisted: {
+        title: "Technologies used in AI-assisted projects",
+        note: "I have used these technologies in projects developed through AI-assisted workflows, reviewing, integrating and validating the generated solutions.",
+        items: [
+          "C#",
+          "ASP.NET Core",
+          ".NET",
+          "Python",
+          "Vitest",
+          "Testing Library",
+          "xUnit",
+          "FluentAssertions",
+          "Moq",
+        ],
+      },
     },
     links: {
       title: "Contact",
@@ -535,7 +678,7 @@ export const content: Record<Language, PortfolioContent> = {
         { label: "Email", href: `mailto:${email}` },
         { label: "WhatsApp", href: whatsappHref },
         { label: "GitHub", href: "https://github.com/Eric0298" },
-        { label: "LinkedIn", href: "https://linkedin.com/" },
+        { label: "LinkedIn", href: linkedinHref },
       ],
       footer: "© 2026 Eric Mancebo",
     },

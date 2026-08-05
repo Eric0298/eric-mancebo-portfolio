@@ -5,29 +5,39 @@ import SectionTitleText from "../SectionTitleText.astro";
 const es = content.es;
 const en = content.en;
 
-const allItems = es.stack.groups.flatMap((group) => group.items);
+const primaryItems = es.stack.primary.groups.flatMap((group) => group.items);
+const aiItems = es.stack.aiAssisted.items;
 
 // Map each stack item to its official brand icon from the simple-icons set.
 // Java uses openjdk because simple-icons drops the Oracle-trademarked Java mark.
 const iconNames: Record<string, string> = {
-  Astro: "simple-icons:astro",
-  React: "simple-icons:react",
-  "Next.js": "simple-icons:nextdotjs",
   JavaScript: "simple-icons:javascript",
   TypeScript: "simple-icons:typescript",
-  Tailwind: "simple-icons:tailwindcss",
-  "Node.js": "simple-icons:nodedotjs",
-  Python: "simple-icons:python",
+  HTML: "simple-icons:html5",
+  CSS: "simple-icons:css3",
+  Bootstrap: "simple-icons:bootstrap",
+  "Tailwind CSS": "simple-icons:tailwindcss",
   Java: "simple-icons:openjdk",
   PHP: "simple-icons:php",
-  PostgreSQL: "simple-icons:postgresql",
+  Laravel: "simple-icons:laravel",
+  "Node.js": "simple-icons:nodedotjs",
   MySQL: "simple-icons:mysql",
+  PostgreSQL: "simple-icons:postgresql",
   MongoDB: "simple-icons:mongodb",
-  Cloudflare: "simple-icons:cloudflare",
   Git: "simple-icons:git",
   GitHub: "simple-icons:github",
-  Vite: "simple-icons:vite",
   Docker: "simple-icons:docker",
+  Jenkins: "simple-icons:jenkins",
+  "GitHub Actions": "simple-icons:githubactions",
+  Vercel: "simple-icons:vercel",
+  Railway: "simple-icons:railway",
+  Cloudflare: "simple-icons:cloudflare",
+  Python: "simple-icons:python",
+  "C#": "simple-icons:csharp",
+  "ASP.NET Core": "simple-icons:dotnet",
+  ".NET": "simple-icons:dotnet",
+  Vitest: "simple-icons:vitest",
+  "Testing Library": "simple-icons:testinglibrary",
 };
 ---
 
@@ -39,7 +49,7 @@ const iconNames: Record<string, string> = {
     </h2>
 
     <div class="stack__grid">
-      {allItems.map((name) => (
+      {primaryItems.map((name) => (
         <div class="stack__cell liquid-glass" data-motion="float">
           <div class="stack__icon" aria-hidden="true">
             {iconNames[name] ? (
@@ -51,6 +61,31 @@ const iconNames: Record<string, string> = {
           <span class="stack__name">{name}</span>
         </div>
       ))}
+    </div>
+
+    <div class="stack__ai">
+      <h3 class="stack__ai-title mono">
+        <span data-i18n="es">{es.stack.aiAssisted.title}</span>
+        <span data-i18n="en">{en.stack.aiAssisted.title}</span>
+      </h3>
+      <p class="stack__ai-note">
+        <span data-i18n="es">{es.stack.aiAssisted.note}</span>
+        <span data-i18n="en">{en.stack.aiAssisted.note}</span>
+      </p>
+      <div class="stack__grid stack__grid--ai">
+        {aiItems.map((name) => (
+          <div class="stack__cell liquid-glass" data-motion="float">
+            <div class="stack__icon" aria-hidden="true">
+              {iconNames[name] ? (
+                <Icon name={iconNames[name]} />
+              ) : (
+                <span class="stack__glyph display">{name[0]}</span>
+              )}
+            </div>
+            <span class="stack__name">{name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -108,5 +143,24 @@ const iconNames: Record<string, string> = {
     letter-spacing: 0.02em;
     color: var(--ink-muted);
     text-align: center;
+  }
+
+  .stack__ai {
+    margin-block-start: var(--space-8);
+  }
+
+  .stack__ai-title {
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: clamp(0.8rem, 0.7rem + 0.3vw, 1rem);
+  }
+
+  .stack__ai-note {
+    color: var(--ink-muted);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    max-inline-size: 60ch;
+    margin-block-start: var(--space-3);
   }
 </style>
