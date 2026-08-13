@@ -13,6 +13,11 @@ const items = es.links.items.map((_, i) => i);
       <SectionTitleText text={en.links.title} lang="en" />
     </h2>
 
+    <p class="links__body">
+      <span data-i18n="es">{es.links.body}</span>
+      <span data-i18n="en">{en.links.body}</span>
+    </p>
+
     <div class="links__grid">
       <a class="links__email display" href={`mailto:${es.links.email}`}>{es.links.email}</a>
       <a class="links__phone display" href={es.links.phoneHref}>{es.links.phone}</a>
@@ -64,6 +69,14 @@ const items = es.links.items.map((_, i) => i);
 </section>
 
 <style>
+  .links__body {
+    color: var(--ink-muted);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    max-inline-size: 60ch;
+    margin-block-end: var(--space-6);
+  }
+
   .links__grid {
     display: grid;
     gap: var(--space-6);
