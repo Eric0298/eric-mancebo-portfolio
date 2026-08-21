@@ -142,8 +142,8 @@
 
   @media (max-width: 520px) {
     .next-section {
-      inset-block-end: auto;
-      top: calc(100svh - 2.75rem - max(env(safe-area-inset-bottom, 0px), 1rem));
+      inset-block-end: max(env(safe-area-inset-bottom, 0px), 1rem);
+      top: auto;
       padding: 0;
       gap: 0;
       inline-size: 2.75rem;

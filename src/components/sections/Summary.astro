@@ -7,48 +7,53 @@ const blockCount = Math.min(es.about.blocks.length, en.about.blocks.length);
 const indexes = Array.from({ length: blockCount }, (_, i) => i);
 ---
 
-<section id="about" class="about" data-motion="about" data-block-count={blockCount}>
-  <div class="about__pin">
-    <div class="page-shell about__shell">
-      <h2 class="section-title about__title" data-motion="title">
-        <SectionTitleText text={es.about.title} lang="es" />
-        <SectionTitleText text={en.about.title} lang="en" />
-      </h2>
+<section id="about" class="section about">
+  <div class="page-shell page-shell--wide about__shell">
+    <h2 class="section-title about__title" data-motion="title">
+      <SectionTitleText text={es.about.title} lang="es" />
+      <SectionTitleText text={en.about.title} lang="en" />
+    </h2>
 
-      <div class="about__viewport" role="list">
-        {indexes.map((i) => (
-          <article class="about__block" data-about-index={i} role="listitem">
-            <p class="about__paragraph" data-i18n="es">
-              {es.about.blocks[i].map((seg) =>
-                typeof seg === "string" ? (
-                  seg
-                ) : (
-                  <em class="about__accent">{seg.accent}</em>
-                ),
-              )}
-            </p>
-            <p class="about__paragraph" data-i18n="en">
-              {en.about.blocks[i].map((seg) =>
-                typeof seg === "string" ? (
-                  seg
-                ) : (
-                  <em class="about__accent">{seg.accent}</em>
-                ),
-              )}
-            </p>
-          </article>
-        ))}
+    <div
+      class="about__rail horizontal-rail"
+      data-horizontal-rail
+      id="about-rail"
+      tabindex="0"
+      role="region"
+      aria-label="Presentación / About"
+    >
+      {indexes.map((i) => (
+        <article class="about__block liquid-glass" data-rail-slide>
+          <span class="about__index mono" aria-hidden="true">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <p class="about__paragraph" data-i18n="es">
+            {es.about.blocks[i].map((seg) =>
+              typeof seg === "string" ? seg : <em class="about__accent">{seg.accent}</em>,
+            )}
+          </p>
+          <p class="about__paragraph" data-i18n="en">
+            {en.about.blocks[i].map((seg) =>
+              typeof seg === "string" ? seg : <em class="about__accent">{seg.accent}</em>,
+            )}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    <div class="rail-controls about__controls">
+      <div class="rail-controls__buttons">
+        <button class="rail-controls__button" type="button" data-rail-prev aria-controls="about-rail" aria-label="Anterior / Previous">
+          <span aria-hidden="true">←</span>
+        </button>
+        <button class="rail-controls__button" type="button" data-rail-next aria-controls="about-rail" aria-label="Siguiente / Next">
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
-
-      <div class="about__progress" aria-hidden="true">
-        {indexes.map((i) => (
-          <span class="about__dot" data-dot-index={i}></span>
-        ))}
-      </div>
-
-      <p class="about__hint mono" aria-hidden="true">
-        <span data-i18n="es">{es.about.scrollHint}</span>
-        <span data-i18n="en">{en.about.scrollHint}</span>
+      <span class="rail-controls__status mono" data-rail-status aria-live="polite">1 / {blockCount}</span>
+      <p class="rail-controls__hint mono" aria-hidden="true">
+        <span data-i18n="es">Desliza horizontalmente</span>
+        <span data-i18n="en">Swipe horizontally</span>
       </p>
     </div>
   </div>
@@ -56,16 +61,7 @@ const indexes = Array.from({ length: blockCount }, (_, i) => i);
 
 <style>
   .about {
-    position: relative;
-    padding-block: 0;
-  }
-
-  .about__pin {
-    min-block-size: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-block: var(--space-8);
+    overflow: clip;
   }
 
   .about__shell {
@@ -76,24 +72,60 @@ const indexes = Array.from({ length: blockCount }, (_, i) => i);
     margin-block-end: var(--space-6);
   }
 
-  .about__viewport {
-    position: relative;
-    inline-size: 100%;
+  .about__rail {
+    --rail-gap: clamp(0.9rem, 2vw, 1.5rem);
+    --rail-item-size: min(78vw, 48rem);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--rail-item-size);
+    gap: var(--rail-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 1px;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+    padding: 1px var(--page-gutter);
+    margin-inline: calc(-1 * var(--page-gutter));
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+    cursor: grab;
+  }
+
+  .about__rail.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
   }
 
   .about__block {
-    inline-size: 100%;
+    min-block-size: clamp(22rem, 52dvh, 31rem);
+    border-radius: var(--radius-xl) !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    gap: var(--space-5);
+    padding: clamp(1.4rem, 4vw, 3.5rem);
+    contain: layout paint style;
+  }
+
+  .about__index {
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    align-self: start;
   }
 
   .about__paragraph {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: clamp(1.4rem, 0.95rem + 1.6vw, 2.4rem);
+    font-size: clamp(1.25rem, 0.95rem + 1.15vw, 2.15rem);
     line-height: 1.4;
     letter-spacing: -0.015em;
     color: var(--ink);
-    max-inline-size: 44ch;
-    margin-inline: auto;
+    max-inline-size: 42ch;
     text-align: start;
     text-wrap: pretty;
   }
@@ -105,96 +137,36 @@ const indexes = Array.from({ length: blockCount }, (_, i) => i);
     letter-spacing: -0.02em;
   }
 
-  .about__progress {
-    display: none;
-  }
-
-  .about__hint {
-    color: var(--ink-faint);
-    margin-block-start: var(--space-6);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    text-align: center;
-  }
-
-  /* -----------------------------------------------------------------
-   * Fallback (no JS OR prefers-reduced-motion): blocks stack vertically
-   * and every paragraph stays readable.
-   * ----------------------------------------------------------------- */
-  .about:not(.about--enhanced) .about__block + .about__block {
-    margin-block-start: var(--space-6);
-  }
-
-  .about:not(.about--enhanced) .about__hint,
-  .about:not(.about--enhanced) .about__progress {
-    display: none;
-  }
-
-  /* -----------------------------------------------------------------
-   * Enhanced (JS + motion allowed): blocks stack on top of each other
-   * inside a fixed-height viewport; JS scrubs opacity between them
-   * with a full fade-out → hold → fade-in cadence so no two blocks are
-   * legible at the same time.
-   * ----------------------------------------------------------------- */
-  .about.about--enhanced .about__viewport {
-    block-size: min(54dvh, 32rem);
-  }
-
-  .about.about--enhanced .about__block {
-    position: absolute;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    inline-size: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    opacity: 0;
-    will-change: opacity, transform;
-  }
-
-  .about.about--enhanced .about__block[data-about-index="0"] {
-    opacity: 1;
-  }
-
-  .about.about--enhanced .about__progress {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-block-start: var(--space-6);
-  }
-
-  .about__dot {
-    display: block;
-    inline-size: 1.75rem;
-    block-size: 2px;
-    background: var(--border-strong);
-    border-radius: 999px;
-    transition:
-      background-color var(--dur-med) var(--ease-out),
-      inline-size var(--dur-med) var(--ease-out);
-  }
-
-  .about__dot--active {
-    background: var(--ink);
-    inline-size: 2.75rem;
+  .about__controls {
+    margin-block-start: var(--space-5);
   }
 
   @media (max-width: 640px) {
-    .about.about--enhanced .about__viewport {
-      block-size: min(62dvh, 28rem);
+    .about__rail {
+      --rail-item-size: calc(100% - 2.4rem);
+      scrollbar-width: none;
+    }
+
+    .about__rail::-webkit-scrollbar {
+      display: none;
+    }
+
+    .about__block {
+      min-block-size: min(66dvh, 30rem);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg) !important;
     }
 
     .about__paragraph {
-      max-inline-size: 32ch;
+      font-size: clamp(1.08rem, 0.9rem + 1vw, 1.35rem);
+      line-height: 1.5;
+      max-inline-size: none;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    /* If reduced motion is preferred we do NOT enter enhanced mode via JS,
-       so blocks fall back to the natural stacked layout defined above. */
-    .about__hint,
-    .about__progress {
-      display: none;
+  @media (max-height: 620px) {
+    .about__block {
+      min-block-size: 20rem;
     }
   }
 </style>

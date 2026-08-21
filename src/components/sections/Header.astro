@@ -729,6 +729,18 @@ const halfLen = (row: string[]) => row.length / 2;
     margin-inline-start: auto;
   }
 
+  /* The marquee and chromatic layers are visually relevant only while the
+     hero is near the viewport. Pausing them releases off-screen compositor
+     work without changing their visible timing or design. */
+  .hero.hero--offscreen .hero__row-track,
+  .hero.hero--offscreen .hero__word,
+  .hero.hero--offscreen .hero__row-silhouette-glitch,
+  .hero.hero--offscreen .hero__photo-img,
+  .hero.hero--offscreen .hero__photo-glitch,
+  .hero.hero--offscreen .hero__photo-figure {
+    animation-play-state: paused !important;
+  }
+
   /* ---------- Responsive ---------- */
 
   @media (max-width: 900px) {

@@ -6,169 +6,128 @@ const en = content.en;
 const items = es.experience.items.map((_, i) => i);
 ---
 
-<section id="experience" class="experience" data-motion="experience">
-  <div class="experience__pin">
-    <div class="page-shell page-shell--wide experience__shell">
-      <h2 class="section-title experience__title" data-motion="title">
-        <SectionTitleText text={es.experience.title} lang="es" />
-        <SectionTitleText text={en.experience.title} lang="en" />
-      </h2>
+<section id="experience" class="section experience">
+  <div class="page-shell page-shell--wide experience__shell">
+    <h2 class="section-title experience__title" data-motion="title">
+      <SectionTitleText text={es.experience.title} lang="es" />
+      <SectionTitleText text={en.experience.title} lang="en" />
+    </h2>
 
-      <div class="experience__viewport">
-        {items.map((i) => {
-          const esItem = es.experience.items[i];
-          const enItem = en.experience.items[i];
-          const hasPeriodLabel = !!(esItem.periodLabel || enItem.periodLabel);
-          return (
-            <article class="experience__slide" data-slide-index={i}>
-              <div class="experience__year-block">
-                <div class="experience__year-cluster">
-                  <span class="experience__year display">{esItem.period}</span>
-                  {hasPeriodLabel && (
-                    <span class="experience__year-label mono">
-                      {esItem.periodLabel && (
-                        <span data-i18n="es">{esItem.periodLabel}</span>
-                      )}
-                      {enItem.periodLabel && (
-                        <span data-i18n="en">{enItem.periodLabel}</span>
-                      )}
-                    </span>
-                  )}
-                </div>
-                <span class="experience__place mono">
-                  {esItem.placeHref ? (
-                    <a
-                      class="experience__place-link"
-                      href={esItem.placeHref}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span data-i18n="es">{esItem.place}</span>
-                      <span data-i18n="en">{enItem.place}</span>
-                      <svg
-                        class="experience__external"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                      >
-                        <path d="M7 17L17 7M8 7h9v9" />
-                      </svg>
-                    </a>
-                  ) : (
-                    <>
-                      <span data-i18n="es">{esItem.place}</span>
-                      <span data-i18n="en">{enItem.place}</span>
-                    </>
+    <div
+      class="experience__rail horizontal-rail"
+      data-horizontal-rail
+      id="experience-rail"
+      tabindex="0"
+      role="region"
+      aria-label="Experiencia / Experience"
+    >
+      {items.map((i) => {
+        const esItem = es.experience.items[i];
+        const enItem = en.experience.items[i];
+        const hasPeriodLabel = !!(esItem.periodLabel || enItem.periodLabel);
+        return (
+          <article class="experience__slide" data-rail-slide>
+            <div class="experience__year-block">
+              <div class="experience__year-cluster">
+                <span class="experience__year display">{esItem.period}</span>
+                {hasPeriodLabel && (
+                  <span class="experience__year-label mono">
+                    {esItem.periodLabel && <span data-i18n="es">{esItem.periodLabel}</span>}
+                    {enItem.periodLabel && <span data-i18n="en">{enItem.periodLabel}</span>}
+                  </span>
+                )}
+              </div>
+              <span class="experience__place mono">
+                {esItem.placeHref ? (
+                  <a
+                    class="experience__place-link"
+                    href={esItem.placeHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span data-i18n="es">{esItem.place}</span>
+                    <span data-i18n="en">{enItem.place}</span>
+                    <svg class="experience__external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M7 17L17 7M8 7h9v9" />
+                    </svg>
+                  </a>
+                ) : (
+                  <>
+                    <span data-i18n="es">{esItem.place}</span>
+                    <span data-i18n="en">{enItem.place}</span>
+                  </>
+                )}
+              </span>
+            </div>
+
+            <div class="experience__detail-block">
+              <div class="experience__role-row">
+                <h3 class="experience__role display">
+                  <span data-i18n="es">{esItem.role}</span>
+                  <span data-i18n="en">{enItem.role}</span>
+                </h3>
+                {esItem.logo && (
+                  <div class="experience__brand" data-has-dark={esItem.logo.srcDark ? "true" : undefined} aria-hidden="true">
+                    <img class="experience__brand-mark experience__brand-mark--light" src={esItem.logo.src} alt="" loading="lazy" decoding="async" />
+                    {esItem.logo.srcDark && (
+                      <img class="experience__brand-mark experience__brand-mark--dark" src={esItem.logo.srcDark} alt="" loading="lazy" decoding="async" />
+                    )}
+                  </div>
+                )}
+              </div>
+              <p class="experience__summary">
+                <span data-i18n="es">
+                  {esItem.summary.map((seg) =>
+                    typeof seg === "string" ? (
+                      seg
+                    ) : "accent" in seg ? (
+                      <em class="experience__accent">{seg.accent}</em>
+                    ) : (
+                      <a class="experience__link" href={seg.href} target="_blank" rel="noopener noreferrer">
+                        {seg.link}
+                        <svg class="experience__external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M7 17L17 7M8 7h9v9" />
+                        </svg>
+                      </a>
+                    ),
                   )}
                 </span>
-              </div>
-
-              <div class="experience__detail-block">
-                <div class="experience__role-row">
-                  <span class="experience__role display">
-                    <span data-i18n="es">{esItem.role}</span>
-                    <span data-i18n="en">{enItem.role}</span>
-                  </span>
-                  {esItem.logo && (
-                    <div
-                      class="experience__brand"
-                      data-has-dark={esItem.logo.srcDark ? "true" : undefined}
-                      aria-hidden="true"
-                    >
-                      <img
-                        class="experience__brand-mark experience__brand-mark--light"
-                        src={esItem.logo.src}
-                        alt=""
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      {esItem.logo.srcDark && (
-                        <img
-                          class="experience__brand-mark experience__brand-mark--dark"
-                          src={esItem.logo.srcDark}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                        />
-                      )}
-                    </div>
+                <span data-i18n="en">
+                  {enItem.summary.map((seg) =>
+                    typeof seg === "string" ? (
+                      seg
+                    ) : "accent" in seg ? (
+                      <em class="experience__accent">{seg.accent}</em>
+                    ) : (
+                      <a class="experience__link" href={seg.href} target="_blank" rel="noopener noreferrer">
+                        {seg.link}
+                        <svg class="experience__external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="M7 17L17 7M8 7h9v9" />
+                        </svg>
+                      </a>
+                    ),
                   )}
-                </div>
-                <p class="experience__summary">
-                  <span data-i18n="es">
-                    {esItem.summary.map((seg) =>
-                      typeof seg === "string" ? (
-                        seg
-                      ) : "accent" in seg ? (
-                        <em class="experience__accent">{seg.accent}</em>
-                      ) : (
-                        <a
-                          class="experience__link"
-                          href={seg.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {seg.link}
-                          <svg
-                            class="experience__external"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                          >
-                            <path d="M7 17L17 7M8 7h9v9" />
-                          </svg>
-                        </a>
-                      ),
-                    )}
-                  </span>
-                  <span data-i18n="en">
-                    {enItem.summary.map((seg) =>
-                      typeof seg === "string" ? (
-                        seg
-                      ) : "accent" in seg ? (
-                        <em class="experience__accent">{seg.accent}</em>
-                      ) : (
-                        <a
-                          class="experience__link"
-                          href={seg.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {seg.link}
-                          <svg
-                            class="experience__external"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                          >
-                            <path d="M7 17L17 7M8 7h9v9" />
-                          </svg>
-                        </a>
-                      ),
-                    )}
-                  </span>
-                </p>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+                </span>
+              </p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
 
-      <p class="experience__hint mono">
-        <span data-i18n="es">{es.experience.scrollHint}</span>
-        <span data-i18n="en">{en.experience.scrollHint}</span>
+    <div class="rail-controls experience__controls">
+      <div class="rail-controls__buttons">
+        <button class="rail-controls__button" type="button" data-rail-prev aria-controls="experience-rail" aria-label="Anterior / Previous">
+          <span aria-hidden="true">←</span>
+        </button>
+        <button class="rail-controls__button" type="button" data-rail-next aria-controls="experience-rail" aria-label="Siguiente / Next">
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <span class="rail-controls__status mono" data-rail-status aria-live="polite">1 / {items.length}</span>
+      <p class="rail-controls__hint mono" aria-hidden="true">
+        <span data-i18n="es">Desliza horizontalmente</span>
+        <span data-i18n="en">Swipe horizontally</span>
       </p>
     </div>
   </div>
@@ -176,16 +135,7 @@ const items = es.experience.items.map((_, i) => i);
 
 <style>
   .experience {
-    position: relative;
-    padding-block: 0;
-  }
-
-  .experience__pin {
-    block-size: 100dvh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+    overflow: clip;
   }
 
   .experience__shell {
@@ -198,47 +148,70 @@ const items = es.experience.items.map((_, i) => i);
     margin-block-end: var(--space-6);
   }
 
-  .experience__viewport {
-    position: relative;
-    inline-size: 100%;
-    block-size: min(62dvh, 40rem);
-    overflow: hidden;
+  .experience__rail {
+    --rail-gap: clamp(1rem, 2.5vw, 2rem);
+    --rail-item-size: min(86vw, 76rem);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: var(--rail-item-size);
+    gap: var(--rail-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: inline mandatory;
+    scroll-padding-inline: 1px;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
+    padding: 1px clamp(1rem, 3vw, 3rem);
+    margin-inline: clamp(-3rem, -3vw, -1rem);
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+    cursor: grab;
+  }
+
+  .experience__rail.is-dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
   }
 
   .experience__slide {
-    position: absolute;
-    inset: 0;
+    min-block-size: clamp(28rem, 62dvh, 40rem);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr);
     align-items: center;
     gap: clamp(var(--space-6), 5vw, var(--space-9));
-    opacity: 0;
-    pointer-events: none;
-    will-change: opacity;
+    padding: clamp(1.5rem, 4vw, 4rem);
+    background: linear-gradient(135deg, var(--card-bg), transparent 75%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    contain: layout paint style;
   }
 
-  .experience__slide.is-active {
-    pointer-events: auto;
+  .experience__year-block,
+  .experience__year-cluster,
+  .experience__detail-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .experience__year-block {
-    display: flex;
-    flex-direction: column;
     gap: var(--space-5);
-    align-items: flex-start;
-    align-self: center;
-    will-change: transform;
   }
 
   .experience__year-cluster {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
     gap: 0.35em;
   }
 
+  .experience__detail-block {
+    gap: var(--space-5);
+  }
+
   .experience__year {
-    font-size: clamp(4.5rem, 2rem + 10vw, 13rem);
+    font-size: clamp(4.5rem, 2rem + 9vw, 12rem);
     font-weight: 400;
     line-height: 0.86;
     letter-spacing: -0.06em;
@@ -251,15 +224,6 @@ const items = es.experience.items.map((_, i) => i);
     text-transform: uppercase;
     letter-spacing: 0.16em;
     font-size: clamp(0.8rem, 0.7rem + 0.3vw, 1rem);
-  }
-
-  .experience__detail-block {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-5);
-    align-self: center;
-    opacity: 0;
-    will-change: opacity, transform;
   }
 
   .experience__role {
@@ -283,21 +247,29 @@ const items = es.experience.items.map((_, i) => i);
     font-style: normal;
     font-weight: 600;
     color: var(--ink-strong);
-    letter-spacing: -0.005em;
   }
 
-  .experience__link {
+  .experience__link,
+  .experience__place-link {
     color: var(--ink-strong);
     font-weight: 600;
     border-block-end: 1px solid var(--border-strong);
     padding-block-end: 1px;
-    transition:
-      color var(--dur-fast) var(--ease-out),
-      border-color var(--dur-fast) var(--ease-out);
+    transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+  }
+
+  .experience__place-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    color: inherit;
+    border-block-end-color: transparent;
   }
 
   .experience__link:hover,
-  .experience__link:focus-visible {
+  .experience__link:focus-visible,
+  .experience__place-link:hover,
+  .experience__place-link:focus-visible {
     color: var(--ink);
     border-block-end-color: currentColor;
   }
@@ -332,32 +304,12 @@ const items = es.experience.items.map((_, i) => i);
     display: none;
   }
 
-  :global([data-theme="dark"]) .experience__brand[data-has-dark]
-    .experience__brand-mark--light {
+  :global([data-theme="dark"]) .experience__brand[data-has-dark] .experience__brand-mark--light {
     display: none;
   }
 
-  :global([data-theme="dark"]) .experience__brand[data-has-dark]
-    .experience__brand-mark--dark {
+  :global([data-theme="dark"]) .experience__brand[data-has-dark] .experience__brand-mark--dark {
     display: block;
-  }
-
-  .experience__place-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35em;
-    color: inherit;
-    border-block-end: 1px solid transparent;
-    padding-block-end: 1px;
-    transition:
-      color var(--dur-fast) var(--ease-out),
-      border-color var(--dur-fast) var(--ease-out);
-  }
-
-  .experience__place-link:hover,
-  .experience__place-link:focus-visible {
-    color: var(--ink);
-    border-block-end-color: currentColor;
   }
 
   .experience__external {
@@ -367,9 +319,7 @@ const items = es.experience.items.map((_, i) => i);
     vertical-align: -0.05em;
     margin-inline-start: 0.28em;
     opacity: 0.65;
-    transition:
-      transform var(--dur-fast) var(--ease-out),
-      opacity var(--dur-fast) var(--ease-out);
+    transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
   }
 
   .experience__link:hover .experience__external,
@@ -380,35 +330,46 @@ const items = es.experience.items.map((_, i) => i);
     opacity: 1;
   }
 
-  .experience__hint {
-    color: var(--ink-faint);
-    margin-block-start: var(--space-6);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+  .experience__controls {
+    margin-block-start: var(--space-5);
   }
 
   @media (max-width: 900px) {
-    .experience__viewport {
-      block-size: min(72dvh, 34rem);
+    .experience__rail {
+      --rail-item-size: calc(100% - 2.4rem);
+      scrollbar-width: none;
+    }
+
+    .experience__rail::-webkit-scrollbar {
+      display: none;
     }
 
     .experience__slide {
+      min-block-size: min(72dvh, 36rem);
       grid-template-columns: 1fr;
       align-content: center;
       gap: var(--space-5);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
     }
 
     .experience__year-block {
-      align-items: flex-start;
       gap: var(--space-3);
     }
 
     .experience__year {
-      font-size: clamp(3.5rem, 2rem + 8vw, 7rem);
+      font-size: clamp(3.3rem, 2rem + 8vw, 7rem);
     }
 
     .experience__summary {
       max-inline-size: none;
+      font-size: clamp(0.98rem, 0.9rem + 0.5vw, 1.1rem);
+    }
+  }
+
+  @media (max-height: 620px) {
+    .experience__slide {
+      min-block-size: 28rem;
     }
   }
 </style>

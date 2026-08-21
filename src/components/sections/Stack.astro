@@ -108,13 +108,15 @@ const iconNames: Record<string, string> = {
     gap: var(--space-3);
     padding: var(--space-4);
     color: var(--ink);
-    will-change: transform;
     cursor: default;
     transition: transform var(--dur-fast) var(--ease-out);
+    contain: layout paint style;
   }
 
-  .stack__cell:hover {
-    transform: translateY(-4px) scale(1.03);
+  @media (hover: hover) and (pointer: fine) {
+    .stack__cell:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
   }
 
   .stack__icon {
@@ -162,5 +164,41 @@ const iconNames: Record<string, string> = {
     line-height: 1.5;
     max-inline-size: 60ch;
     margin-block-start: var(--space-3);
+  }
+
+  @media (max-width: 640px) {
+    .stack__grid {
+      grid-template-columns: repeat(auto-fit, minmax(4.75rem, 1fr));
+      gap: var(--space-2);
+      padding-block: var(--space-3);
+    }
+
+    .stack__cell {
+      aspect-ratio: auto;
+      min-block-size: 5.5rem;
+      gap: var(--space-2);
+      padding: 0.55rem 0.35rem;
+      border-radius: var(--radius-md) !important;
+    }
+
+    .stack__icon {
+      inline-size: 1.7rem;
+      block-size: 1.7rem;
+    }
+
+    .stack__glyph {
+      font-size: 1.45rem;
+    }
+
+    .stack__name {
+      font-size: 0.67rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .stack__ai {
+      margin-block-start: var(--space-7);
+    }
   }
 </style>

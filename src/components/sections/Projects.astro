@@ -78,6 +78,10 @@ const rows = es.projects.items.map((_, i) => i);
 </section>
 
 <style>
+  .projects {
+    overflow: clip;
+  }
+
   .projects__stack {
     display: flex;
     flex-direction: column;
@@ -94,11 +98,11 @@ const rows = es.projects.items.map((_, i) => i);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-    will-change: transform, opacity;
     transform-origin: center center;
     text-decoration: none;
     color: inherit;
     isolation: isolate;
+    contain: layout paint style;
   }
 
   a.project-card {

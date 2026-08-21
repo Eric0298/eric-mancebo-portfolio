@@ -22,17 +22,23 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: auto;
-  transition: background-color var(--dur-med) var(--ease-out),
+  overflow-x: hidden;
+  overflow-x: clip;
+  transition:
+    background-color var(--dur-med) var(--ease-out),
     color var(--dur-med) var(--ease-out);
 }
 
 body {
+  min-block-size: 100vh;
   min-block-size: 100dvh;
   background: var(--bg);
   color: var(--ink);
   font-size: var(--step-0);
   line-height: 1.6;
   overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-inline: none;
 }
 
 img,
@@ -127,6 +133,66 @@ a {
 section.section {
   padding-block: var(--space-10);
   position: relative;
+  scroll-margin-block-start: var(--space-5);
+}
+
+/* Shared controls for deliberate, keyboard-accessible horizontal narratives. */
+.horizontal-rail:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.rail-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-block-size: 2.6rem;
+}
+
+.rail-controls__buttons {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.rail-controls__button {
+  inline-size: 2.6rem;
+  block-size: 2.6rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--ink);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-out),
+    opacity var(--dur-fast) var(--ease-out);
+}
+
+.rail-controls__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--glass-highlight);
+}
+
+.rail-controls__button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.rail-controls__status,
+.rail-controls__hint {
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.rail-controls__status {
+  min-inline-size: 4.5rem;
+}
+
+.rail-controls__hint {
+  margin-inline-start: auto;
+  text-align: end;
 }
 
 /* Huge section title — replaces small eyebrows */
@@ -180,6 +246,28 @@ section.section {
     inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   isolation: isolate;
   overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  section.section {
+    padding-block: var(--space-8);
+  }
+
+  .liquid-glass {
+    backdrop-filter: blur(12px) saturate(145%);
+    -webkit-backdrop-filter: blur(12px) saturate(145%);
+  }
+
+  .rail-controls__hint {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (hover: none) {
+  .horizontal-rail {
+    cursor: auto !important;
+  }
 }
 
 .liquid-glass::before {
@@ -245,7 +333,8 @@ section.section {
 }
 
 @keyframes cta-nudge {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
   50% {
@@ -264,7 +353,8 @@ section.section {
 }
 
 @keyframes cta-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
