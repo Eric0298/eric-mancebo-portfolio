@@ -741,6 +741,11 @@ const halfLen = (row: string[]) => row.length / 2;
     animation-play-state: paused !important;
   }
 
+  .hero.hero--offscreen .hero__row-track,
+  .hero.hero--offscreen .hero__photo-wrap {
+    will-change: auto;
+  }
+
   /* ---------- Responsive ---------- */
 
   @media (max-width: 900px) {

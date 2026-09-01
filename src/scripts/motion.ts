@@ -3,6 +3,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile browser chrome changes the visual viewport height while scrolling.
+// The pinned sections use a stable viewport unit, so those height-only resizes
+// should not interrupt an active gesture with a full ScrollTrigger refresh.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const NEXT_SECTION_SELECTORS =
   "#top, #about, #projects, #experience, #stack, #links";
 
@@ -91,15 +96,30 @@ function initHeroVisibility() {
   const hero = document.querySelector<HTMLElement>(".hero");
   if (!hero || !("IntersectionObserver" in window)) return;
 
+  let pauseTimer = 0;
   const observer = new IntersectionObserver(
-    ([entry]) =>
-      hero.classList.toggle("hero--offscreen", !entry.isIntersecting),
+    ([entry]) => {
+      if (pauseTimer) window.clearTimeout(pauseTimer);
+      if (entry.isIntersecting) {
+        hero.classList.remove("hero--offscreen");
+        return;
+      }
+      pauseTimer = window.setTimeout(() => {
+        hero.classList.add("hero--offscreen");
+        pauseTimer = 0;
+      }, 180);
+    },
     { rootMargin: "120px 0px" },
   );
   observer.observe(hero);
-  window.addEventListener("pagehide", () => observer.disconnect(), {
-    once: true,
-  });
+  window.addEventListener(
+    "pagehide",
+    () => {
+      observer.disconnect();
+      if (pauseTimer) window.clearTimeout(pauseTimer);
+    },
+    { once: true },
+  );
 }
 
 function initSectionTitles() {
@@ -123,9 +143,6 @@ function initSectionTitles() {
       ".section-title__char",
     );
     if (characters.length === 0) return;
-    characters.forEach((character) => {
-      character.style.willChange = "transform, opacity";
-    });
     gsap.from(characters, {
       yPercent: 110,
       opacity: 0,
@@ -136,6 +153,7 @@ function initSectionTitles() {
       scrollTrigger: {
         trigger: title,
         start: "top 90%",
+        fastScrollEnd: 1200,
         once: true,
       },
     });
@@ -171,7 +189,10 @@ function initAboutNarrative() {
       end: `+=${totalScroll}`,
       pin,
       pinSpacing: true,
-      scrub: 0.8,
+      scrub: true,
+      anticipatePin: 1,
+      fastScrollEnd: 1200,
+      invalidateOnRefresh: true,
     },
   });
 
@@ -256,7 +277,10 @@ function initExperienceNarrative() {
       end: `+=${totalStages * scrollPerStage}`,
       pin,
       pinSpacing: true,
-      scrub: 0.6,
+      scrub: true,
+      anticipatePin: 1,
+      fastScrollEnd: 1200,
+      invalidateOnRefresh: true,
     },
   });
 
@@ -317,23 +341,16 @@ function initExperienceNarrative() {
     time += stageDuration;
   }
 
-  let resizeRaf = 0;
-  const handleResize = () => {
-    if (resizeRaf) cancelAnimationFrame(resizeRaf);
-    resizeRaf = requestAnimationFrame(() => {
-      resizeRaf = 0;
-      years.forEach((year, index) => {
-        gsap.set(year, { x: computeCenterOffset(index) });
-      });
-      ScrollTrigger.refresh();
+  const refreshLayout = () => {
+    years.forEach((year, index) => {
+      gsap.set(year, { x: computeCenterOffset(index) });
     });
   };
-  window.addEventListener("resize", handleResize, { passive: true });
+  ScrollTrigger.addEventListener("refreshInit", refreshLayout);
   window.addEventListener(
     "pagehide",
     () => {
-      window.removeEventListener("resize", handleResize);
-      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      ScrollTrigger.removeEventListener("refreshInit", refreshLayout);
     },
     { once: true },
   );
@@ -342,7 +359,6 @@ function initExperienceNarrative() {
 function initProjectCards() {
   gsap.utils.toArray<HTMLElement>("[data-motion='card']").forEach((card) => {
     const side = card.dataset.side === "right" ? 1 : -1;
-    card.style.willChange = "transform, opacity";
     gsap.from(card, {
       x: side * 24,
       y: 44,
@@ -355,6 +371,7 @@ function initProjectCards() {
       scrollTrigger: {
         trigger: card,
         start: "top 92%",
+        fastScrollEnd: 1200,
         once: true,
       },
     });
@@ -364,6 +381,7 @@ function initProjectCards() {
 function initBatchedReveals() {
   ScrollTrigger.batch("[data-motion='float']", {
     start: "top 94%",
+    fastScrollEnd: 1200,
     once: true,
     onEnter: (elements) => {
       gsap.fromTo(
@@ -384,6 +402,7 @@ function initBatchedReveals() {
 
   ScrollTrigger.batch("[data-motion='row']", {
     start: "top 94%",
+    fastScrollEnd: 1200,
     once: true,
     onEnter: (elements) => {
       gsap.from(elements, {

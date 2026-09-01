@@ -257,17 +257,67 @@ async function navigate(client, url) {
 }
 
 async function runWheelStress(client, width, height) {
+  const boundaries = await evaluate(
+    client,
+    `
+    (() => {
+      const pinned = [
+        ["about", ".about__pin"],
+        ["experience", ".experience__pin"],
+      ];
+      const points = [];
+      for (const [id, pinSelector] of pinned) {
+        const section = document.getElementById(id);
+        const pin = section?.querySelector(pinSelector);
+        if (!section || !pin) continue;
+        const start = section.getBoundingClientRect().top + scrollY;
+        points.push({ id: id + ":start", y: start });
+        points.push({
+          id: id + ":end",
+          y: start + section.offsetHeight - pin.getBoundingClientRect().height,
+        });
+      }
+      for (const id of ["projects", "stack"]) {
+        const section = document.getElementById(id);
+        if (!section) continue;
+        points.push({
+          id: id + ":seam",
+          y: section.getBoundingClientRect().top + scrollY,
+        });
+      }
+      return points;
+    })()
+  `,
+  );
+
   await evaluate(
     client,
     `
     (() => {
       window.scrollTo(0, 0);
       window.__scrollAudit.frames = [];
+      window.__scrollAudit.pinFrames = [];
+      window.__scrollAudit.longTasks = [];
+      window.__scrollAudit.layoutShifts = [];
+      window.__scrollAudit.capturePins = false;
       let last = performance.now();
       let active = true;
       window.__scrollAudit.stopFrames = () => { active = false; };
       function frame(now) {
-        window.__scrollAudit.frames.push(now - last);
+        if (window.__scrollAudit.capturePins) {
+          window.__scrollAudit.frames.push(now - last);
+          const pins = [
+            document.querySelector(".about__pin"),
+            document.querySelector(".experience__pin"),
+          ].filter(Boolean);
+          const fixed = pins
+            .filter((pin) => getComputedStyle(pin).position === "fixed")
+            .map((pin) => Math.abs(pin.getBoundingClientRect().top));
+          window.__scrollAudit.pinFrames.push({
+            count: fixed.length,
+            maxTopError: Math.max(0, ...fixed),
+          });
+        }
         last = now;
         if (active) requestAnimationFrame(frame);
       }
@@ -276,16 +326,31 @@ async function runWheelStress(client, width, height) {
   `,
   );
 
-  for (let i = 0; i < 150; i += 1) {
-    const direction = Math.floor(i / 25) % 2 === 0 ? 1 : -1;
-    await client.send("Input.dispatchMouseEvent", {
-      type: "mouseWheel",
-      x: Math.round(width / 2),
-      y: Math.round(height / 2),
-      deltaX: i % 17 === 0 ? direction * 90 : 0,
-      deltaY: direction * (i % 9 === 0 ? 520 : 150),
-    });
-    await delay(7);
+  for (const boundary of boundaries) {
+    await evaluate(
+      client,
+      `window.scrollTo(0, ${Math.max(0, Math.round(boundary.y - height * 0.45))})`,
+    );
+    await delay(80);
+    await evaluate(
+      client,
+      `
+      window.__scrollAudit.layoutShifts = [];
+      window.__scrollAudit.capturePins = true;
+    `,
+    );
+    for (let i = 0; i < 32; i += 1) {
+      const direction = Math.floor(i / 4) % 2 === 0 ? 1 : -1;
+      await client.send("Input.dispatchMouseEvent", {
+        type: "mouseWheel",
+        x: Math.round(width / 2),
+        y: Math.round(height / 2),
+        deltaX: 0,
+        deltaY: direction * (i % 5 === 0 ? 680 : 260),
+      });
+      await delay(7);
+    }
+    await evaluate(client, `window.__scrollAudit.capturePins = false`);
   }
   await delay(900);
   return evaluate(
@@ -294,6 +359,7 @@ async function runWheelStress(client, width, height) {
     (() => {
       window.__scrollAudit.stopFrames?.();
       const frames = window.__scrollAudit.frames.slice(2);
+      const pinFrames = window.__scrollAudit.pinFrames;
       const sorted = [...frames].sort((a, b) => a - b);
       const percentile = (p) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * p))] || 0;
       const longTasks = window.__scrollAudit.longTasks;
@@ -303,6 +369,10 @@ async function runWheelStress(client, width, height) {
         maxFrameMs: Number(Math.max(0, ...frames).toFixed(2)),
         slowFrames: frames.filter((value) => value > 24).length,
         scrollY: Math.round(scrollY),
+        boundaryCount: ${JSON.stringify(boundaries)}.length,
+        pinnedFrameCount: pinFrames.filter((sample) => sample.count > 0).length,
+        maxPinnedTopError: Number(Math.max(0, ...pinFrames.map((sample) => sample.maxTopError)).toFixed(2)),
+        overlappingPinnedFrames: pinFrames.filter((sample) => sample.count > 1).length,
         longTaskCount: longTasks.length,
         maxLongTaskMs: Math.max(0, ...longTasks.map((entry) => entry.duration)),
         totalLongTaskMs: longTasks.reduce((sum, entry) => sum + entry.duration, 0),
@@ -678,6 +748,14 @@ async function main() {
           items.push(`${key}: active animations with reduced motion`);
         if (stress?.errors?.length)
           items.push(`${key}: ${stress.errors.length} browser errors`);
+        if (stress?.maxPinnedTopError > 2)
+          items.push(
+            `${key}: pinned section drifted ${stress.maxPinnedTopError}px from the viewport edge`,
+          );
+        if (stress?.overlappingPinnedFrames > 0)
+          items.push(
+            `${key}: ${stress.overlappingPinnedFrames} frames had overlapping pinned sections`,
+          );
         if (touch && touch.afterHorizontal.x - touch.before.x < 100) {
           items.push(`${key}: horizontal touch swipe did not advance rail`);
         }
