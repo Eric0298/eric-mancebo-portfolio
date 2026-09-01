@@ -651,12 +651,13 @@ async function main() {
         !CAPTURE_SCREENSHOTS && STRESS_VIEWPORTS.has(key)
           ? await runWheelStress(client, width, height)
           : null;
+      const hasHorizontalRails = metrics.rails.length > 0;
       const touch =
-        !CAPTURE_SCREENSHOTS && key === "390x844"
+        !CAPTURE_SCREENSHOTS && hasHorizontalRails && key === "390x844"
           ? await runTouchIntentChecks(client)
           : null;
       const desktopRail =
-        !CAPTURE_SCREENSHOTS && key === "1366x768"
+        !CAPTURE_SCREENSHOTS && hasHorizontalRails && key === "1366x768"
           ? await runDesktopRailChecks(client)
           : null;
       results.push({ key, metrics, screenshots, stress, touch, desktopRail });

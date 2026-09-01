@@ -1,6 +1,5 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { initHorizontalRails } from "./horizontalRail";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +13,6 @@ export function initMotion() {
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   initAnchorNavigation(reduce);
-  initHorizontalRails();
   initNextSectionButton(reduce);
   initHeroVisibility();
 
@@ -22,10 +20,6 @@ export function initMotion() {
   root.classList.add("motion-ready");
 
   if (reduce) return;
-
-  // Dynamic mobile browser bars must not trigger global refreshes mid-gesture.
-  // None of the remaining effects depend on pinning or viewport-height math.
-  ScrollTrigger.config({ ignoreMobileResize: true });
 
   const portrait = document.querySelector<HTMLElement>(
     "[data-motion='portrait']",
@@ -60,6 +54,8 @@ export function initMotion() {
   });
 
   initSectionTitles();
+  initAboutNarrative();
+  initExperienceNarrative();
   initProjectCards();
   initBatchedReveals();
 
@@ -144,6 +140,203 @@ function initSectionTitles() {
       },
     });
   });
+}
+
+function initAboutNarrative() {
+  const about = document.querySelector<HTMLElement>("[data-motion='about']");
+  if (!about) return;
+
+  const pin = about.querySelector<HTMLElement>(".about__pin");
+  const blocks = about.querySelectorAll<HTMLElement>(".about__block");
+  const dots = about.querySelectorAll<HTMLElement>(".about__dot");
+  if (!pin || blocks.length === 0) return;
+
+  about.classList.add("about--enhanced");
+  gsap.set(blocks, { opacity: 0, y: 10 });
+  gsap.set(blocks[0], { opacity: 1, y: 0 });
+  dots[0]?.classList.add("about__dot--active");
+
+  const setActiveDot = (index: number) => {
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("about__dot--active", dotIndex === index);
+    });
+  };
+
+  const scrollPerBlock = 820;
+  const totalScroll = (blocks.length - 1) * scrollPerBlock;
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: about,
+      start: "top top",
+      end: `+=${totalScroll}`,
+      pin,
+      pinSpacing: true,
+      scrub: 0.8,
+    },
+  });
+
+  for (let index = 0; index < blocks.length - 1; index += 1) {
+    timeline
+      .to(blocks[index], {
+        opacity: 0,
+        y: -10,
+        duration: 0.9,
+        ease: "power2.in",
+      })
+      .to({}, { duration: 0.4 })
+      .fromTo(
+        blocks[index + 1],
+        { opacity: 0, y: 10 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: "power2.out",
+          onStart: () => setActiveDot(index + 1),
+          onReverseComplete: () => setActiveDot(index),
+        },
+      );
+  }
+}
+
+function initExperienceNarrative() {
+  const experience = document.querySelector<HTMLElement>(
+    "[data-motion='experience']",
+  );
+  if (!experience) return;
+
+  const pin = experience.querySelector<HTMLElement>(".experience__pin");
+  const slides = Array.from(
+    experience.querySelectorAll<HTMLElement>(".experience__slide"),
+  );
+  if (!pin || slides.length === 0) return;
+
+  const yearBlocks = slides.map((slide) =>
+    slide.querySelector<HTMLElement>(".experience__year-block"),
+  );
+  const detailBlocks = slides.map((slide) =>
+    slide.querySelector<HTMLElement>(".experience__detail-block"),
+  );
+  if (yearBlocks.some((block) => !block) || detailBlocks.some((block) => !block)) {
+    return;
+  }
+
+  const years = yearBlocks as HTMLElement[];
+  const details = detailBlocks as HTMLElement[];
+  const desktopQuery = window.matchMedia("(min-width: 901px)");
+  const computeCenterOffset = (index: number) => {
+    if (!desktopQuery.matches) return 0;
+    return Math.max(0, (slides[index].offsetWidth - years[index].offsetWidth) / 2);
+  };
+  const setActive = (index: number) => {
+    slides.forEach((slide, slideIndex) => {
+      slide.classList.toggle("is-active", slideIndex === index);
+    });
+  };
+
+  gsap.set(slides, { opacity: 0 });
+  gsap.set(details, {
+    opacity: 0,
+    x: desktopQuery.matches ? 30 : 0,
+    y: desktopQuery.matches ? 0 : 20,
+  });
+  years.forEach((year, index) => {
+    gsap.set(year, { x: computeCenterOffset(index), y: 0, opacity: 1 });
+  });
+  gsap.set(slides[0], { opacity: 1 });
+  setActive(0);
+
+  const stageDuration = 1;
+  const scrollPerStage = 620;
+  const totalStages = slides.length * 2 - 1;
+  const timeline = gsap.timeline({
+    scrollTrigger: {
+      trigger: experience,
+      start: "top top",
+      end: `+=${totalStages * scrollPerStage}`,
+      pin,
+      pinSpacing: true,
+      scrub: 0.6,
+    },
+  });
+
+  let time = 0;
+  timeline.to(
+    years[0],
+    { x: 0, duration: stageDuration, ease: "power2.inOut" },
+    time,
+  );
+  timeline.to(
+    details[0],
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      duration: stageDuration,
+      ease: "power2.inOut",
+    },
+    time,
+  );
+  time += stageDuration;
+
+  for (let index = 1; index < slides.length; index += 1) {
+    timeline.to(
+      slides[index - 1],
+      { opacity: 0, duration: stageDuration, ease: "power2.inOut" },
+      time,
+    );
+    timeline.to(
+      slides[index],
+      {
+        opacity: 1,
+        duration: stageDuration,
+        ease: "power2.inOut",
+        onStart: () => setActive(index),
+        onReverseComplete: () => setActive(index - 1),
+      },
+      time,
+    );
+    time += stageDuration;
+
+    timeline.to(
+      years[index],
+      { x: 0, duration: stageDuration, ease: "power2.inOut" },
+      time,
+    );
+    timeline.to(
+      details[index],
+      {
+        opacity: 1,
+        x: 0,
+        y: 0,
+        duration: stageDuration,
+        ease: "power2.inOut",
+      },
+      time,
+    );
+    time += stageDuration;
+  }
+
+  let resizeRaf = 0;
+  const handleResize = () => {
+    if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(() => {
+      resizeRaf = 0;
+      years.forEach((year, index) => {
+        gsap.set(year, { x: computeCenterOffset(index) });
+      });
+      ScrollTrigger.refresh();
+    });
+  };
+  window.addEventListener("resize", handleResize, { passive: true });
+  window.addEventListener(
+    "pagehide",
+    () => {
+      window.removeEventListener("resize", handleResize);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    },
+    { once: true },
+  );
 }
 
 function initProjectCards() {
