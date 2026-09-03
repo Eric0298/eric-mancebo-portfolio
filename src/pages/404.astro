@@ -1,0 +1,141 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout>
+  <section id="not-found" class="not-found">
+    <div class="page-shell not-found__inner">
+      <p class="not-found__eyebrow mono">
+        <span data-i18n="es">ERROR 404</span>
+        <span data-i18n="en">ERROR 404</span>
+      </p>
+
+      <h1 class="not-found__code display" data-motion="rise">404</h1>
+
+      <p class="not-found__title display">
+        <span data-i18n="es">PÁGINA NO ENCONTRADA</span>
+        <span data-i18n="en">PAGE NOT FOUND</span>
+      </p>
+
+      <p class="not-found__body">
+        <span data-i18n="es">
+          La página que buscas no existe o se ha movido.
+        </span>
+        <span data-i18n="en">
+          The page you're looking for doesn't exist or has been moved.
+        </span>
+      </p>
+
+      <a class="link-cta not-found__cta" href="/" data-motion="rise" data-delay="0.2">
+        <span class="not-found__cta-arrow" aria-hidden="true">←</span>
+        <span data-i18n="es">Volver al inicio</span>
+        <span data-i18n="en">Back home</span>
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  /* This button lives in BaseLayout but has no scroll targets on 404 */
+  body:has(#not-found) .next-section {
+    display: none !important;
+  }
+</style>
+
+<style>
+  .not-found {
+    min-block-size: 100dvh;
+    display: grid;
+    place-items: center;
+    padding-block: 8rem var(--space-8);
+    overflow: clip;
+  }
+
+  .not-found__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+    max-inline-size: 44rem;
+  }
+
+  .not-found__eyebrow {
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .not-found__code {
+    font-size: clamp(8rem, 4rem + 24vw, 22rem);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: transparent;
+    background: linear-gradient(
+      180deg,
+      #1e1e22 0%,
+      #0a0a0d 32%,
+      #030305 55%,
+      #0a0a0d 78%,
+      #1c1c20 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter:
+      drop-shadow(0.6px 0 0 rgba(120, 170, 255, 0.16))
+      drop-shadow(-0.6px 0 0 rgba(255, 165, 195, 0.14))
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.18))
+      drop-shadow(0 2px 5px rgba(0, 0, 0, 0.28));
+  }
+
+  :global([data-theme="dark"]) .not-found__code {
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #e6e6ea 32%,
+      #f6f6f9 55%,
+      #dcdce0 78%,
+      #ffffff 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    filter:
+      drop-shadow(0.6px 0 0 rgba(140, 190, 255, 0.28))
+      drop-shadow(-0.6px 0 0 rgba(255, 170, 200, 0.24))
+      drop-shadow(0 1px 0 rgba(255, 255, 255, 0.5))
+      drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+  }
+
+  .not-found__title {
+    font-size: clamp(1.6rem, 1rem + 2vw, 2.6rem);
+    color: var(--ink);
+    margin-block-start: var(--space-2);
+  }
+
+  .not-found__body {
+    color: var(--ink-muted);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    max-inline-size: 40ch;
+  }
+
+  .not-found__cta {
+    margin-block-start: var(--space-4);
+  }
+
+  .not-found__cta-arrow {
+    display: inline-block;
+    transition: transform var(--dur-med) var(--ease-out);
+  }
+
+  .not-found__cta:hover .not-found__cta-arrow {
+    transform: translateX(-6px);
+  }
+
+  @media (max-width: 640px) {
+    .not-found {
+      padding-block: 6rem var(--space-6);
+    }
+  }
+</style>
